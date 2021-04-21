@@ -1,0 +1,8 @@
+// an example from prisma with some atypical syntax to parse
+
+model Star {
+  id       Int                    @id @default(autoincrement())
+  position Unsupported("circle")?
+  example1 Unsupported("circle")
+  circle   Unsupported("circle")? @default(dbgenerated("'<(10,4),11>'::circle"))
+}

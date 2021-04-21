@@ -1,0 +1,15 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+// this is foo
+generator foo {
+  // it is a nexus
+  provider = "nexus"
+}
+
+enum Role {
+  USER
+  ADMIN
+}

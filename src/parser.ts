@@ -1,0 +1,197 @@
+import { CstParser } from 'chevrotain';
+import * as lexer from './lexer';
+
+export class PrismaParser extends CstParser {
+  constructor() {
+    super(lexer.allTokens);
+    this.performSelfAnalysis();
+  }
+
+  private keyedArg = this.RULE('keyedArg', () => {
+    this.CONSUME(lexer.Identifier, { LABEL: 'keyName' });
+    this.CONSUME(lexer.Colon);
+    this.SUBRULE(this.value);
+  });
+
+  private array = this.RULE('array', () => {
+    this.CONSUME(lexer.LSquare);
+    this.MANY_SEP({
+      SEP: lexer.Comma,
+      DEF: () => {
+        this.SUBRULE(this.value);
+      },
+    });
+    this.CONSUME(lexer.RSquare);
+  });
+
+  private func = this.RULE('func', () => {
+    this.CONSUME(lexer.Identifier, { LABEL: 'funcName' });
+    this.CONSUME(lexer.LRound);
+    this.MANY_SEP({
+      SEP: lexer.Comma,
+      DEF: () => {
+        this.SUBRULE(this.value);
+      },
+    });
+    this.CONSUME(lexer.RRound);
+  });
+
+  private value = this.RULE('value', () => {
+    this.OR([
+      { ALT: () => this.CONSUME(lexer.StringLiteral, { LABEL: 'value' }) },
+      { ALT: () => this.CONSUME(lexer.NumberLiteral, { LABEL: 'value' }) },
+      { ALT: () => this.SUBRULE(this.array, { LABEL: 'value' }) },
+      { ALT: () => this.SUBRULE(this.func, { LABEL: 'value' }) },
+      { ALT: () => this.CONSUME(lexer.True, { LABEL: 'value' }) },
+      { ALT: () => this.CONSUME(lexer.False, { LABEL: 'value' }) },
+      { ALT: () => this.CONSUME(lexer.Null, { LABEL: 'value' }) },
+      { ALT: () => this.CONSUME(lexer.Identifier, { LABEL: 'value' }) },
+    ]);
+  });
+
+  private property = this.RULE('property', () => {
+    this.CONSUME(lexer.Identifier, { LABEL: 'propertyName' });
+    this.CONSUME(lexer.Equals);
+    this.SUBRULE(this.value, { LABEL: 'propertyValue' });
+  });
+
+  private assignment = this.RULE('assignment', () => {
+    this.CONSUME(lexer.Identifier, { LABEL: 'assignmentName' });
+    this.CONSUME(lexer.Equals);
+    this.SUBRULE(this.value, { LABEL: 'assignmentValue' });
+  });
+
+  private field = this.RULE('field', () => {
+    this.CONSUME(lexer.Identifier, { LABEL: 'fieldName' });
+    this.SUBRULE(this.value, { LABEL: 'fieldType' });
+    this.OPTION(() => {
+      this.OR([
+        { ALT: () => this.CONSUME(lexer.Array, { LABEL: 'array' }) },
+        { ALT: () => this.CONSUME(lexer.QuestionMark, { LABEL: 'optional' }) },
+      ]);
+    });
+    this.MANY(() => {
+      this.SUBRULE(this.attribute, { LABEL: 'attributeList' });
+    });
+  });
+
+  private block = this.RULE('block', ({ componentType } = {}) => {
+    const isEnum = componentType === 'enum';
+    const isModel = componentType === 'model';
+
+    this.CONSUME(lexer.LCurly);
+    this.CONSUME1(lexer.LineBreak);
+    this.MANY(() => {
+      this.OR([
+        { ALT: () => this.SUBRULE(this.comment, { LABEL: 'list' }) },
+        {
+          GATE: () => isModel,
+          ALT: () => this.SUBRULE(this.property, { LABEL: 'list' }),
+        },
+        {
+          GATE: () => isModel,
+          ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }),
+        },
+        {
+          GATE: () => isModel,
+          ALT: () => this.SUBRULE(this.field, { LABEL: 'list' }),
+        },
+        {
+          GATE: () => isEnum,
+          ALT: () => this.SUBRULE(this.enum, { LABEL: 'list' }),
+        },
+        {
+          GATE: () => !isModel,
+          ALT: () => this.SUBRULE(this.assignment, { LABEL: 'list' }),
+        },
+        { ALT: () => this.CONSUME2(lexer.LineBreak) },
+      ]);
+    });
+    this.CONSUME(lexer.RCurly);
+  });
+
+  private enum = this.RULE('enum', () => {
+    this.CONSUME(lexer.Identifier, { LABEL: 'enumName' });
+  });
+  private attribute = this.RULE('attribute', () => {
+    this.OR1([
+      {
+        ALT: () =>
+          this.CONSUME(lexer.ModelAttribute, { LABEL: 'modelAttribute' }),
+      },
+      {
+        ALT: () =>
+          this.CONSUME(lexer.FieldAttribute, { LABEL: 'fieldAttribute' }),
+      },
+    ]);
+    this.OR2([
+      {
+        ALT: () => {
+          this.CONSUME1(lexer.Identifier, { LABEL: 'groupName' });
+          this.CONSUME(lexer.Dot);
+          this.CONSUME2(lexer.Identifier, { LABEL: 'attributeName' });
+        },
+      },
+      {
+        ALT: () => this.CONSUME(lexer.Identifier, { LABEL: 'attributeName' }),
+      },
+    ]);
+
+    this.OPTION(() => {
+      this.CONSUME(lexer.LRound);
+      this.MANY_SEP({
+        SEP: lexer.Comma,
+        DEF: () => {
+          this.SUBRULE(this.attributeArg);
+        },
+      });
+      this.CONSUME(lexer.RRound);
+    });
+  });
+
+  private attributeArg = this.RULE('attributeArg', () => {
+    this.OR([
+      { ALT: () => this.SUBRULE(this.keyedArg, { LABEL: 'value' }) },
+      { ALT: () => this.SUBRULE(this.value, { LABEL: 'value' }) },
+    ]);
+  });
+
+  private component = this.RULE('component', () => {
+    const type = this.OR1([
+      { ALT: () => this.CONSUME(lexer.Datasource, { LABEL: 'type' }) },
+      { ALT: () => this.CONSUME(lexer.Generator, { LABEL: 'type' }) },
+      { ALT: () => this.CONSUME(lexer.Model, { LABEL: 'type' }) },
+      { ALT: () => this.CONSUME(lexer.Enum, { LABEL: 'type' }) },
+    ]);
+    this.OR2([
+      {
+        ALT: () => {
+          this.CONSUME1(lexer.Identifier, { LABEL: 'groupName' });
+          this.CONSUME(lexer.Dot);
+          this.CONSUME2(lexer.Identifier, { LABEL: 'componentName' });
+        },
+      },
+      {
+        ALT: () => this.CONSUME(lexer.Identifier, { LABEL: 'componentName' }),
+      },
+    ]);
+
+    this.SUBRULE(this.block, { ARGS: [{ componentType: type.image }] });
+  });
+
+  private comment = this.RULE('comment', () => {
+    this.CONSUME(lexer.Comment, { LABEL: 'text' });
+  });
+
+  public schema = this.RULE('schema', () => {
+    this.MANY(() => {
+      this.OR([
+        { ALT: () => this.SUBRULE(this.comment, { LABEL: 'list' }) },
+        { ALT: () => this.SUBRULE(this.component, { LABEL: 'list' }) },
+        { ALT: () => this.CONSUME(lexer.LineBreak) },
+      ]);
+    });
+  });
+}
+
+export const parser = new PrismaParser();
