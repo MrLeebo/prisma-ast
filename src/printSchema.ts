@@ -100,7 +100,7 @@ function printModel(model: Types.Model) {
 
 function printAssignment(
   node: Types.Assignment | Types.Comment,
-  keyLength: number = 0
+  keyLength = 0
 ) {
   if (node.type === 'comment') return printComment(node);
   return `${node.key.padEnd(keyLength)} = ${printValue(node.value)}`;
@@ -108,8 +108,8 @@ function printAssignment(
 
 function printProperty(
   node: Types.Property | Types.Comment,
-  nameLength: number = 0,
-  typeLength: number = 0
+  nameLength = 0,
+  typeLength = 0
 ) {
   switch (node.type) {
     case 'attribute':
@@ -139,11 +139,7 @@ function printAttributeArg(arg: Types.AttributeArgument) {
   return printValue(arg.value);
 }
 
-function printField(
-  field: Types.Field,
-  nameLength: number = 0,
-  typeLength: number = 0
-) {
+function printField(field: Types.Field, nameLength = 0, typeLength = 0) {
   const name = field.name.padEnd(nameLength);
   const fieldType = printFieldType(field).padEnd(typeLength);
   const attrs = field.attributes ? field.attributes.map(printAttribute) : [];

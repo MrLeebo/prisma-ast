@@ -79,6 +79,12 @@ export interface Field {
   attributes?: Attribute[];
 }
 
+export type Attr =
+  | Attribute
+  | GroupedAttribute
+  | ModelAttribute
+  | GroupedModelAttribute;
+
 export interface Attribute {
   type: 'attribute';
   kind: 'field';
