@@ -13,7 +13,7 @@ npm install @mrleebo/prisma-ast
 ## Usage
 
 ```js
-import { getSchema, printSchema }
+import { getSchema, printSchema } from '@mrleebo/prisma-ast';
 
 function modifySchema() {
   const source = `
