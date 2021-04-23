@@ -1,0 +1,6 @@
+.DS_Store
+.github
+src
+test
+*.ts
+!*.d.ts
