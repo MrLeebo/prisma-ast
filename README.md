@@ -1,4 +1,4 @@
-# prisma-ast
+# @mrleebo/prisma-ast
 
 This library uses an abstract syntax tree to parse schema.prisma files into an object in JavaScript. It is similar to [@prisma/sdk](https://github.com/prisma/prisma/tree/master/src/packages/sdk) except that it preserves comments and model attributes.
 
@@ -7,7 +7,7 @@ This library uses an abstract syntax tree to parse schema.prisma files into an o
 ## Install
 
 ```bash
-npm install prisma-ast
+npm install @mrleebo/prisma-ast
 ```
 
 ## Usage
