@@ -9,12 +9,18 @@ exports[`getSchema parse atena-server.prisma 1`] = `
       \\"text\\": \\"// I found this on github by searching for large schema.prisma files in public repos.\\"
     },
     {
+      \\"type\\": \\"break\\"
+    },
+    {
       \\"type\\": \\"comment\\",
       \\"text\\": \\"// This is your Prisma schema file,\\"
     },
     {
       \\"type\\": \\"comment\\",
       \\"text\\": \\"// learn more about it in the docs: https://pris.ly/d/prisma-schema\\"
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"datasource\\",
@@ -39,6 +45,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
       ]
     },
     {
+      \\"type\\": \\"break\\"
+    },
+    {
       \\"type\\": \\"generator\\",
       \\"name\\": \\"client\\",
       \\"assignments\\": [
@@ -48,6 +57,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"value\\": \\"\\\\\\"prisma-client-js\\\\\\"\\"
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -124,6 +136,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": false
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -139,6 +154,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -257,6 +275,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": false
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -272,6 +293,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -410,6 +434,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -425,6 +452,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -500,6 +530,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": false
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -515,6 +548,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"enum\\",
@@ -537,6 +573,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"name\\": \\"CITIES\\"
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -736,6 +775,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -751,6 +793,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -855,6 +900,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -870,6 +918,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1107,6 +1158,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1122,6 +1176,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1226,6 +1283,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1241,6 +1301,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1365,6 +1428,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1380,6 +1446,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1519,6 +1588,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1534,6 +1606,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1638,6 +1713,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1653,6 +1731,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1750,6 +1831,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1765,6 +1849,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -1876,6 +1963,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -1891,6 +1981,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2016,6 +2109,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2031,6 +2127,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2128,6 +2227,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2143,6 +2245,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2281,6 +2386,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2296,6 +2404,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2439,6 +2550,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2454,6 +2568,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2551,6 +2668,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2566,6 +2686,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2697,6 +2820,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2712,6 +2838,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -2855,6 +2984,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -2870,6 +3002,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -3123,6 +3258,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -3138,6 +3276,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -3235,6 +3376,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -3250,6 +3394,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -3435,6 +3582,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -3450,6 +3600,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -3673,6 +3826,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -3688,6 +3844,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -4173,6 +4332,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -4188,6 +4350,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -4311,6 +4476,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -4326,6 +4494,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -4553,6 +4724,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -4568,6 +4742,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -4691,6 +4868,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -4706,6 +4886,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -4867,6 +5050,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -4882,6 +5068,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -5005,6 +5194,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -5020,6 +5212,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -5195,6 +5390,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -5210,6 +5408,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -5307,6 +5508,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": false
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -5322,6 +5526,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -5468,6 +5675,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -5483,6 +5693,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -5706,6 +5919,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -5721,6 +5937,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -5832,6 +6051,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -5847,6 +6069,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -6014,6 +6239,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -6029,6 +6257,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -6119,6 +6350,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -6134,6 +6368,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -6301,6 +6538,9 @@ exports[`getSchema parse atena-server.prisma 1`] = `
           \\"optional\\": true
         },
         {
+          \\"type\\": \\"break\\"
+        },
+        {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
           \\"kind\\": \\"model\\",
@@ -6348,6 +6588,9 @@ exports[`getSchema parse redwood.prisma 1`] = `
       ]
     },
     {
+      \\"type\\": \\"break\\"
+    },
+    {
       \\"type\\": \\"generator\\",
       \\"name\\": \\"client\\",
       \\"assignments\\": [
@@ -6362,6 +6605,9 @@ exports[`getSchema parse redwood.prisma 1`] = `
           \\"value\\": \\"\\\\\\"native\\\\\\"\\"
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"comment\\",
@@ -6466,6 +6712,9 @@ exports[`getSchema parse redwood.prisma 1`] = `
       ]
     },
     {
+      \\"type\\": \\"break\\"
+    },
+    {
       \\"type\\": \\"model\\",
       \\"name\\": \\"Tag\\",
       \\"properties\\": [
@@ -6519,6 +6768,9 @@ exports[`getSchema parse redwood.prisma 1`] = `
           \\"optional\\": false
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -6606,6 +6858,9 @@ exports[`getSchema parse star.prisma 1`] = `
     {
       \\"type\\": \\"comment\\",
       \\"text\\": \\"// an example from prisma with some atypical syntax to parse\\"
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -6730,6 +6985,9 @@ exports[`getSchema parse test.prisma 1`] = `
       ]
     },
     {
+      \\"type\\": \\"break\\"
+    },
+    {
       \\"type\\": \\"comment\\",
       \\"text\\": \\"// this is foo\\"
     },
@@ -6747,6 +7005,9 @@ exports[`getSchema parse test.prisma 1`] = `
           \\"value\\": \\"\\\\\\"nexus\\\\\\"\\"
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"model\\",
@@ -6807,8 +7068,48 @@ exports[`getSchema parse test.prisma 1`] = `
               ]
             }
           ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"name\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"unique\\",
+              \\"kind\\": \\"field\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"supercalifragilisticexpialidocious\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"default\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": \\"\\\\\\"it is something quite atrocious\\\\\\"\\"
+                }
+              ]
+            }
+          ]
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
     },
     {
       \\"type\\": \\"enum\\",

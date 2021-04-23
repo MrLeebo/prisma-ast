@@ -10,7 +10,10 @@ generator foo {
 }
 
 model Bar {
-  id Int @id @first(fields: [one, two]) @second(fields: ["three", "four"])
+  id   Int    @id @first(fields: [one, two]) @second(fields: ["three", "four"])
+  name String @unique
+
+  supercalifragilisticexpialidocious String @default("it is something quite atrocious")
 }
 
 enum Role {

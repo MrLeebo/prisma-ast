@@ -7,6 +7,11 @@ export class PrismaParser extends CstParser {
     this.performSelfAnalysis();
   }
 
+  private break = this.RULE('break', () => {
+    this.CONSUME1(lexer.LineBreak);
+    this.CONSUME2(lexer.LineBreak);
+  });
+
   private keyedArg = this.RULE('keyedArg', () => {
     this.CONSUME(lexer.Identifier, { LABEL: 'keyName' });
     this.CONSUME(lexer.Colon);
@@ -104,6 +109,7 @@ export class PrismaParser extends CstParser {
           GATE: () => !isModel,
           ALT: () => this.SUBRULE(this.assignment, { LABEL: 'list' }),
         },
+        { ALT: () => this.SUBRULE(this.break, { LABEL: 'list' }) },
         { ALT: () => this.CONSUME2(lexer.LineBreak) },
       ]);
     });
@@ -188,6 +194,7 @@ export class PrismaParser extends CstParser {
       this.OR([
         { ALT: () => this.SUBRULE(this.comment, { LABEL: 'list' }) },
         { ALT: () => this.SUBRULE(this.component, { LABEL: 'list' }) },
+        { ALT: () => this.SUBRULE(this.break, { LABEL: 'list' }) },
         { ALT: () => this.CONSUME(lexer.LineBreak) },
       ]);
     });

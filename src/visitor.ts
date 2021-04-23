@@ -39,6 +39,10 @@ export class PrismaVisitor extends BasePrismaVisitor {
     }
   }
 
+  break(): Types.Break {
+    return { type: 'break' };
+  }
+
   comment(ctx: CstNode & { text: [IToken] }): Types.Comment {
     const [{ image: comment }] = ctx.text;
     return { type: 'comment', text: comment };
@@ -47,16 +51,6 @@ export class PrismaVisitor extends BasePrismaVisitor {
   block(ctx: CstNode & { list: CstNode[] }): Types.Block[] {
     return ctx.list?.map(item => this.visit([item]));
   }
-
-  /*
-  property(
-    ctx: CstNode & { propertyName: [IToken]; propertyValue: [CstNode] }
-  ): Types.Property {
-    const value = this.visit(ctx.propertyValue);
-    const [{ image: name }] = ctx.propertyName;
-    return { type: 'property', name, value };
-  }
-  */
 
   assignment(
     ctx: CstNode & { assignmentName: [IToken]; assignmentValue: [CstNode] }

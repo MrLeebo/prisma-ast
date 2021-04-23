@@ -19,6 +19,8 @@ function printBlock(block: Types.Block): string {
       return printGenerator(block);
     case 'model':
       return printModel(block);
+    case 'break':
+      return printBreak();
     default:
       throw new Error(`Unrecognized block type`);
   }
@@ -28,7 +30,13 @@ function printComment(comment: Types.Comment) {
   return comment.text;
 }
 
+function printBreak() {
+  return '\n';
+}
+
 function printDatasource(db: Types.Datasource) {
+  // FIXME: indent reset on 'break'
+  // not super high priority because the IntrospectionEngine will autoformat
   const keyLength = db.assignments.reduce(
     (max, current) =>
       Math.max(max, current.type === 'assignment' ? current.key.length : 0),
@@ -47,9 +55,7 @@ datasource ${db.name} {
 
 function printEnum(enumerator: Types.Enum) {
   const children = enumerator.enumerators
-    .map(enumerator =>
-      enumerator.type === 'comment' ? printComment(enumerator) : enumerator.name
-    )
+    .map(printEnumerator)
     .filter(Boolean)
     .join('\n  ');
 
@@ -59,9 +65,30 @@ enum ${enumerator.name} {
 }`;
 }
 
+function printEnumerator(
+  enumerator: Types.Enumerator | Types.Comment | Types.Break
+) {
+  switch (enumerator.type) {
+    case 'enumerator':
+      return enumerator.name;
+    case 'comment':
+      return printComment(enumerator);
+    case 'break':
+      return printBreak();
+    default:
+      throw new Error(`Unexpected enumerator type`);
+  }
+}
+
 function printGenerator(generator: Types.Generator) {
+  const keyLength = generator.assignments.reduce(
+    (max, current) =>
+      Math.max(max, current.type === 'assignment' ? current.key.length : 0),
+    0
+  );
+
   const children = generator.assignments
-    .map(printAssignment)
+    .map(assignment => printAssignment(assignment, keyLength))
     .filter(Boolean)
     .join('\n  ');
 
@@ -99,15 +126,23 @@ model ${model.name} {
 }
 
 function printAssignment(
-  node: Types.Assignment | Types.Comment,
+  node: Types.Assignment | Types.Comment | Types.Break,
   keyLength = 0
 ) {
-  if (node.type === 'comment') return printComment(node);
-  return `${node.key.padEnd(keyLength)} = ${printValue(node.value)}`;
+  switch (node.type) {
+    case 'comment':
+      return printComment(node);
+    case 'break':
+      return printBreak();
+    case 'assignment':
+      return `${node.key.padEnd(keyLength)} = ${printValue(node.value)}`;
+    default:
+      throw new Error(`Unexpected assignment type`);
+  }
 }
 
 function printProperty(
-  node: Types.Property | Types.Comment,
+  node: Types.Property | Types.Comment | Types.Break,
   nameLength = 0,
   typeLength = 0
 ) {
@@ -118,6 +153,8 @@ function printProperty(
       return printField(node, nameLength, typeLength);
     case 'comment':
       return printComment(node);
+    case 'break':
+      return printBreak();
     default:
       throw new Error(`Unrecognized property type`);
   }

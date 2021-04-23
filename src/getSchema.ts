@@ -16,35 +16,39 @@ export interface Schema {
   list: Block[];
 }
 
-export type Block = Model | Datasource | Generator | Enum | Comment;
+export type Block = Model | Datasource | Generator | Enum | Comment | Break;
 
 export interface Model {
   type: 'model';
   name: string;
-  properties: Array<Property | Comment>;
+  properties: Array<Property | Comment | Break>;
 }
 
 export interface Datasource {
   type: 'datasource';
   name: string;
-  assignments: Array<Assignment | Comment>;
+  assignments: Array<Assignment | Comment | Break>;
 }
 
 export interface Generator {
   type: 'generator';
   name: string;
-  assignments: Array<Assignment | Comment>;
+  assignments: Array<Assignment | Comment | Break>;
 }
 
 export interface Enum {
   type: 'enum';
   name: string;
-  enumerators: Array<Enumerator | Comment>;
+  enumerators: Array<Enumerator | Comment | Break>;
 }
 
 export interface Comment {
   type: 'comment';
   text: string;
+}
+
+export interface Break {
+  type: 'break';
 }
 
 export type Property = GroupedModelAttribute | ModelAttribute | Field;
