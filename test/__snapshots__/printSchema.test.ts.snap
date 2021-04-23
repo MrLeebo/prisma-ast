@@ -579,6 +579,10 @@ exports[`printSchema print test.prisma 1`] = `
     provider = \\"nexus\\"
   }
 
+  model Bar {
+    id Int @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
+  }
+
   enum Role {
     USER
     ADMIN

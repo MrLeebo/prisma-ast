@@ -6749,6 +6749,68 @@ exports[`getSchema parse test.prisma 1`] = `
       ]
     },
     {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"Bar\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"id\\",
+          \\"fieldType\\": \\"Int\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"id\\",
+              \\"kind\\": \\"field\\"
+            },
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"first\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"keyValue\\",
+                    \\"key\\": \\"fields\\",
+                    \\"value\\": {
+                      \\"type\\": \\"array\\",
+                      \\"args\\": [
+                        \\"one\\",
+                        \\"two\\"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"second\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"keyValue\\",
+                    \\"key\\": \\"fields\\",
+                    \\"value\\": {
+                      \\"type\\": \\"array\\",
+                      \\"args\\": [
+                        \\"\\\\\\"three\\\\\\"\\",
+                        \\"\\\\\\"four\\\\\\"\\"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       \\"type\\": \\"enum\\",
       \\"name\\": \\"Role\\",
       \\"enumerators\\": [
