@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "prisma-ast",
+  "name": "@mrleebo/prisma-ast",
   "author": "Jeremy Liberman",
   "module": "dist/prisma-ast.esm.js",
   "size-limit": [
@@ -60,5 +60,17 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "description": "This library uses an abstract syntax tree to parse schema.prisma files into an object in JavaScript. It is similar to [@prisma/sdk](https://github.com/prisma/prisma/tree/master/src/packages/sdk) except that it preserves comments and model attributes.",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrLeebo/prisma-ast.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MrLeebo/prisma-ast/issues"
+  },
+  "homepage": "https://github.com/MrLeebo/prisma-ast#readme"
 }
