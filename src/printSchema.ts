@@ -37,12 +37,12 @@ function printDatasource(db: Types.Datasource) {
   const children = db.assignments
     .map(assignment => printAssignment(assignment, keyLength))
     .filter(Boolean)
-    .join('\n    ');
+    .join('\n  ');
 
   return `
-  datasource ${db.name} {
-    ${children}
-  }`;
+datasource ${db.name} {
+  ${children}
+}`;
 }
 
 function printEnum(enumerator: Types.Enum) {
@@ -51,24 +51,24 @@ function printEnum(enumerator: Types.Enum) {
       enumerator.type === 'comment' ? printComment(enumerator) : enumerator.name
     )
     .filter(Boolean)
-    .join('\n    ');
+    .join('\n  ');
 
   return `
-  enum ${enumerator.name} {
-    ${children}
-  }`;
+enum ${enumerator.name} {
+  ${children}
+}`;
 }
 
 function printGenerator(generator: Types.Generator) {
   const children = generator.assignments
     .map(printAssignment)
     .filter(Boolean)
-    .join('\n    ');
+    .join('\n  ');
 
   return `
-  generator ${generator.name} {
-    ${children}
-  }`;
+generator ${generator.name} {
+  ${children}
+}`;
 }
 
 function printModel(model: Types.Model) {
@@ -90,12 +90,12 @@ function printModel(model: Types.Model) {
   const children = model.properties
     .map(prop => printProperty(prop, nameLength, typeLength))
     .filter(Boolean)
-    .join('\n    ');
+    .join('\n  ');
 
   return `
-  model ${model.name} {
-    ${children}
-  }`;
+model ${model.name} {
+  ${children}
+}`;
 }
 
 function printAssignment(

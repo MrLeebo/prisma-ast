@@ -5,586 +5,586 @@ exports[`printSchema print atena-server.prisma 1`] = `
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-  datasource db {
-    provider = \\"postgresql\\"
-    url      = env(\\"DATABASE_URL\\")
-  }
+datasource db {
+  provider = \\"postgresql\\"
+  url      = env(\\"DATABASE_URL\\")
+}
 
-  generator client {
-    provider = \\"prisma-client-js\\"
-  }
+generator client {
+  provider = \\"prisma-client-js\\"
+}
 
-  model City {
-    id        String    @id @default(uuid())
-    name      String
-    uf        String
-    ibge      String    @unique
-    companies Company[]
-    groups    Group[]
-    @@map(name: \\"cities\\")
-  }
+model City {
+  id        String    @id @default(uuid())
+  name      String
+  uf        String
+  ibge      String    @unique
+  companies Company[]
+  groups    Group[]
+  @@map(name: \\"cities\\")
+}
 
-  model Company {
-    id         String      @id @default(uuid())
-    cnpj       String      @unique
-    name       String
-    city       City        @relation(fields: [cityId], references: [id])
-    cityId     String
-    sphere     String
-    agreements Agreement[]
-    @@map(name: \\"companies\\")
-  }
+model Company {
+  id         String      @id @default(uuid())
+  cnpj       String      @unique
+  name       String
+  city       City        @relation(fields: [cityId], references: [id])
+  cityId     String
+  sphere     String
+  agreements Agreement[]
+  @@map(name: \\"companies\\")
+}
 
-  model User {
-    id       String  @id @default(uuid())
-    name     String
-    username String  @unique
-    email    String  @unique
-    active   Boolean @default(true)
-    group    Group?  @relation(fields: [groupId], references: [id])
-    groupId  String?
-    @@map(name: \\"users\\")
-  }
+model User {
+  id       String  @id @default(uuid())
+  name     String
+  username String  @unique
+  email    String  @unique
+  active   Boolean @default(true)
+  group    Group?  @relation(fields: [groupId], references: [id])
+  groupId  String?
+  @@map(name: \\"users\\")
+}
 
-  model Group {
-    id     String      @id @default(uuid())
-    name   String
-    access GroupAccess @default(ANY)
-    cities City[]
-    users  User[]
-    @@map(name: \\"groups\\")
-  }
+model Group {
+  id     String      @id @default(uuid())
+  name   String
+  access GroupAccess @default(ANY)
+  cities City[]
+  users  User[]
+  @@map(name: \\"groups\\")
+}
 
-  enum GroupAccess {
-    ANY
-    MUNICIPAL_SPHERE
-    STATE_SPHERE
-    CITIES
-  }
+enum GroupAccess {
+  ANY
+  MUNICIPAL_SPHERE
+  STATE_SPHERE
+  CITIES
+}
 
-  model Agreement {
-    id                  String               @id @default(uuid())
-    agreementId         String?
-    company             Company?             @relation(fields: [companyId], references: [id])
-    companyId           String?
-    name                String?
-    status              String?
-    start               DateTime?
-    end                 DateTime?
-    program             String?
-    proposalData        ProposalData?
-    workPlan            WorkPlan?
-    convenientExecution ConvenientExecution?
-    accountability      Accountability?
-    createdAt           DateTime             @default(now())
-    updatedAt           DateTime             @default(now())
-    @@map(name: \\"agreements\\")
-  }
+model Agreement {
+  id                  String               @id @default(uuid())
+  agreementId         String?
+  company             Company?             @relation(fields: [companyId], references: [id])
+  companyId           String?
+  name                String?
+  status              String?
+  start               DateTime?
+  end                 DateTime?
+  program             String?
+  proposalData        ProposalData?
+  workPlan            WorkPlan?
+  convenientExecution ConvenientExecution?
+  accountability      Accountability?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now())
+  @@map(name: \\"agreements\\")
+}
 
-  model ProposalData {
-    id           String        @id @default(uuid())
-    agreement    Agreement?    @relation(fields: [agreementId], references: [id])
-    agreementId  String?
-    data         Data?
-    programs     Program[]
-    participants Participants?
-    @@map(name: \\"proposals_data\\")
-  }
+model ProposalData {
+  id           String        @id @default(uuid())
+  agreement    Agreement?    @relation(fields: [agreementId], references: [id])
+  agreementId  String?
+  data         Data?
+  programs     Program[]
+  participants Participants?
+  @@map(name: \\"proposals_data\\")
+}
 
-  model Data {
-    id                            String        @id @default(uuid())
-    proposalData                  ProposalData? @relation(fields: [proposalDataId], references: [id])
-    proposalDataId                String?
-    modality                      String?
-    contractingStatus             String?
-    status                        Status?
-    proposalId                    String?
-    organId                       String?
-    processId                     String?
-    proponent                     String?
-    legalFoundation               String?
-    organ                         String?
-    linkedOrgan                   String?
-    description                   String?
-    justification                 String?
-    targetAudience                String?
-    problem                       String?
-    result                        String?
-    proposalAndObjectivesRelation String?
-    categories                    String?
-    object                        String?
-    information                   String?
-    proposalDate                  DateTime?
-    biddingDate                   DateTime?
-    homologationDate              DateTime?
-    @@map(name: \\"agreements_data\\")
-  }
+model Data {
+  id                            String        @id @default(uuid())
+  proposalData                  ProposalData? @relation(fields: [proposalDataId], references: [id])
+  proposalDataId                String?
+  modality                      String?
+  contractingStatus             String?
+  status                        Status?
+  proposalId                    String?
+  organId                       String?
+  processId                     String?
+  proponent                     String?
+  legalFoundation               String?
+  organ                         String?
+  linkedOrgan                   String?
+  description                   String?
+  justification                 String?
+  targetAudience                String?
+  problem                       String?
+  result                        String?
+  proposalAndObjectivesRelation String?
+  categories                    String?
+  object                        String?
+  information                   String?
+  proposalDate                  DateTime?
+  biddingDate                   DateTime?
+  homologationDate              DateTime?
+  @@map(name: \\"agreements_data\\")
+}
 
-  model Status {
-    id          String  @id @default(uuid())
-    data        Data?   @relation(fields: [dataId], references: [id])
-    dataId      String?
-    value       String?
-    committed   String?
-    publication String?
-    @@map(name: \\"status\\")
-  }
+model Status {
+  id          String  @id @default(uuid())
+  data        Data?   @relation(fields: [dataId], references: [id])
+  dataId      String?
+  value       String?
+  committed   String?
+  publication String?
+  @@map(name: \\"status\\")
+}
 
-  model Program {
-    id             String          @id @default(uuid())
-    proposalData   ProposalData?   @relation(fields: [proposalDataId], references: [id])
-    proposalDataId String?
-    programId      String?
-    name           String?
-    value          Float?          @default(0)
-    details        ProgramDetails?
-    @@map(name: \\"programs\\")
-  }
+model Program {
+  id             String          @id @default(uuid())
+  proposalData   ProposalData?   @relation(fields: [proposalDataId], references: [id])
+  proposalDataId String?
+  programId      String?
+  name           String?
+  value          Float?          @default(0)
+  details        ProgramDetails?
+  @@map(name: \\"programs\\")
+}
 
-  model ProgramDetails {
-    id               String                           @id @default(uuid())
-    program          Program?                         @relation(fields: [programId], references: [id])
-    programId        String?
-    code             String?
-    name             String?
-    cps              String?
-    items            String?
-    couterpartRule   String?
-    totalValue       Float?
-    couterpartValues ProgramDetailsCounterpartValues?
-    transferValues   ProgramDetailsTransferValues?
-    @@map(name: \\"programs_details\\")
-  }
+model ProgramDetails {
+  id               String                           @id @default(uuid())
+  program          Program?                         @relation(fields: [programId], references: [id])
+  programId        String?
+  code             String?
+  name             String?
+  cps              String?
+  items            String?
+  couterpartRule   String?
+  totalValue       Float?
+  couterpartValues ProgramDetailsCounterpartValues?
+  transferValues   ProgramDetailsTransferValues?
+  @@map(name: \\"programs_details\\")
+}
 
-  model ProgramDetailsCounterpartValues {
-    id                String          @id @default(uuid())
-    programDetails    ProgramDetails? @relation(fields: [programDetailsId], references: [id])
-    programDetailsId  String?
-    total             Float?
-    financial         Float?
-    assetsAndServices Float?
-    @@map(name: \\"programs_details_counterpart_values\\")
-  }
+model ProgramDetailsCounterpartValues {
+  id                String          @id @default(uuid())
+  programDetails    ProgramDetails? @relation(fields: [programDetailsId], references: [id])
+  programDetailsId  String?
+  total             Float?
+  financial         Float?
+  assetsAndServices Float?
+  @@map(name: \\"programs_details_counterpart_values\\")
+}
 
-  model ProgramDetailsTransferValues {
-    id               String          @id @default(uuid())
-    programDetails   ProgramDetails? @relation(fields: [programDetailsId], references: [id])
-    programDetailsId String?
-    total            Float?
-    amendment        String?
-    @@map(name: \\"programs_details_transfer_values\\")
-  }
+model ProgramDetailsTransferValues {
+  id               String          @id @default(uuid())
+  programDetails   ProgramDetails? @relation(fields: [programDetailsId], references: [id])
+  programDetailsId String?
+  total            Float?
+  amendment        String?
+  @@map(name: \\"programs_details_transfer_values\\")
+}
 
-  model Participants {
-    id             String        @id @default(uuid())
-    proposalData   ProposalData? @relation(fields: [proposalDataId], references: [id])
-    proposalDataId String?
-    proponent      String?
-    respProponent  String?
-    grantor        String?
-    respGrantor    String?
-    @@map(name: \\"participants\\")
-  }
+model Participants {
+  id             String        @id @default(uuid())
+  proposalData   ProposalData? @relation(fields: [proposalDataId], references: [id])
+  proposalDataId String?
+  proponent      String?
+  respProponent  String?
+  grantor        String?
+  respGrantor    String?
+  @@map(name: \\"participants\\")
+}
 
-  model WorkPlan {
-    id                          String                       @id @default(uuid())
-    agreement                   Agreement?                   @relation(fields: [agreementId], references: [id])
-    agreementId                 String?
-    physicalChrono              PhysicalChrono?
-    disbursementChrono          DisbursementChrono?
-    detailedApplicationPlan     DetailedApplicationPlan?
-    consolidatedApplicationPlan ConsolidatedApplicationPlan?
-    attachments                 Attachments?
-    notions                     Notions?
-    @@map(name: \\"work_plans\\")
-  }
+model WorkPlan {
+  id                          String                       @id @default(uuid())
+  agreement                   Agreement?                   @relation(fields: [agreementId], references: [id])
+  agreementId                 String?
+  physicalChrono              PhysicalChrono?
+  disbursementChrono          DisbursementChrono?
+  detailedApplicationPlan     DetailedApplicationPlan?
+  consolidatedApplicationPlan ConsolidatedApplicationPlan?
+  attachments                 Attachments?
+  notions                     Notions?
+  @@map(name: \\"work_plans\\")
+}
 
-  model PhysicalChrono {
-    id         String                @id @default(uuid())
-    workPlan   WorkPlan?             @relation(fields: [workPlanId], references: [id])
-    workPlanId String?
-    list       PhysicalChronoItem[]
-    values     PhysicalChronoValues?
-    @@map(name: \\"physical_chronos\\")
-  }
+model PhysicalChrono {
+  id         String                @id @default(uuid())
+  workPlan   WorkPlan?             @relation(fields: [workPlanId], references: [id])
+  workPlanId String?
+  list       PhysicalChronoItem[]
+  values     PhysicalChronoValues?
+  @@map(name: \\"physical_chronos\\")
+}
 
-  model PhysicalChronoItem {
-    id               String          @id @default(uuid())
-    physicalChrono   PhysicalChrono? @relation(fields: [physicalChronoId], references: [id])
-    physicalChronoId String?
-    goalId           Int?
-    specification    String?
-    value            Float?          @default(0)
-    startDate        DateTime?
-    endDate          DateTime?
-    income           String?
-    @@map(name: \\"physical_chrono_items\\")
-  }
+model PhysicalChronoItem {
+  id               String          @id @default(uuid())
+  physicalChrono   PhysicalChrono? @relation(fields: [physicalChronoId], references: [id])
+  physicalChronoId String?
+  goalId           Int?
+  specification    String?
+  value            Float?          @default(0)
+  startDate        DateTime?
+  endDate          DateTime?
+  income           String?
+  @@map(name: \\"physical_chrono_items\\")
+}
 
-  model PhysicalChronoValues {
-    id               String          @id @default(uuid())
-    physicalChrono   PhysicalChrono? @relation(fields: [physicalChronoId], references: [id])
-    physicalChronoId String?
-    registered       Float?          @default(0)
-    register         Float?          @default(0)
-    global           Float?          @default(0)
-    @@map(name: \\"physical_chrono_values\\")
-  }
+model PhysicalChronoValues {
+  id               String          @id @default(uuid())
+  physicalChrono   PhysicalChrono? @relation(fields: [physicalChronoId], references: [id])
+  physicalChronoId String?
+  registered       Float?          @default(0)
+  register         Float?          @default(0)
+  global           Float?          @default(0)
+  @@map(name: \\"physical_chrono_values\\")
+}
 
-  model DisbursementChrono {
-    id         String                    @id @default(uuid())
-    workPlan   WorkPlan?                 @relation(fields: [workPlanId], references: [id])
-    workPlanId String?
-    list       DisbursementChronoItem[]
-    values     DisbursementChronoValues?
-    @@map(name: \\"disbursement_chronos\\")
-  }
+model DisbursementChrono {
+  id         String                    @id @default(uuid())
+  workPlan   WorkPlan?                 @relation(fields: [workPlanId], references: [id])
+  workPlanId String?
+  list       DisbursementChronoItem[]
+  values     DisbursementChronoValues?
+  @@map(name: \\"disbursement_chronos\\")
+}
 
-  model DisbursementChronoItem {
-    id                   String              @id @default(uuid())
-    disbursementChrono   DisbursementChrono? @relation(fields: [disbursementChronoId], references: [id])
-    disbursementChronoId String?
-    portionId            Int?
-    type                 String?
-    month                String?
-    year                 Int?
-    value                Float?              @default(0)
-    @@map(name: \\"disbursement_chrono_item\\")
-  }
+model DisbursementChronoItem {
+  id                   String              @id @default(uuid())
+  disbursementChrono   DisbursementChrono? @relation(fields: [disbursementChronoId], references: [id])
+  disbursementChronoId String?
+  portionId            Int?
+  type                 String?
+  month                String?
+  year                 Int?
+  value                Float?              @default(0)
+  @@map(name: \\"disbursement_chrono_item\\")
+}
 
-  model DisbursementChronoValues {
-    id                   String                   @id @default(uuid())
-    disbursementChrono   DisbursementChrono?      @relation(fields: [disbursementChronoId], references: [id])
-    disbursementChronoId String?
-    registered           DisbursementChronoValue? @relation(\\"RegisteredDisbursementChronoValue\\")
-    register             DisbursementChronoValue? @relation(\\"RegisterDisbursementChronoValue\\")
-    total                DisbursementChronoValue? @relation(\\"TotalDisbursementChronoValue\\")
-    @@map(name: \\"disbursement_chrono_values\\")
-  }
+model DisbursementChronoValues {
+  id                   String                   @id @default(uuid())
+  disbursementChrono   DisbursementChrono?      @relation(fields: [disbursementChronoId], references: [id])
+  disbursementChronoId String?
+  registered           DisbursementChronoValue? @relation(\\"RegisteredDisbursementChronoValue\\")
+  register             DisbursementChronoValue? @relation(\\"RegisterDisbursementChronoValue\\")
+  total                DisbursementChronoValue? @relation(\\"TotalDisbursementChronoValue\\")
+  @@map(name: \\"disbursement_chrono_values\\")
+}
 
-  model DisbursementChronoValue {
-    id                String                    @id @default(uuid())
-    registeredValue   DisbursementChronoValues? @relation(\\"RegisteredDisbursementChronoValue\\", fields: [registeredValueOf], references: [id])
-    registeredValueOf String?
-    registerValue     DisbursementChronoValues? @relation(\\"RegisterDisbursementChronoValue\\", fields: [registerValueOf], references: [id])
-    registerValueOf   String?
-    totalValue        DisbursementChronoValues? @relation(\\"TotalDisbursementChronoValue\\", fields: [totalValueOf], references: [id])
-    totalValueOf      String?
-    granting          Float?                    @default(0)
-    convenient        Float?                    @default(0)
-    yield             Float?                    @default(0)
-    @@map(name: \\"disbursement_chrono_value\\")
-  }
+model DisbursementChronoValue {
+  id                String                    @id @default(uuid())
+  registeredValue   DisbursementChronoValues? @relation(\\"RegisteredDisbursementChronoValue\\", fields: [registeredValueOf], references: [id])
+  registeredValueOf String?
+  registerValue     DisbursementChronoValues? @relation(\\"RegisterDisbursementChronoValue\\", fields: [registerValueOf], references: [id])
+  registerValueOf   String?
+  totalValue        DisbursementChronoValues? @relation(\\"TotalDisbursementChronoValue\\", fields: [totalValueOf], references: [id])
+  totalValueOf      String?
+  granting          Float?                    @default(0)
+  convenient        Float?                    @default(0)
+  yield             Float?                    @default(0)
+  @@map(name: \\"disbursement_chrono_value\\")
+}
 
-  model DetailedApplicationPlan {
-    id         String                         @id @default(uuid())
-    workPlan   WorkPlan?                      @relation(fields: [workPlanId], references: [id])
-    workPlanId String?
-    list       DetailedApplicationPlanItem[]
-    values     DetailedApplicationPlanValues?
-    @@map(name: \\"detailed_application_plans\\")
-  }
+model DetailedApplicationPlan {
+  id         String                         @id @default(uuid())
+  workPlan   WorkPlan?                      @relation(fields: [workPlanId], references: [id])
+  workPlanId String?
+  list       DetailedApplicationPlanItem[]
+  values     DetailedApplicationPlanValues?
+  @@map(name: \\"detailed_application_plans\\")
+}
 
-  model DetailedApplicationPlanItem {
-    id                        String                   @id @default(uuid())
-    detailedApplicationPlan   DetailedApplicationPlan? @relation(fields: [detailedApplicationPlanId], references: [id])
-    detailedApplicationPlanId String?
-    type                      String?
-    description               String?
-    natureExpenseCode         Int?
-    natureAcquisition         String?
-    un                        String?
-    amount                    Float?                   @default(0)
-    unitValue                 Float?                   @default(0)
-    totalValue                Float?                   @default(0)
-    status                    String?
-    @@map(name: \\"detailed_application_plan_items\\")
-  }
+model DetailedApplicationPlanItem {
+  id                        String                   @id @default(uuid())
+  detailedApplicationPlan   DetailedApplicationPlan? @relation(fields: [detailedApplicationPlanId], references: [id])
+  detailedApplicationPlanId String?
+  type                      String?
+  description               String?
+  natureExpenseCode         Int?
+  natureAcquisition         String?
+  un                        String?
+  amount                    Float?                   @default(0)
+  unitValue                 Float?                   @default(0)
+  totalValue                Float?                   @default(0)
+  status                    String?
+  @@map(name: \\"detailed_application_plan_items\\")
+}
 
-  model DetailedApplicationPlanValues {
-    id                        String                        @id @default(uuid())
-    detailedApplicationPlan   DetailedApplicationPlan?      @relation(fields: [detailedApplicationPlanId], references: [id])
-    detailedApplicationPlanId String?
-    assets                    DetailedApplicationPlanValue? @relation(\\"AssetsDetailedApplicationPlanValue\\")
-    tributes                  DetailedApplicationPlanValue? @relation(\\"TributesDetailedApplicationPlanValue\\")
-    construction              DetailedApplicationPlanValue? @relation(\\"ConstructionDetailedApplicationPlanValue\\")
-    services                  DetailedApplicationPlanValue? @relation(\\"ServicesDetailedApplicationPlanValue\\")
-    others                    DetailedApplicationPlanValue? @relation(\\"OthersDetailedApplicationPlanValue\\")
-    administrative            DetailedApplicationPlanValue? @relation(\\"AdministrativeDetailedApplicationPlanValue\\")
-    total                     DetailedApplicationPlanValue? @relation(\\"TotalDetailedApplicationPlanValue\\")
-    @@map(name: \\"detailed_application_plan_values\\")
-  }
+model DetailedApplicationPlanValues {
+  id                        String                        @id @default(uuid())
+  detailedApplicationPlan   DetailedApplicationPlan?      @relation(fields: [detailedApplicationPlanId], references: [id])
+  detailedApplicationPlanId String?
+  assets                    DetailedApplicationPlanValue? @relation(\\"AssetsDetailedApplicationPlanValue\\")
+  tributes                  DetailedApplicationPlanValue? @relation(\\"TributesDetailedApplicationPlanValue\\")
+  construction              DetailedApplicationPlanValue? @relation(\\"ConstructionDetailedApplicationPlanValue\\")
+  services                  DetailedApplicationPlanValue? @relation(\\"ServicesDetailedApplicationPlanValue\\")
+  others                    DetailedApplicationPlanValue? @relation(\\"OthersDetailedApplicationPlanValue\\")
+  administrative            DetailedApplicationPlanValue? @relation(\\"AdministrativeDetailedApplicationPlanValue\\")
+  total                     DetailedApplicationPlanValue? @relation(\\"TotalDetailedApplicationPlanValue\\")
+  @@map(name: \\"detailed_application_plan_values\\")
+}
 
-  model DetailedApplicationPlanValue {
-    id                    String                         @id @default(uuid())
-    assetsValue           DetailedApplicationPlanValues? @relation(\\"AssetsDetailedApplicationPlanValue\\", fields: [assetsValueOf], references: [id])
-    assetsValueOf         String?
-    tributesValue         DetailedApplicationPlanValues? @relation(\\"TributesDetailedApplicationPlanValue\\", fields: [tributesValueOf], references: [id])
-    tributesValueOf       String?
-    constructionValue     DetailedApplicationPlanValues? @relation(\\"ConstructionDetailedApplicationPlanValue\\", fields: [constructionValueOf], references: [id])
-    constructionValueOf   String?
-    servicesValue         DetailedApplicationPlanValues? @relation(\\"ServicesDetailedApplicationPlanValue\\", fields: [servicesValueOf], references: [id])
-    servicesValueOf       String?
-    othersValue           DetailedApplicationPlanValues? @relation(\\"OthersDetailedApplicationPlanValue\\", fields: [othersValueOf], references: [id])
-    othersValueOf         String?
-    administrativeValue   DetailedApplicationPlanValues? @relation(\\"AdministrativeDetailedApplicationPlanValue\\", fields: [administrativeValueOf], references: [id])
-    administrativeValueOf String?
-    totalValue            DetailedApplicationPlanValues? @relation(\\"TotalDetailedApplicationPlanValue\\", fields: [totalValueId], references: [id])
-    totalValueId          String?
-    total                 Float?                         @default(0)
-    resource              Float?                         @default(0)
-    counterpart           Float?                         @default(0)
-    yield                 Float?                         @default(0)
-    @@map(name: \\"detailed_application_plan_value\\")
-  }
+model DetailedApplicationPlanValue {
+  id                    String                         @id @default(uuid())
+  assetsValue           DetailedApplicationPlanValues? @relation(\\"AssetsDetailedApplicationPlanValue\\", fields: [assetsValueOf], references: [id])
+  assetsValueOf         String?
+  tributesValue         DetailedApplicationPlanValues? @relation(\\"TributesDetailedApplicationPlanValue\\", fields: [tributesValueOf], references: [id])
+  tributesValueOf       String?
+  constructionValue     DetailedApplicationPlanValues? @relation(\\"ConstructionDetailedApplicationPlanValue\\", fields: [constructionValueOf], references: [id])
+  constructionValueOf   String?
+  servicesValue         DetailedApplicationPlanValues? @relation(\\"ServicesDetailedApplicationPlanValue\\", fields: [servicesValueOf], references: [id])
+  servicesValueOf       String?
+  othersValue           DetailedApplicationPlanValues? @relation(\\"OthersDetailedApplicationPlanValue\\", fields: [othersValueOf], references: [id])
+  othersValueOf         String?
+  administrativeValue   DetailedApplicationPlanValues? @relation(\\"AdministrativeDetailedApplicationPlanValue\\", fields: [administrativeValueOf], references: [id])
+  administrativeValueOf String?
+  totalValue            DetailedApplicationPlanValues? @relation(\\"TotalDetailedApplicationPlanValue\\", fields: [totalValueId], references: [id])
+  totalValueId          String?
+  total                 Float?                         @default(0)
+  resource              Float?                         @default(0)
+  counterpart           Float?                         @default(0)
+  yield                 Float?                         @default(0)
+  @@map(name: \\"detailed_application_plan_value\\")
+}
 
-  model ConsolidatedApplicationPlan {
-    id         String                            @id @default(uuid())
-    workPlan   WorkPlan?                         @relation(fields: [workPlanId], references: [id])
-    workPlanId String?
-    list       ConsolidatedApplicationPlanItem[] @relation(\\"ListConsolidatedApplicationPlanItems\\")
-    total      ConsolidatedApplicationPlanItem?  @relation(\\"TotalConsolidatedApplicationPlanItems\\")
-    @@map(name: \\"consolidated_application_plans\\")
-  }
+model ConsolidatedApplicationPlan {
+  id         String                            @id @default(uuid())
+  workPlan   WorkPlan?                         @relation(fields: [workPlanId], references: [id])
+  workPlanId String?
+  list       ConsolidatedApplicationPlanItem[] @relation(\\"ListConsolidatedApplicationPlanItems\\")
+  total      ConsolidatedApplicationPlanItem?  @relation(\\"TotalConsolidatedApplicationPlanItems\\")
+  @@map(name: \\"consolidated_application_plans\\")
+}
 
-  model ConsolidatedApplicationPlanItem {
-    id             String                        @id @default(uuid())
-    listItem       ConsolidatedApplicationPlan[] @relation(\\"ListConsolidatedApplicationPlanItems\\", fields: [listItemOf], references: [id])
-    listItemOf     String?
-    totalItem      ConsolidatedApplicationPlan?  @relation(\\"TotalConsolidatedApplicationPlanItems\\", fields: [totalItemOf], references: [id])
-    totalItemOf    String?
-    classification String?
-    resources      Float?                        @default(0)
-    counterpart    Float?                        @default(0)
-    yield          Float?                        @default(0)
-    total          Float?                        @default(0)
-    @@map(name: \\"consolidated_application_plan_items\\")
-  }
+model ConsolidatedApplicationPlanItem {
+  id             String                        @id @default(uuid())
+  listItem       ConsolidatedApplicationPlan[] @relation(\\"ListConsolidatedApplicationPlanItems\\", fields: [listItemOf], references: [id])
+  listItemOf     String?
+  totalItem      ConsolidatedApplicationPlan?  @relation(\\"TotalConsolidatedApplicationPlanItems\\", fields: [totalItemOf], references: [id])
+  totalItemOf    String?
+  classification String?
+  resources      Float?                        @default(0)
+  counterpart    Float?                        @default(0)
+  yield          Float?                        @default(0)
+  total          Float?                        @default(0)
+  @@map(name: \\"consolidated_application_plan_items\\")
+}
 
-  model Attachments {
-    id            String       @id @default(uuid())
-    workPlan      WorkPlan?    @relation(fields: [workPlanId], references: [id])
-    workPlanId    String?
-    proposalList  Attachment[] @relation(\\"ProposalAttachments\\")
-    executionList Attachment[] @relation(\\"ExecutionAttachments\\")
-    @@map(name: \\"attachments\\")
-  }
+model Attachments {
+  id            String       @id @default(uuid())
+  workPlan      WorkPlan?    @relation(fields: [workPlanId], references: [id])
+  workPlanId    String?
+  proposalList  Attachment[] @relation(\\"ProposalAttachments\\")
+  executionList Attachment[] @relation(\\"ExecutionAttachments\\")
+  @@map(name: \\"attachments\\")
+}
 
-  model Attachment {
-    id                    String        @id @default(uuid())
-    proposalAttachment    Attachments[] @relation(\\"ProposalAttachments\\", fields: [proposalAttachmentOf], references: [id])
-    proposalAttachmentOf  String?
-    executionAttachment   Attachments[] @relation(\\"ExecutionAttachments\\", fields: [executionAttachmentOf], references: [id])
-    executionAttachmentOf String?
-    name                  String?
-    description           String?
-    date                  DateTime?
-    @@map(name: \\"attachment\\")
-  }
+model Attachment {
+  id                    String        @id @default(uuid())
+  proposalAttachment    Attachments[] @relation(\\"ProposalAttachments\\", fields: [proposalAttachmentOf], references: [id])
+  proposalAttachmentOf  String?
+  executionAttachment   Attachments[] @relation(\\"ExecutionAttachments\\", fields: [executionAttachmentOf], references: [id])
+  executionAttachmentOf String?
+  name                  String?
+  description           String?
+  date                  DateTime?
+  @@map(name: \\"attachment\\")
+}
 
-  model Notions {
-    id           String       @id @default(uuid())
-    workPlan     WorkPlan?    @relation(fields: [workPlanId], references: [id])
-    workPlanId   String?
-    proposalList NotionItem[] @relation(\\"ProposalNotionItems\\")
-    workPlanList NotionItem[] @relation(\\"WorkPlanNotionItems\\")
-    @@map(name: \\"notions\\")
-  }
+model Notions {
+  id           String       @id @default(uuid())
+  workPlan     WorkPlan?    @relation(fields: [workPlanId], references: [id])
+  workPlanId   String?
+  proposalList NotionItem[] @relation(\\"ProposalNotionItems\\")
+  workPlanList NotionItem[] @relation(\\"WorkPlanNotionItems\\")
+  @@map(name: \\"notions\\")
+}
 
-  model NotionItem {
-    id                    String    @id @default(uuid())
-    proposalNotionItem    Notions[] @relation(\\"ProposalNotionItems\\", fields: [proposalNotionItemOf], references: [id])
-    proposalNotionItemOf  String?
-    executionNotionItem   Notions[] @relation(\\"WorkPlanNotionItems\\", fields: [executionNotionItemOf], references: [id])
-    executionNotionItemOf String?
-    date                  DateTime?
-    type                  String?
-    responsible           String?
-    assignment            String?
-    occupation            String?
-    @@map(name: \\"notion_item\\")
-  }
+model NotionItem {
+  id                    String    @id @default(uuid())
+  proposalNotionItem    Notions[] @relation(\\"ProposalNotionItems\\", fields: [proposalNotionItemOf], references: [id])
+  proposalNotionItemOf  String?
+  executionNotionItem   Notions[] @relation(\\"WorkPlanNotionItems\\", fields: [executionNotionItemOf], references: [id])
+  executionNotionItemOf String?
+  date                  DateTime?
+  type                  String?
+  responsible           String?
+  assignment            String?
+  occupation            String?
+  @@map(name: \\"notion_item\\")
+}
 
-  model ConvenientExecution {
-    id                 String             @id @default(uuid())
-    agreement          Agreement?         @relation(fields: [agreementId], references: [id])
-    agreementId        String?
-    executionProcesses ExecutionProcess[]
-    contracts          Contract[]
-    @@map(name: \\"convenient_execution\\")
-  }
+model ConvenientExecution {
+  id                 String             @id @default(uuid())
+  agreement          Agreement?         @relation(fields: [agreementId], references: [id])
+  agreementId        String?
+  executionProcesses ExecutionProcess[]
+  contracts          Contract[]
+  @@map(name: \\"convenient_execution\\")
+}
 
-  model ExecutionProcess {
-    id                    String                   @id @default(uuid())
-    convenientExecution   ConvenientExecution?     @relation(fields: [convenientExecutionId], references: [id])
-    convenientExecutionId String?
-    executionId           String?
-    type                  String?
-    date                  DateTime?
-    processId             String?
-    status                String?
-    systemStatus          String?
-    system                String?
-    accepted              String?
-    details               ExecutionProcessDetails?
-    @@map(name: \\"execution_processes\\")
-  }
+model ExecutionProcess {
+  id                    String                   @id @default(uuid())
+  convenientExecution   ConvenientExecution?     @relation(fields: [convenientExecutionId], references: [id])
+  convenientExecutionId String?
+  executionId           String?
+  type                  String?
+  date                  DateTime?
+  processId             String?
+  status                String?
+  systemStatus          String?
+  system                String?
+  accepted              String?
+  details               ExecutionProcessDetails?
+  @@map(name: \\"execution_processes\\")
+}
 
-  model ExecutionProcessDetails {
-    id                    String            @id @default(uuid())
-    executionProcessRel   ExecutionProcess? @relation(fields: [executionProcessRelId], references: [id])
-    executionProcessRelId String?
-    executionProcess      String?
-    buyType               String?
-    status                String?
-    origin                String?
-    financialResource     String?
-    modality              String?
-    biddingType           String?
-    processId             String?
-    biddingId             String?
-    object                String?
-    legalFoundation       String?
-    justification         String?
-    publishDate           DateTime?
-    beginDate             DateTime?
-    endDate               DateTime?
-    biddingValue          Float?
-    homologationDate      DateTime?
-    city                  String?
-    analysisDate          DateTime?
-    accepted              String?
-    @@map(name: \\"execution_processes_details\\")
-  }
+model ExecutionProcessDetails {
+  id                    String            @id @default(uuid())
+  executionProcessRel   ExecutionProcess? @relation(fields: [executionProcessRelId], references: [id])
+  executionProcessRelId String?
+  executionProcess      String?
+  buyType               String?
+  status                String?
+  origin                String?
+  financialResource     String?
+  modality              String?
+  biddingType           String?
+  processId             String?
+  biddingId             String?
+  object                String?
+  legalFoundation       String?
+  justification         String?
+  publishDate           DateTime?
+  beginDate             DateTime?
+  endDate               DateTime?
+  biddingValue          Float?
+  homologationDate      DateTime?
+  city                  String?
+  analysisDate          DateTime?
+  accepted              String?
+  @@map(name: \\"execution_processes_details\\")
+}
 
-  model Contract {
-    id                    String               @id @default(uuid())
-    convenientExecution   ConvenientExecution? @relation(fields: [convenientExecutionId], references: [id])
-    convenientExecutionId String?
-    contractId            String?
-    biddingId             String?
-    date                  DateTime?
-    details               ContractDetails?
-    @@map(name: \\"contracts\\")
-  }
+model Contract {
+  id                    String               @id @default(uuid())
+  convenientExecution   ConvenientExecution? @relation(fields: [convenientExecutionId], references: [id])
+  convenientExecutionId String?
+  contractId            String?
+  biddingId             String?
+  date                  DateTime?
+  details               ContractDetails?
+  @@map(name: \\"contracts\\")
+}
 
-  model ContractDetails {
-    id                 String    @id @default(uuid())
-    contract           Contract? @relation(fields: [contractId], references: [id])
-    contractId         String?
-    hiredDocument      String?
-    hirerDocument      String?
-    type               String?
-    object             String?
-    totalValue         Float?
-    publishDate        DateTime?
-    beginDate          DateTime?
-    endDate            DateTime?
-    signDate           DateTime?
-    executionProcessId String?
-    biddingModality    String?
-    processId          String?
-    @@map(name: \\"contracts_details\\")
-  }
+model ContractDetails {
+  id                 String    @id @default(uuid())
+  contract           Contract? @relation(fields: [contractId], references: [id])
+  contractId         String?
+  hiredDocument      String?
+  hirerDocument      String?
+  type               String?
+  object             String?
+  totalValue         Float?
+  publishDate        DateTime?
+  beginDate          DateTime?
+  endDate            DateTime?
+  signDate           DateTime?
+  executionProcessId String?
+  biddingModality    String?
+  processId          String?
+  @@map(name: \\"contracts_details\\")
+}
 
-  model Accountability {
-    id          String              @id @default(uuid())
-    agreement   Agreement?          @relation(fields: [agreementId], references: [id])
-    agreementId String?
-    data        AccountabilityData?
-    @@map(name: \\"accountabilities\\")
-  }
+model Accountability {
+  id          String              @id @default(uuid())
+  agreement   Agreement?          @relation(fields: [agreementId], references: [id])
+  agreementId String?
+  data        AccountabilityData?
+  @@map(name: \\"accountabilities\\")
+}
 
-  model AccountabilityData {
-    id               String          @id @default(uuid())
-    accountabilty    Accountability? @relation(fields: [accountabiltyId], references: [id])
-    accountabiltyId  String?
-    organ            String?
-    convenient       String?
-    documentNumber   String?
-    modality         String?
-    status           String?
-    number           String?
-    validity         String?
-    limitDate        DateTime?
-    totalValue       Float?
-    transferValue    Float?
-    counterpartValue Float?
-    yieldValue       Float?
-    @@map(name: \\"accountabilities_data\\")
-  }"
+model AccountabilityData {
+  id               String          @id @default(uuid())
+  accountabilty    Accountability? @relation(fields: [accountabiltyId], references: [id])
+  accountabiltyId  String?
+  organ            String?
+  convenient       String?
+  documentNumber   String?
+  modality         String?
+  status           String?
+  number           String?
+  validity         String?
+  limitDate        DateTime?
+  totalValue       Float?
+  transferValue    Float?
+  counterpartValue Float?
+  yieldValue       Float?
+  @@map(name: \\"accountabilities_data\\")
+}"
 `;
 
 exports[`printSchema print redwood.prisma 1`] = `
 "
-  datasource DS {
-    provider = \\"sqlite\\"
-    url      = env(\\"DATABASE_URL\\")
-  }
+datasource DS {
+  provider = \\"sqlite\\"
+  url      = env(\\"DATABASE_URL\\")
+}
 
-  generator client {
-    provider = \\"prisma-client-js\\"
-    binaryTargets = \\"native\\"
-  }
+generator client {
+  provider = \\"prisma-client-js\\"
+  binaryTargets = \\"native\\"
+}
 /// Define your own datamodels here and run \`yarn redwood db save\` to create
 /// migrations for them.
 
-  model Post {
-    /// this is the post id
-    id       Int       @id @default(autoincrement())
-    title    String
-    slug     String    @unique
-    author   String
-    body     String
-    image    String?
-    tags     Tag[]
-    postedAt DateTime?
-  }
+model Post {
+  /// this is the post id
+  id       Int       @id @default(autoincrement())
+  title    String
+  slug     String    @unique
+  author   String
+  body     String
+  image    String?
+  tags     Tag[]
+  postedAt DateTime?
+}
 
-  model Tag {
-    id    Int    @id @default(autoincrement())
-    name  String @unique
-    posts Post[]
-  }
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[]
+}
 
-  model User {
-    id      Int     @id @default(autoincrement())
-    name    String?
-    email   String  @unique
-    isAdmin Boolean @default(false)
-  }"
+model User {
+  id      Int     @id @default(autoincrement())
+  name    String?
+  email   String  @unique
+  isAdmin Boolean @default(false)
+}"
 `;
 
 exports[`printSchema print star.prisma 1`] = `
 "// an example from prisma with some atypical syntax to parse
 
-  model Star {
-    id       Int                    @id @default(autoincrement())
-    position Unsupported(\\"circle\\")?
-    example1 Unsupported(\\"circle\\")
-    circle   Unsupported(\\"circle\\")? @default(dbgenerated(\\"'<(10,4),11>'::circle\\"))
-  }"
+model Star {
+  id       Int                    @id @default(autoincrement())
+  position Unsupported(\\"circle\\")?
+  example1 Unsupported(\\"circle\\")
+  circle   Unsupported(\\"circle\\")? @default(dbgenerated(\\"'<(10,4),11>'::circle\\"))
+}"
 `;
 
 exports[`printSchema print test.prisma 1`] = `
 "
-  datasource db {
-    provider = \\"postgres\\"
-    url      = env(\\"DATABASE_URL\\")
-  }
+datasource db {
+  provider = \\"postgres\\"
+  url      = env(\\"DATABASE_URL\\")
+}
 // this is foo
 
-  generator foo {
-    // it is a nexus
-    provider = \\"nexus\\"
-  }
+generator foo {
+  // it is a nexus
+  provider = \\"nexus\\"
+}
 
-  model Bar {
-    id Int @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
-  }
+model Bar {
+  id Int @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
+}
 
-  enum Role {
-    USER
-    ADMIN
-  }"
+enum Role {
+  USER
+  ADMIN
+}"
 `;
