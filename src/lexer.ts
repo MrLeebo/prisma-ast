@@ -145,7 +145,7 @@ export const WhiteSpace = createToken({
 });
 export const LineBreak = createToken({
   name: 'LineBreak',
-  pattern: '\n',
+  pattern: /\n|\r\n/,
   line_breaks: true,
   label: 'LineBreak',
 });

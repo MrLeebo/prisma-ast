@@ -640,3 +640,12 @@ enum Role {
   ADMIN
 }"
 `;
+
+exports[`printSchema prints windows-style line breaks 1`] = `
+"
+model Foo {
+  one Int
+
+  two String
+}"
+`;

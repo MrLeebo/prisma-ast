@@ -10,4 +10,15 @@ describe('printSchema', () => {
       expect(printSchema(schema)).toMatchSnapshot();
     });
   }
+
+  it('prints windows-style line breaks', () => {
+    const source = `
+model Foo {
+  one Int\r\n\r\n\r\ntwo String
+}
+    `;
+    const schema = getSchema(source);
+    expect(schema).not.toBeUndefined();
+    expect(printSchema(schema)).toMatchSnapshot();
+  });
 });

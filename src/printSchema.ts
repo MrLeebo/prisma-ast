@@ -1,11 +1,12 @@
 import * as Types from './getSchema';
+import { EOL } from 'os';
 
 export function printSchema(schema: Types.Schema): string {
   return schema.list
     .map(printBlock)
     .filter(Boolean)
-    .join('\n')
-    .replace(/(\n\s*){3,}/g, '\n\n');
+    .join(EOL)
+    .replace(/(\r?\n\s*){3,}/g, EOL + EOL);
 }
 
 function printBlock(block: Types.Block): string {
@@ -32,7 +33,7 @@ function printComment(comment: Types.Comment) {
 }
 
 function printBreak() {
-  return '\n';
+  return EOL;
 }
 
 function printDatasource(db: Types.Datasource) {
@@ -48,8 +49,8 @@ function printEnum(enumerator: Types.Enum) {
   const children = enumerator.enumerators
     .map(printEnumerator)
     .filter(Boolean)
-    .join('\n  ')
-    .replace(/(\n\s*){3,}/g, '\n\n  ');
+    .join(`${EOL}  `)
+    .replace(/(\r?\n\s*){3,}/g, `${EOL + EOL}  `);
 
   return `
 enum ${enumerator.name} {
@@ -226,8 +227,8 @@ function computeAssignmentFormatting(
       return printAssignment(item, keyLengths[0]);
     })
     .filter(Boolean)
-    .join('\n  ')
-    .replace(/(\n\s*){3,}/g, '\n\n  ');
+    .join(`${EOL}  `)
+    .replace(/(\r?\n\s*){3,}/g, `${EOL + EOL}  `);
 }
 
 function computePropertyFormatting(
@@ -282,6 +283,6 @@ function computePropertyFormatting(
       return printProperty(prop, nameLengths[0], typeLengths[0]);
     })
     .filter(Boolean)
-    .join('\n  ')
-    .replace(/(\n\s*){3,}/g, '\n\n  ');
+    .join(`${EOL}  `)
+    .replace(/(\r?\n\s*){3,}/g, `${EOL + EOL}  `);
 }
