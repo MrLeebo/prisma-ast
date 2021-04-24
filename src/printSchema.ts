@@ -2,11 +2,13 @@ import * as Types from './getSchema';
 import { EOL } from 'os';
 
 export function printSchema(schema: Types.Schema): string {
-  return schema.list
-    .map(printBlock)
-    .filter(Boolean)
-    .join(EOL)
-    .replace(/(\r?\n\s*){3,}/g, EOL + EOL);
+  return (
+    schema.list
+      .map(printBlock)
+      .filter(Boolean)
+      .join(EOL)
+      .replace(/(\r?\n\s*){3,}/g, EOL + EOL) + EOL
+  );
 }
 
 function printBlock(block: Types.Block): string {

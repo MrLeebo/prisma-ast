@@ -551,7 +551,8 @@ model AccountabilityData {
   yieldValue       Float?
 
   @@map(name: \\"accountabilities_data\\")
-}"
+}
+"
 `;
 
 exports[`printSchema print redwood.prisma 1`] = `
@@ -592,7 +593,8 @@ model User {
   name    String?
   email   String  @unique
   isAdmin Boolean @default(false)
-}"
+}
+"
 `;
 
 exports[`printSchema print star.prisma 1`] = `
@@ -603,7 +605,8 @@ model Star {
   position Unsupported(\\"circle\\")?
   example1 Unsupported(\\"circle\\")
   circle   Unsupported(\\"circle\\")? @default(dbgenerated(\\"'<(10,4),11>'::circle\\"))
-}"
+}
+"
 `;
 
 exports[`printSchema print test.prisma 1`] = `
@@ -638,7 +641,8 @@ model Bar {
 enum Role {
   USER
   ADMIN
-}"
+}
+"
 `;
 
 exports[`printSchema prints windows-style line breaks 1`] = `
@@ -647,5 +651,6 @@ model Foo {
   one Int
 
   two String
-}"
+}
+"
 `;
