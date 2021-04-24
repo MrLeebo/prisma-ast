@@ -7003,6 +7003,16 @@ exports[`getSchema parse test.prisma 1`] = `
           \\"type\\": \\"assignment\\",
           \\"key\\": \\"provider\\",
           \\"value\\": \\"\\\\\\"nexus\\\\\\"\\"
+        },
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"previewFeatures\\",
+          \\"value\\": {
+            \\"type\\": \\"array\\",
+            \\"args\\": [
+              \\"\\\\\\"napi\\\\\\"\\"
+            ]
+          }
         }
       ]
     },
@@ -7070,6 +7080,10 @@ exports[`getSchema parse test.prisma 1`] = `
           ]
         },
         {
+          \\"type\\": \\"comment\\",
+          \\"text\\": \\"// this is not a break\\"
+        },
+        {
           \\"type\\": \\"field\\",
           \\"name\\": \\"name\\",
           \\"fieldType\\": \\"String\\",
@@ -7110,6 +7124,30 @@ exports[`getSchema parse test.prisma 1`] = `
           \\"type\\": \\"field\\",
           \\"name\\": \\"owner\\",
           \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"comment\\",
+          \\"text\\": \\"/// test\\"
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"alphabet\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"number\\",
+          \\"fieldType\\": \\"Int\\",
           \\"array\\": false,
           \\"optional\\": false
         }

@@ -617,15 +617,22 @@ datasource db {
 
 generator foo {
   // it is a nexus
-  provider = \\"nexus\\"
+  provider        = \\"nexus\\"
+  previewFeatures = [\\"napi\\"]
 }
 
 model Bar {
   id   Int    @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
+  // this is not a break
   name String @unique
 
   supercalifragilisticexpialidocious String @default(\\"it is something quite atrocious\\")
   owner                              String
+
+  /// test
+
+  alphabet String
+  number   Int
 }
 
 enum Role {

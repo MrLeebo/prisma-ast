@@ -82,57 +82,7 @@ generator ${generator.name} {
 }
 
 function printModel(model: Types.Model) {
-  let pos = 0;
-  const listBlocks = model.properties.reduce<Array<typeof model.properties>>(
-    (memo, current, index, arr) => {
-      if (current.type !== 'field') return memo;
-      if (index > 0 && arr[index - 1].type !== 'field') memo[++pos] = [];
-      memo[pos].push(current);
-      return memo;
-    },
-    [[]]
-  );
-
-  const nameLengths = listBlocks.map(lists =>
-    lists.reduce(
-      (max, current) =>
-        Math.max(
-          max,
-          // perhaps someone more typescript-savy than I am can fix this
-          current.type === 'field' ? current.name.length : 0
-        ),
-      0
-    )
-  );
-
-  const typeLengths = listBlocks.map(lists =>
-    lists.reduce(
-      (max, current) =>
-        Math.max(
-          max,
-          // perhaps someone more typescript-savy than I am can fix this
-          current.type === 'field' ? printFieldType(current).length : 0
-        ),
-      0
-    )
-  );
-
-  const children = model.properties
-    .map((prop, index, arr) => {
-      if (
-        index > 0 &&
-        prop.type === 'field' &&
-        arr[index - 1].type !== 'field'
-      ) {
-        nameLengths.shift();
-        typeLengths.shift();
-      }
-
-      return printProperty(prop, nameLengths[0], typeLengths[0]);
-    })
-    .filter(Boolean)
-    .join('\n  ')
-    .replace(/(\n\s*){3,}/g, '\n\n  ');
+  const children = computePropertyFormatting(model.properties);
 
   return `
 model ${model.name} {
@@ -249,8 +199,8 @@ function computeAssignmentFormatting(
   let pos = 0;
   const listBlocks = list.reduce<Array<typeof list>>(
     (memo, current, index, arr) => {
-      if (current.type !== 'assignment') return memo;
-      if (index > 0 && arr[index - 1].type !== 'assignment') memo[++pos] = [];
+      if (current.type === 'break') return memo;
+      if (index > 0 && arr[index - 1].type === 'break') memo[++pos] = [];
       memo[pos].push(current);
       return memo;
     },
@@ -271,13 +221,65 @@ function computeAssignmentFormatting(
 
   return list
     .map((item, index, arr) => {
-      if (
-        index > 0 &&
-        item.type === 'assignment' &&
-        arr[index - 1].type !== 'assignment'
-      )
+      if (index > 0 && item.type !== 'break' && arr[index - 1].type === 'break')
         keyLengths.shift();
       return printAssignment(item, keyLengths[0]);
+    })
+    .filter(Boolean)
+    .join('\n  ')
+    .replace(/(\n\s*){3,}/g, '\n\n  ');
+}
+
+function computePropertyFormatting(
+  list: Array<Types.Break | Types.Comment | Types.Property>
+) {
+  let pos = 0;
+  const listBlocks = list.reduce<Array<typeof list>>(
+    (memo, current, index, arr) => {
+      if (current.type === 'break') return memo;
+      if (index > 0 && arr[index - 1].type === 'break') memo[++pos] = [];
+      memo[pos].push(current);
+      return memo;
+    },
+    [[]]
+  );
+
+  const nameLengths = listBlocks.map(lists =>
+    lists.reduce(
+      (max, current) =>
+        Math.max(
+          max,
+          // perhaps someone more typescript-savy than I am can fix this
+          current.type === 'field' ? current.name.length : 0
+        ),
+      0
+    )
+  );
+
+  const typeLengths = listBlocks.map(lists =>
+    lists.reduce(
+      (max, current) =>
+        Math.max(
+          max,
+          // perhaps someone more typescript-savy than I am can fix this
+          current.type === 'field' ? printFieldType(current).length : 0
+        ),
+      0
+    )
+  );
+
+  return list
+    .map((prop, index, arr) => {
+      if (
+        index > 0 &&
+        prop.type !== 'break' &&
+        arr[index - 1].type === 'break'
+      ) {
+        nameLengths.shift();
+        typeLengths.shift();
+      }
+
+      return printProperty(prop, nameLengths[0], typeLengths[0]);
     })
     .filter(Boolean)
     .join('\n  ')
