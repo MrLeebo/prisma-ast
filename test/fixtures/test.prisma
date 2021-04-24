@@ -14,6 +14,7 @@ model Bar {
   name String @unique
 
   supercalifragilisticexpialidocious String @default("it is something quite atrocious")
+  owner                              String
 }
 
 enum Role {

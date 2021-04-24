@@ -3,24 +3,17 @@
 exports[`printSchema print atena-server.prisma 1`] = `
 "// I found this on github by searching for large schema.prisma files in public repos.
 
-
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-
 
 datasource db {
   provider = \\"postgresql\\"
   url      = env(\\"DATABASE_URL\\")
 }
 
-
-
 generator client {
   provider = \\"prisma-client-js\\"
 }
-
-
 
 model City {
   id        String    @id @default(uuid())
@@ -29,12 +22,9 @@ model City {
   ibge      String    @unique
   companies Company[]
   groups    Group[]
-  
 
   @@map(name: \\"cities\\")
 }
-
-
 
 model Company {
   id         String      @id @default(uuid())
@@ -44,12 +34,9 @@ model Company {
   cityId     String
   sphere     String
   agreements Agreement[]
-  
 
   @@map(name: \\"companies\\")
 }
-
-
 
 model User {
   id       String  @id @default(uuid())
@@ -59,12 +46,9 @@ model User {
   active   Boolean @default(true)
   group    Group?  @relation(fields: [groupId], references: [id])
   groupId  String?
-  
 
   @@map(name: \\"users\\")
 }
-
-
 
 model Group {
   id     String      @id @default(uuid())
@@ -72,12 +56,9 @@ model Group {
   access GroupAccess @default(ANY)
   cities City[]
   users  User[]
-  
 
   @@map(name: \\"groups\\")
 }
-
-
 
 enum GroupAccess {
   ANY
@@ -85,8 +66,6 @@ enum GroupAccess {
   STATE_SPHERE
   CITIES
 }
-
-
 
 model Agreement {
   id                  String               @id @default(uuid())
@@ -104,12 +83,9 @@ model Agreement {
   accountability      Accountability?
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @default(now())
-  
 
   @@map(name: \\"agreements\\")
 }
-
-
 
 model ProposalData {
   id           String        @id @default(uuid())
@@ -118,12 +94,9 @@ model ProposalData {
   data         Data?
   programs     Program[]
   participants Participants?
-  
 
   @@map(name: \\"proposals_data\\")
 }
-
-
 
 model Data {
   id                            String        @id @default(uuid())
@@ -151,12 +124,9 @@ model Data {
   proposalDate                  DateTime?
   biddingDate                   DateTime?
   homologationDate              DateTime?
-  
 
   @@map(name: \\"agreements_data\\")
 }
-
-
 
 model Status {
   id          String  @id @default(uuid())
@@ -165,12 +135,9 @@ model Status {
   value       String?
   committed   String?
   publication String?
-  
 
   @@map(name: \\"status\\")
 }
-
-
 
 model Program {
   id             String          @id @default(uuid())
@@ -180,12 +147,9 @@ model Program {
   name           String?
   value          Float?          @default(0)
   details        ProgramDetails?
-  
 
   @@map(name: \\"programs\\")
 }
-
-
 
 model ProgramDetails {
   id               String                           @id @default(uuid())
@@ -199,12 +163,9 @@ model ProgramDetails {
   totalValue       Float?
   couterpartValues ProgramDetailsCounterpartValues?
   transferValues   ProgramDetailsTransferValues?
-  
 
   @@map(name: \\"programs_details\\")
 }
-
-
 
 model ProgramDetailsCounterpartValues {
   id                String          @id @default(uuid())
@@ -213,12 +174,9 @@ model ProgramDetailsCounterpartValues {
   total             Float?
   financial         Float?
   assetsAndServices Float?
-  
 
   @@map(name: \\"programs_details_counterpart_values\\")
 }
-
-
 
 model ProgramDetailsTransferValues {
   id               String          @id @default(uuid())
@@ -226,12 +184,9 @@ model ProgramDetailsTransferValues {
   programDetailsId String?
   total            Float?
   amendment        String?
-  
 
   @@map(name: \\"programs_details_transfer_values\\")
 }
-
-
 
 model Participants {
   id             String        @id @default(uuid())
@@ -241,12 +196,9 @@ model Participants {
   respProponent  String?
   grantor        String?
   respGrantor    String?
-  
 
   @@map(name: \\"participants\\")
 }
-
-
 
 model WorkPlan {
   id                          String                       @id @default(uuid())
@@ -258,12 +210,9 @@ model WorkPlan {
   consolidatedApplicationPlan ConsolidatedApplicationPlan?
   attachments                 Attachments?
   notions                     Notions?
-  
 
   @@map(name: \\"work_plans\\")
 }
-
-
 
 model PhysicalChrono {
   id         String                @id @default(uuid())
@@ -271,12 +220,9 @@ model PhysicalChrono {
   workPlanId String?
   list       PhysicalChronoItem[]
   values     PhysicalChronoValues?
-  
 
   @@map(name: \\"physical_chronos\\")
 }
-
-
 
 model PhysicalChronoItem {
   id               String          @id @default(uuid())
@@ -288,12 +234,9 @@ model PhysicalChronoItem {
   startDate        DateTime?
   endDate          DateTime?
   income           String?
-  
 
   @@map(name: \\"physical_chrono_items\\")
 }
-
-
 
 model PhysicalChronoValues {
   id               String          @id @default(uuid())
@@ -302,12 +245,9 @@ model PhysicalChronoValues {
   registered       Float?          @default(0)
   register         Float?          @default(0)
   global           Float?          @default(0)
-  
 
   @@map(name: \\"physical_chrono_values\\")
 }
-
-
 
 model DisbursementChrono {
   id         String                    @id @default(uuid())
@@ -315,12 +255,9 @@ model DisbursementChrono {
   workPlanId String?
   list       DisbursementChronoItem[]
   values     DisbursementChronoValues?
-  
 
   @@map(name: \\"disbursement_chronos\\")
 }
-
-
 
 model DisbursementChronoItem {
   id                   String              @id @default(uuid())
@@ -331,12 +268,9 @@ model DisbursementChronoItem {
   month                String?
   year                 Int?
   value                Float?              @default(0)
-  
 
   @@map(name: \\"disbursement_chrono_item\\")
 }
-
-
 
 model DisbursementChronoValues {
   id                   String                   @id @default(uuid())
@@ -345,12 +279,9 @@ model DisbursementChronoValues {
   registered           DisbursementChronoValue? @relation(\\"RegisteredDisbursementChronoValue\\")
   register             DisbursementChronoValue? @relation(\\"RegisterDisbursementChronoValue\\")
   total                DisbursementChronoValue? @relation(\\"TotalDisbursementChronoValue\\")
-  
 
   @@map(name: \\"disbursement_chrono_values\\")
 }
-
-
 
 model DisbursementChronoValue {
   id                String                    @id @default(uuid())
@@ -363,12 +294,9 @@ model DisbursementChronoValue {
   granting          Float?                    @default(0)
   convenient        Float?                    @default(0)
   yield             Float?                    @default(0)
-  
 
   @@map(name: \\"disbursement_chrono_value\\")
 }
-
-
 
 model DetailedApplicationPlan {
   id         String                         @id @default(uuid())
@@ -376,12 +304,9 @@ model DetailedApplicationPlan {
   workPlanId String?
   list       DetailedApplicationPlanItem[]
   values     DetailedApplicationPlanValues?
-  
 
   @@map(name: \\"detailed_application_plans\\")
 }
-
-
 
 model DetailedApplicationPlanItem {
   id                        String                   @id @default(uuid())
@@ -396,12 +321,9 @@ model DetailedApplicationPlanItem {
   unitValue                 Float?                   @default(0)
   totalValue                Float?                   @default(0)
   status                    String?
-  
 
   @@map(name: \\"detailed_application_plan_items\\")
 }
-
-
 
 model DetailedApplicationPlanValues {
   id                        String                        @id @default(uuid())
@@ -414,12 +336,9 @@ model DetailedApplicationPlanValues {
   others                    DetailedApplicationPlanValue? @relation(\\"OthersDetailedApplicationPlanValue\\")
   administrative            DetailedApplicationPlanValue? @relation(\\"AdministrativeDetailedApplicationPlanValue\\")
   total                     DetailedApplicationPlanValue? @relation(\\"TotalDetailedApplicationPlanValue\\")
-  
 
   @@map(name: \\"detailed_application_plan_values\\")
 }
-
-
 
 model DetailedApplicationPlanValue {
   id                    String                         @id @default(uuid())
@@ -441,12 +360,9 @@ model DetailedApplicationPlanValue {
   resource              Float?                         @default(0)
   counterpart           Float?                         @default(0)
   yield                 Float?                         @default(0)
-  
 
   @@map(name: \\"detailed_application_plan_value\\")
 }
-
-
 
 model ConsolidatedApplicationPlan {
   id         String                            @id @default(uuid())
@@ -454,12 +370,9 @@ model ConsolidatedApplicationPlan {
   workPlanId String?
   list       ConsolidatedApplicationPlanItem[] @relation(\\"ListConsolidatedApplicationPlanItems\\")
   total      ConsolidatedApplicationPlanItem?  @relation(\\"TotalConsolidatedApplicationPlanItems\\")
-  
 
   @@map(name: \\"consolidated_application_plans\\")
 }
-
-
 
 model ConsolidatedApplicationPlanItem {
   id             String                        @id @default(uuid())
@@ -472,12 +385,9 @@ model ConsolidatedApplicationPlanItem {
   counterpart    Float?                        @default(0)
   yield          Float?                        @default(0)
   total          Float?                        @default(0)
-  
 
   @@map(name: \\"consolidated_application_plan_items\\")
 }
-
-
 
 model Attachments {
   id            String       @id @default(uuid())
@@ -485,12 +395,9 @@ model Attachments {
   workPlanId    String?
   proposalList  Attachment[] @relation(\\"ProposalAttachments\\")
   executionList Attachment[] @relation(\\"ExecutionAttachments\\")
-  
 
   @@map(name: \\"attachments\\")
 }
-
-
 
 model Attachment {
   id                    String        @id @default(uuid())
@@ -501,12 +408,9 @@ model Attachment {
   name                  String?
   description           String?
   date                  DateTime?
-  
 
   @@map(name: \\"attachment\\")
 }
-
-
 
 model Notions {
   id           String       @id @default(uuid())
@@ -514,12 +418,9 @@ model Notions {
   workPlanId   String?
   proposalList NotionItem[] @relation(\\"ProposalNotionItems\\")
   workPlanList NotionItem[] @relation(\\"WorkPlanNotionItems\\")
-  
 
   @@map(name: \\"notions\\")
 }
-
-
 
 model NotionItem {
   id                    String    @id @default(uuid())
@@ -532,12 +433,9 @@ model NotionItem {
   responsible           String?
   assignment            String?
   occupation            String?
-  
 
   @@map(name: \\"notion_item\\")
 }
-
-
 
 model ConvenientExecution {
   id                 String             @id @default(uuid())
@@ -545,12 +443,9 @@ model ConvenientExecution {
   agreementId        String?
   executionProcesses ExecutionProcess[]
   contracts          Contract[]
-  
 
   @@map(name: \\"convenient_execution\\")
 }
-
-
 
 model ExecutionProcess {
   id                    String                   @id @default(uuid())
@@ -565,12 +460,9 @@ model ExecutionProcess {
   system                String?
   accepted              String?
   details               ExecutionProcessDetails?
-  
 
   @@map(name: \\"execution_processes\\")
 }
-
-
 
 model ExecutionProcessDetails {
   id                    String            @id @default(uuid())
@@ -596,12 +488,9 @@ model ExecutionProcessDetails {
   city                  String?
   analysisDate          DateTime?
   accepted              String?
-  
 
   @@map(name: \\"execution_processes_details\\")
 }
-
-
 
 model Contract {
   id                    String               @id @default(uuid())
@@ -611,12 +500,9 @@ model Contract {
   biddingId             String?
   date                  DateTime?
   details               ContractDetails?
-  
 
   @@map(name: \\"contracts\\")
 }
-
-
 
 model ContractDetails {
   id                 String    @id @default(uuid())
@@ -634,24 +520,18 @@ model ContractDetails {
   executionProcessId String?
   biddingModality    String?
   processId          String?
-  
 
   @@map(name: \\"contracts_details\\")
 }
-
-
 
 model Accountability {
   id          String              @id @default(uuid())
   agreement   Agreement?          @relation(fields: [agreementId], references: [id])
   agreementId String?
   data        AccountabilityData?
-  
 
   @@map(name: \\"accountabilities\\")
 }
-
-
 
 model AccountabilityData {
   id               String          @id @default(uuid())
@@ -669,7 +549,6 @@ model AccountabilityData {
   transferValue    Float?
   counterpartValue Float?
   yieldValue       Float?
-  
 
   @@map(name: \\"accountabilities_data\\")
 }"
@@ -682,13 +561,10 @@ datasource DS {
   url      = env(\\"DATABASE_URL\\")
 }
 
-
-
 generator client {
   provider      = \\"prisma-client-js\\"
   binaryTargets = \\"native\\"
 }
-
 
 /// Define your own datamodels here and run \`yarn redwood db save\` to create
 /// migrations for them.
@@ -705,15 +581,11 @@ model Post {
   postedAt DateTime?
 }
 
-
-
 model Tag {
   id    Int    @id @default(autoincrement())
   name  String @unique
   posts Post[]
 }
-
-
 
 model User {
   id      Int     @id @default(autoincrement())
@@ -725,8 +597,6 @@ model User {
 
 exports[`printSchema print star.prisma 1`] = `
 "// an example from prisma with some atypical syntax to parse
-
-
 
 model Star {
   id       Int                    @id @default(autoincrement())
@@ -743,7 +613,6 @@ datasource db {
   url      = env(\\"DATABASE_URL\\")
 }
 
-
 // this is foo
 
 generator foo {
@@ -751,17 +620,13 @@ generator foo {
   provider = \\"nexus\\"
 }
 
-
-
 model Bar {
-  id                                 Int    @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
-  name                               String @unique
-  
+  id   Int    @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
+  name String @unique
 
   supercalifragilisticexpialidocious String @default(\\"it is something quite atrocious\\")
+  owner                              String
 }
-
-
 
 enum Role {
   USER

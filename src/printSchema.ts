@@ -4,7 +4,8 @@ export function printSchema(schema: Types.Schema): string {
   return schema.list
     .map(printBlock)
     .filter(Boolean)
-    .join('\n');
+    .join('\n')
+    .replace(/(\n\s*){3,}/g, '\n\n');
 }
 
 function printBlock(block: Types.Block): string {
@@ -35,17 +36,7 @@ function printBreak() {
 }
 
 function printDatasource(db: Types.Datasource) {
-  // FIXME: indent reset on 'break'
-  // not super high priority because the IntrospectionEngine will autoformat
-  const keyLength = db.assignments.reduce(
-    (max, current) =>
-      Math.max(max, current.type === 'assignment' ? current.key.length : 0),
-    0
-  );
-  const children = db.assignments
-    .map(assignment => printAssignment(assignment, keyLength))
-    .filter(Boolean)
-    .join('\n  ');
+  const children = computeAssignmentFormatting(db.assignments);
 
   return `
 datasource ${db.name} {
@@ -57,7 +48,8 @@ function printEnum(enumerator: Types.Enum) {
   const children = enumerator.enumerators
     .map(printEnumerator)
     .filter(Boolean)
-    .join('\n  ');
+    .join('\n  ')
+    .replace(/(\n\s*){3,}/g, '\n\n  ');
 
   return `
 enum ${enumerator.name} {
@@ -81,16 +73,7 @@ function printEnumerator(
 }
 
 function printGenerator(generator: Types.Generator) {
-  const keyLength = generator.assignments.reduce(
-    (max, current) =>
-      Math.max(max, current.type === 'assignment' ? current.key.length : 0),
-    0
-  );
-
-  const children = generator.assignments
-    .map(assignment => printAssignment(assignment, keyLength))
-    .filter(Boolean)
-    .join('\n  ');
+  const children = computeAssignmentFormatting(generator.assignments);
 
   return `
 generator ${generator.name} {
@@ -99,25 +82,57 @@ generator ${generator.name} {
 }
 
 function printModel(model: Types.Model) {
-  const nameLength = model.properties.reduce(
-    (max, current) =>
-      Math.max(max, current.type === 'field' ? current.name.length : 0),
-    0
+  let pos = 0;
+  const listBlocks = model.properties.reduce<Array<typeof model.properties>>(
+    (memo, current, index, arr) => {
+      if (current.type !== 'field') return memo;
+      if (index > 0 && arr[index - 1].type !== 'field') memo[++pos] = [];
+      memo[pos].push(current);
+      return memo;
+    },
+    [[]]
   );
 
-  const typeLength = model.properties.reduce(
-    (max, current) =>
-      Math.max(
-        max,
-        current.type === 'field' ? printFieldType(current).length : 0
-      ),
-    0
+  const nameLengths = listBlocks.map(lists =>
+    lists.reduce(
+      (max, current) =>
+        Math.max(
+          max,
+          // perhaps someone more typescript-savy than I am can fix this
+          current.type === 'field' ? current.name.length : 0
+        ),
+      0
+    )
+  );
+
+  const typeLengths = listBlocks.map(lists =>
+    lists.reduce(
+      (max, current) =>
+        Math.max(
+          max,
+          // perhaps someone more typescript-savy than I am can fix this
+          current.type === 'field' ? printFieldType(current).length : 0
+        ),
+      0
+    )
   );
 
   const children = model.properties
-    .map(prop => printProperty(prop, nameLength, typeLength))
+    .map((prop, index, arr) => {
+      if (
+        index > 0 &&
+        prop.type === 'field' &&
+        arr[index - 1].type !== 'field'
+      ) {
+        nameLengths.shift();
+        typeLengths.shift();
+      }
+
+      return printProperty(prop, nameLengths[0], typeLengths[0]);
+    })
     .filter(Boolean)
-    .join('\n  ');
+    .join('\n  ')
+    .replace(/(\n\s*){3,}/g, '\n\n  ');
 
   return `
 model ${model.name} {
@@ -226,4 +241,45 @@ function printValue(value: Types.KeyValue | Types.Value): string {
     default:
       return String(value);
   }
+}
+
+function computeAssignmentFormatting(
+  list: Array<Types.Comment | Types.Break | Types.Assignment>
+) {
+  let pos = 0;
+  const listBlocks = list.reduce<Array<typeof list>>(
+    (memo, current, index, arr) => {
+      if (current.type !== 'assignment') return memo;
+      if (index > 0 && arr[index - 1].type !== 'assignment') memo[++pos] = [];
+      memo[pos].push(current);
+      return memo;
+    },
+    [[]]
+  );
+
+  const keyLengths = listBlocks.map(lists =>
+    lists.reduce(
+      (max, current) =>
+        Math.max(
+          max,
+          // perhaps someone more typescript-savy than I am can fix this
+          current.type === 'assignment' ? current.key.length : 0
+        ),
+      0
+    )
+  );
+
+  return list
+    .map((item, index, arr) => {
+      if (
+        index > 0 &&
+        item.type === 'assignment' &&
+        arr[index - 1].type !== 'assignment'
+      )
+        keyLengths.shift();
+      return printAssignment(item, keyLengths[0]);
+    })
+    .filter(Boolean)
+    .join('\n  ')
+    .replace(/(\n\s*){3,}/g, '\n\n  ');
 }

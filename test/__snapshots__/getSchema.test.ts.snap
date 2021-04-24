@@ -7105,6 +7105,13 @@ exports[`getSchema parse test.prisma 1`] = `
               ]
             }
           ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"owner\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false
         }
       ]
     },
