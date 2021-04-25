@@ -52,17 +52,27 @@ schema.list.push({
 })
 ```
 
-### Add an enum
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+### Add a generator
 
 ```ts
 schema.list.push({
-  type: "enum",
-  name: "Role",
-  enumerators: [
-    {type: "enumerator", name: "USER"},
-    {type: "enumerator", name: "ADMIN"},
-  ],
+  type: "generator",
+  name: "nexusPrisma",
+  assignments: [{type: "assignment", key: "provider", value: '"nexus-prisma"'}],
 })
+```
+
+```prisma
+generator nexusPrisma {
+  provider = "nexus-prisma"
+}
 ```
 
 ### Add a model
@@ -77,6 +87,12 @@ const model = schema.list.push({
 })
 ```
 
+```prisma
+model Project {
+  name String
+}
+```
+
 ### Add a field to a model
 
 ```ts
@@ -87,6 +103,13 @@ const field = model.properties.push({
   optional: false,
   attributes: [{type: "attribute", kind: "field", name: "unique"}],
 })
+```
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+}
 ```
 
 ### Add an index to a model
@@ -100,14 +123,32 @@ model.properties.push({
 })
 ```
 
-### Add a generator
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+  @@index([name])
+}
+```
+
+### Add an enum
 
 ```ts
 schema.list.push({
-  type: "generator",
-  name: "nexusPrisma",
-  assignments: [{type: "assignment", key: "provider", value: '"nexus-prisma"'}],
+  type: "enum",
+  name: "Role",
+  enumerators: [
+    {type: "enumerator", name: "USER"},
+    {type: "enumerator", name: "ADMIN"},
+  ],
 })
+```
+
+```prisma
+enum Role {
+  USER
+  ADMIN
+}
 ```
 
 ### Comments and Line breaks are also parsed and can be added to the schema
@@ -119,4 +160,14 @@ model.properties.push({
   type: "comment",
   text: "// I wish I could add a color to your rainbow"
 })
+```
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+  @@index([name])
+
+  // I wish I could add a color to your rainbow
+}
 ```
