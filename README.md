@@ -32,7 +32,7 @@ const schema = getSchema(source)
 ### Print a schema back out as a string
 
 ```ts
-import { printSchema } from 'mrleebo/prisma-ast'
+import { printSchema } from '@mrleebo/prisma-ast'
 
 const source = printSchema(schema)
 ```
