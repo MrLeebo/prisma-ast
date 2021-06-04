@@ -29,4 +29,6 @@ model Bar {
 enum Role {
   USER
   ADMIN
+
+  @@map("membership_role")
 }

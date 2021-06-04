@@ -7167,6 +7167,20 @@ exports[`getSchema parse test.prisma 1`] = `
         {
           \\"type\\": \\"enumerator\\",
           \\"name\\": \\"ADMIN\\"
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"map\\",
+          \\"kind\\": \\"model\\",
+          \\"args\\": [
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": \\"\\\\\\"membership_role\\\\\\"\\"
+            }
+          ]
         }
       ]
     }

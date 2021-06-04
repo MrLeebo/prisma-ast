@@ -93,10 +93,7 @@ export class PrismaParser extends CstParser {
           GATE: () => isModel,
           ALT: () => this.SUBRULE(this.property, { LABEL: 'list' }),
         },
-        {
-          GATE: () => isModel,
-          ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }),
-        },
+        { ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }) },
         {
           GATE: () => isModel,
           ALT: () => this.SUBRULE(this.field, { LABEL: 'list' }),

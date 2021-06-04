@@ -61,11 +61,13 @@ enum ${enumerator.name} {
 }
 
 function printEnumerator(
-  enumerator: Types.Enumerator | Types.Comment | Types.Break
+  enumerator: Types.Enumerator | Types.Attribute | Types.Comment | Types.Break
 ) {
   switch (enumerator.type) {
     case 'enumerator':
       return enumerator.name;
+    case 'attribute':
+      return printAttribute(enumerator);
     case 'comment':
       return printComment(enumerator);
     case 'break':
