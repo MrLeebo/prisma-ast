@@ -7142,7 +7142,21 @@ exports[`getSchema parse test.prisma 1`] = `
           \\"name\\": \\"alphabet\\",
           \\"fieldType\\": \\"String\\",
           \\"array\\": false,
-          \\"optional\\": false
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"VarChar\\",
+              \\"kind\\": \\"field\\",
+              \\"group\\": \\"db\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": \\"26\\"
+                }
+              ]
+            }
+          ]
         },
         {
           \\"type\\": \\"field\\",
@@ -7181,6 +7195,12 @@ exports[`getSchema parse test.prisma 1`] = `
               \\"value\\": \\"\\\\\\"membership_role\\\\\\"\\"
             }
           ]
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"special\\",
+          \\"kind\\": \\"model\\",
+          \\"group\\": \\"db\\"
         }
       ]
     }

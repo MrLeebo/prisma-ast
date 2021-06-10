@@ -634,7 +634,7 @@ model Bar {
 
   /// test
 
-  alphabet String
+  alphabet String @db.VarChar(26)
   number   Int
 }
 
@@ -643,6 +643,7 @@ enum Role {
   ADMIN
 
   @@map(\\"membership_role\\")
+  @@db.special
 }
 "
 `;

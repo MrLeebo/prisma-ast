@@ -139,7 +139,10 @@ function printAttribute(attribute: Types.Attribute | Types.ModelAttribute) {
           .join(', ')})`
       : '';
 
-  return `${attribute.kind === 'field' ? '@' : '@@'}${attribute.name}${args}`;
+  const name = [attribute.name];
+  if (attribute.group) name.unshift(attribute.group);
+
+  return `${attribute.kind === 'field' ? '@' : '@@'}${name.join('.')}${args}`;
 }
 
 function printAttributeArg(arg: Types.AttributeArgument) {
