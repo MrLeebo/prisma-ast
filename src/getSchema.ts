@@ -68,7 +68,7 @@ export interface Enumerator {
 export interface ModelAttribute {
   type: 'attribute';
   kind: 'model';
-  group: string;
+  group?: string;
   name: string;
   args: AttributeArgument[];
 }
@@ -93,7 +93,7 @@ export type Attr =
 export interface Attribute {
   type: 'attribute';
   kind: 'field';
-  group: string;
+  group?: string;
   name: string;
   args?: AttributeArgument[];
 }
