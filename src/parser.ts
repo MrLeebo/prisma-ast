@@ -3,7 +3,7 @@ import * as lexer from './lexer';
 
 export class PrismaParser extends CstParser {
   constructor() {
-    super(lexer.allTokens);
+    super(lexer.multiModeTokens);
     this.performSelfAnalysis();
   }
 
