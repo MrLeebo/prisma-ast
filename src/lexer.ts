@@ -1,4 +1,4 @@
-import {createToken, Lexer, IMultiModeLexerDefinition} from 'chevrotain';
+import { createToken, Lexer, IMultiModeLexerDefinition } from 'chevrotain';
 
 export const Identifier = createToken({
   name: 'Identifier',
@@ -7,22 +7,22 @@ export const Identifier = createToken({
 export const Datasource = createToken({
   name: 'Datasource',
   pattern: /datasource/,
-  push_mode: 'block'
+  push_mode: 'block',
 });
 export const Generator = createToken({
   name: 'Generator',
   pattern: /generator/,
-  push_mode: 'block'
+  push_mode: 'block',
 });
 export const Model = createToken({
   name: 'Model',
   pattern: /model/,
-  push_mode: 'block'
+  push_mode: 'block',
 });
 export const Enum = createToken({
   name: 'Enum',
   pattern: /enum/,
-  push_mode: 'block'
+  push_mode: 'block',
 });
 export const True = createToken({
   name: 'True',
@@ -94,7 +94,7 @@ export const RCurly = createToken({
   name: 'RCurly',
   pattern: /}/,
   label: "'}'",
-  pop_mode:true
+  pop_mode: true,
 });
 export const LRound = createToken({
   name: 'LRound',
@@ -151,23 +151,11 @@ export const LineBreak = createToken({
   label: 'LineBreak',
 });
 
-const naTokens = [
-  Comment,
-  DocComment,
-  LineComment,
-  LineBreak,
-  WhiteSpace,
-]
+const naTokens = [Comment, DocComment, LineComment, LineBreak, WhiteSpace];
 
 export const multiModeTokens: IMultiModeLexerDefinition = {
   modes: {
-    global: [
-      ...naTokens,
-      Datasource,
-      Generator,
-      Model,
-      Enum
-    ],
+    global: [...naTokens, Datasource, Generator, Model, Enum],
     block: [
       ...naTokens,
       Attribute,
@@ -191,9 +179,9 @@ export const multiModeTokens: IMultiModeLexerDefinition = {
       StringLiteral,
       NumberLiteral,
       Identifier,
-    ]
+    ],
   },
-  defaultMode: 'global'
-}
+  defaultMode: 'global',
+};
 
 export const PrismaLexer = new Lexer(multiModeTokens);

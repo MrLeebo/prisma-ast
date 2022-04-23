@@ -65,7 +65,7 @@ function printEnumerator(
 ) {
   switch (enumerator.type) {
     case 'enumerator':
-      return enumerator.name;
+      return [enumerator.name, enumerator.comment].filter(Boolean).join(' ');
     case 'attribute':
       return printAttribute(enumerator);
     case 'comment':
@@ -153,10 +153,14 @@ function printField(field: Types.Field, nameLength = 0, typeLength = 0) {
   const name = field.name.padEnd(nameLength);
   const fieldType = printFieldType(field).padEnd(typeLength);
   const attrs = field.attributes ? field.attributes.map(printAttribute) : [];
-  return [name, fieldType, ...attrs]
-    .filter(Boolean)
-    .join(' ')
-    .trim();
+  const comment = field.comment;
+  return (
+    [name, fieldType, ...attrs]
+      .filter(Boolean)
+      .join(' ')
+      // comments ignore indents
+      .trim() + (comment ? ` ${comment}` : '')
+  );
 }
 
 function printFieldType(field: Types.Field) {

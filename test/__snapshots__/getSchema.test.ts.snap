@@ -6912,7 +6912,8 @@ exports[`getSchema parse example.prisma 1`] = `
           \\"name\\": \\"enum\\",
           \\"fieldType\\": \\"String\\",
           \\"array\\": false,
-          \\"optional\\": false
+          \\"optional\\": false,
+          \\"comment\\": \\"// inline comment\\"
         }
       ]
     },
@@ -6925,11 +6926,13 @@ exports[`getSchema parse example.prisma 1`] = `
       \\"enumerators\\": [
         {
           \\"type\\": \\"enumerator\\",
-          \\"name\\": \\"USER\\"
+          \\"name\\": \\"USER\\",
+          \\"comment\\": \\"// basic role\\"
         },
         {
           \\"type\\": \\"enumerator\\",
-          \\"name\\": \\"ADMIN\\"
+          \\"name\\": \\"ADMIN\\",
+          \\"comment\\": \\"// more powerful role\\"
         }
       ]
     }
@@ -7501,7 +7504,8 @@ exports[`getSchema parse test.prisma 1`] = `
           \\"name\\": \\"owner\\",
           \\"fieldType\\": \\"String\\",
           \\"array\\": false,
-          \\"optional\\": false
+          \\"optional\\": false,
+          \\"comment\\": \\"// test\\"
         },
         {
           \\"type\\": \\"break\\"
