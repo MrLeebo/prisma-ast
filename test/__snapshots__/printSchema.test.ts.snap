@@ -589,12 +589,12 @@ model Post {
   model      String
   generator  String
   datasource String
-  enum       String
+  enum       String // inline comment
 }
 
 enum Role {
-  USER
-  ADMIN
+  USER // basic role
+  ADMIN // more powerful role
 }
 "
 `;
@@ -674,7 +674,7 @@ model Bar {
   name String @unique
 
   supercalifragilisticexpialidocious String @default(\\"it is something quite atrocious\\")
-  owner                              String
+  owner                              String // test
 
   /// test
 

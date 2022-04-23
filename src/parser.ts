@@ -69,7 +69,7 @@ export class PrismaParser extends CstParser {
   private field = this.RULE('field', () => {
     this.CONSUME(lexer.Identifier, { LABEL: 'fieldName' });
     this.SUBRULE(this.value, { LABEL: 'fieldType' });
-    this.OPTION(() => {
+    this.OPTION1(() => {
       this.OR([
         { ALT: () => this.CONSUME(lexer.Array, { LABEL: 'array' }) },
         { ALT: () => this.CONSUME(lexer.QuestionMark, { LABEL: 'optional' }) },
@@ -77,6 +77,9 @@ export class PrismaParser extends CstParser {
     });
     this.MANY(() => {
       this.SUBRULE(this.attribute, { LABEL: 'attributeList' });
+    });
+    this.OPTION2(() => {
+      this.CONSUME(lexer.Comment, { LABEL: 'comment' });
     });
   });
 
@@ -115,6 +118,9 @@ export class PrismaParser extends CstParser {
 
   private enum = this.RULE('enum', () => {
     this.CONSUME(lexer.Identifier, { LABEL: 'enumName' });
+    this.OPTION(() => {
+      this.CONSUME(lexer.Comment, { LABEL: 'comment' });
+    });
   });
   private attribute = this.RULE('attribute', () => {
     this.OR1([

@@ -31,10 +31,10 @@ model Post {
   model      String
   generator  String
   datasource String
-  enum       String
+  enum       String // inline comment
 }
 
 enum Role {
-  USER
-  ADMIN
+  USER // basic role
+  ADMIN // more powerful role
 }

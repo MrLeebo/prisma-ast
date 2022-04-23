@@ -63,6 +63,7 @@ export interface Enumerator {
   type: 'enumerator';
   name: string;
   value?: Value;
+  comment?: string;
 }
 
 export interface ModelAttribute {
@@ -82,6 +83,7 @@ export interface Field {
   array?: boolean;
   optional?: boolean;
   attributes?: Attribute[];
+  comment?: string;
 }
 
 export type Attr =

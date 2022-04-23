@@ -67,12 +67,14 @@ export class PrismaVisitor extends BasePrismaVisitor {
       array: [IToken];
       optional: [IToken];
       attributeList: CstNode[];
+      comment: [IToken];
     }
   ): Types.Field {
     const fieldType = this.visit(ctx.fieldType);
     const [{ image: name }] = ctx.fieldName;
     const attributes =
       ctx.attributeList && ctx.attributeList.map(item => this.visit([item]));
+    const comment = ctx.comment?.[0]?.image;
     return {
       type: 'field',
       name,
@@ -80,6 +82,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
       array: ctx.array != null,
       optional: ctx.optional != null,
       attributes,
+      comment,
     };
   }
 
@@ -133,9 +136,12 @@ export class PrismaVisitor extends BasePrismaVisitor {
     return this.visit(ctx.value);
   }
 
-  enum(ctx: CstNode & { enumName: [IToken] }): Types.Enumerator {
+  enum(
+    ctx: CstNode & { enumName: [IToken]; comment: [IToken] }
+  ): Types.Enumerator {
     const [{ image: name }] = ctx.enumName;
-    return { type: 'enumerator', name };
+    const comment = ctx.comment?.[0]?.image;
+    return { type: 'enumerator', name, comment };
   }
 }
 

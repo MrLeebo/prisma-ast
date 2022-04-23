@@ -16,7 +16,7 @@ model Bar {
   name String @unique
 
   supercalifragilisticexpialidocious String @default("it is something quite atrocious")
-  owner                              String
+  owner                              String // test
 
 
   /// test
