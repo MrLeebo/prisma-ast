@@ -69,7 +69,7 @@ builder.model('User')
   .attribute('default', [{ function: 'autoincrement' }])
   .field('name', 'String')
   .attribute('unique')
-  .index(['name'])
+  .blockAttribute('index', ['name'])
 
 const output = builder.print()
 ```
