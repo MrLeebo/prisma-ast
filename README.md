@@ -183,7 +183,7 @@ model Project {
 If the entered model name already exists, that model will be used as the subject for any field and attribute calls that follow.
 
 ```ts
-builder.model('Project').field('projectCode', 'String').attribute('unique)
+builder.model('Project').field('projectCode', 'String').attribute('unique')
 ```
 
 ```prisma
