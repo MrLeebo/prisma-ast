@@ -17,7 +17,7 @@ npm install @mrleebo/prisma-ast
 ### Produce a modified schema by building upon an existing schema
 
 ```ts
-produceSchema(source: string, (builder: PrismaSchemaBuilder) => unknown, printOptions?: PrintOptions): string
+produceSchema(source: string, (builder: PrismaSchemaBuilder) => void, printOptions?: PrintOptions): string
 ```
 
 produceSchema is the simplest way to interact with prisma-ast; you input your schema source and a producer function to produce modifications to it, and it will output the schema source with your modifications applied.
