@@ -1,9 +1,28 @@
 import * as Types from './getSchema';
 import { EOL } from 'os';
+import { schemaSorter } from './schemaSorter';
 
-export function printSchema(schema: Types.Schema): string {
+export interface PrintOptions {
+  sort?: boolean;
+  locales?: string | string[];
+  sortOrder?: Array<'generator' | 'datasource' | 'model' | 'enum'>;
+}
+
+export function printSchema(
+  schema: Types.Schema,
+  options: PrintOptions = {}
+): string {
+  const { sort = false, locales = undefined, sortOrder = undefined } = options;
+  let blocks = schema.list;
+  if (sort) {
+    // no point in preserving line breaks when re-sorting
+    blocks = schema.list = blocks.filter(block => block.type !== 'break');
+    const sorter = schemaSorter(schema, locales, sortOrder);
+    blocks.sort(sorter);
+  }
+
   return (
-    schema.list
+    blocks
       .map(printBlock)
       .filter(Boolean)
       .join(EOL)

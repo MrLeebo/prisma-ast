@@ -569,12 +569,13 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  email     String    @unique
   name      String?
-  role      Role     @default(USER)
+  role      Role      @default(USER)
   posts     Post[]
+  projects  Project[]
 }
 
 model Post {
@@ -590,6 +591,25 @@ model Post {
   generator  String
   datasource String
   enum       String // inline comment
+
+  @@map(\\"posts\\")
+}
+
+model Project {
+  client      User     @relation(fields: [clientId], references: [id])
+  clientId    Int
+  projectCode String
+  dueDate     DateTime
+
+  @@id([projectCode])
+  @@unique([clientId, projectCode])
+  @@index([dueDate])
+}
+
+model Model {
+  id Int @id
+
+  @@ignore
 }
 
 enum Role {
@@ -688,6 +708,41 @@ enum Role {
 
   @@map(\\"membership_role\\")
   @@db.special
+}
+"
+`;
+
+exports[`printSchema print unsorted.prisma 1`] = `
+"
+enum Role {
+  ADMIN
+  OWNER // similar to ADMIN, but can delete the project
+  MEMBER
+  USER // deprecated
+}
+
+datasource db {
+  url      = env(\\"DATABASE_URL\\")
+  provider = \\"postgresql\\"
+}
+
+// this is a comment
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  role      Role     @default(MEMBER)
+}
+
+generator client {
+  provider = \\"prisma-client-js\\"
+}
+
+model AppSetting {
+  key   String @id
+  value Json
 }
 "
 `;

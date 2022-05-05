@@ -1,0 +1,29 @@
+enum Role {
+  ADMIN
+  OWNER // similar to ADMIN, but can delete the project
+  MEMBER
+  USER // deprecated
+}
+
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+// this is a comment
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  role      Role     @default(MEMBER)
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AppSetting {
+  key   String @id
+  value Json
+}

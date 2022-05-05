@@ -14,7 +14,246 @@ npm install @mrleebo/prisma-ast
 
 ## Examples
 
-### Parse a schema.prisma file into a JS object
+### Produce a modified schema by building upon an existing schema
+
+```ts
+produceSchema(source: string, (builder: PrismaSchemaBuilder) => unknown, printOptions?: PrintOptions): string
+```
+
+produceSchema is the simplest way to interact with prisma-ast; you input your schema source and a producer function to produce modifications to it, and it will output the schema source with your modifications applied.
+
+```ts
+import { produceSchema } from '@mrleebo/prisma-ast'
+
+const input = `
+model User {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+`
+
+const output = produceSchema(source, (builder) => {
+  builder
+    .model("AppSetting")
+    .field('key', 'String', [{ name: 'id' }])
+    .field('value', 'Json')
+})
+```
+
+```prisma
+model User {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model AppSetting {
+  key   String @id
+  value Json
+}
+```
+
+For more information about what the builder can do, check out the [PrismaSchemaBuilder](#prismaschemabuilder) class.
+
+### PrismaSchemaBuilder
+
+The `produceSchema()` utility will construct a builder for you, but you can also create your own instance, which may be useful for more interactive use-cases.
+
+```ts
+import { createPrismaSchemaBuilder } from '@mrleebo/prisma-ast'
+
+const builder = createPrismaSchemaBuilder(source)
+
+builder.model('User')
+  .field('id', 'Int', [{ name: 'id' }, { name: 'default', type: 'function', args: [{ name: 'autoincrement', type: 'function' }] }])
+  .attribute('id')
+  .attribute('default', [{ function: 'autoincrement' }])
+  .field('name', 'String')
+  .attribute('unique')
+  .index(['name'])
+
+const output = builder.print()
+```
+
+### Re-sort the schema
+
+prisma-ast can sort the schema for you. The default sort order is `['generator', 'datasource', 'model', 'enum']` and will sort objects of the same type alphabetically.
+
+```ts
+print(options?: { 
+  sort: boolean,
+  locales?: string | string[],
+  sortOrder?: Array<'generator' | 'datasource' | 'model' | 'enum'>
+})
+```
+
+You can optionally set your own sort order, or change the locale used by the sort.
+
+```ts
+// sort with default parameters
+builder.print({ sort: true })
+
+// sort with options
+builder.print({ 
+  sort: true, locales: 'en-US', sortOrder: ['datasource', 'generator', 'model', 'enum']
+});
+```
+
+### Set a datasource
+
+Since a schema can only have one datasource, calling this command will override the existing datasource if the schema already has one, or create a datasource block if it doesn't.
+
+```ts
+datasource(provider: string, url: string | { env: string })
+```
+
+You can set a datasource by passing in the provider and url parameters.
+
+```ts
+builder.datasource('postgresql', { env: 'DATABASE_URL' })
+```
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+### Add or update a generator
+
+```ts
+generator(name: string, provider: string)
+```
+
+If the schema already has a generator with the given name, it will be updated. Otherwise, a new generator will be created.
+
+```ts
+builder.generator('nexusPrisma', 'nexus-prisma')
+```
+
+```prisma
+generator nexusPrisma {
+  provider = "nexus-prisma"
+}
+```
+
+### Adding additional assignments to generators
+
+```ts
+assignment(key: string, value: string)
+```
+
+If your generator accepts additional assignments, they can be added by chaining .assignment() calls to your generator.
+
+```ts
+builder.generator('client', 'prisma-client-js').assignment('output', 'db.js')
+```
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+  output = "db.js"
+}
+```
+
+### Add or update a model
+
+If the model with that name already exists in the schema, it will be selected and any fields that follow will be appended to the model. Otherwise, the model will be created and added to the schema.
+
+```ts
+builder.model('Project').field('name', 'String')
+```
+
+```prisma
+model Project {
+  name String
+}
+```
+
+### Add a field with an attribute to a model
+
+If the entered model name already exists, that model will be used as the subject for any field and attribute calls that follow.
+
+```ts
+builder.model('Project').field('projectCode', 'String').attribute('unique)
+```
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+}
+```
+
+### Add an index to a model
+
+```ts
+builder.model('Project').blockAttribute('index', ['name'])
+```
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+  @@index([name])
+}
+```
+
+### Add an enum
+
+```ts
+builder.enum('Role', ['USER', 'ADMIN'])
+```
+
+```prisma
+enum Role {
+  USER
+  ADMIN
+}
+```
+
+Additional enumerators can also be added to an existing Enum
+
+```ts
+builder.enum('Role').break().comment("New role added for feature #12").enumerator('ORGANIZATION')
+```
+
+```prisma
+enum Role {
+  USER
+  ADMIN
+
+  // New role added for feature #12
+  ORGANIZATION
+}
+```
+
+### Comments and Line breaks are also parsed and can be added to the schema
+
+```ts
+builder
+  .model("Project")
+  .break()
+  .comment("I wish I could add a color to your rainbow")
+```
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+  @@index([name])
+
+  // I wish I could add a color to your rainbow
+}
+```
+
+## Underlying utility functions
+
+The `produceSchema` and `createPrismaSchemaBuilder` functions are intended to be your interface for interacting with the prisma schema, but you can also get direct access to the AST representation if you need to edit the schema for more advanced usages that aren't covered by the methods above.
+
+### Parse a schema.prisma file into an AST object
+
+The shape of the AST is not fully documented, and it is more likely to change than the builder API.
 
 ```ts
 import { getSchema } from '@mrleebo/prisma-ast'
@@ -29,7 +268,9 @@ model User {
 const schema = getSchema(source)
 ```
 
-### Print a schema back out as a string
+### Print a schema AST back out as a string
+
+This is what `builder.print()` calls internally, and is what you'd use to print if you called `getSchema()`.
 
 ```ts
 import { printSchema } from '@mrleebo/prisma-ast'
@@ -37,139 +278,8 @@ import { printSchema } from '@mrleebo/prisma-ast'
 const source = printSchema(schema)
 ```
 
-### Add a datasource
+You can optionally re-sort the schema. The default sort order is `['generator', 'datasource', 'model', 'enum']`, and objects with the same type are sorted alphabetically, but the sort order can be overridden.
 
 ```ts
-schema.list.push({
-  type: "datasource",
-  name: "db",
-  assignments: [
-    {type: "assignment", key: "provider", value: '"postgresql"'},
-    {
-      type: "assignment",
-      key: "url",
-      value: {type: "function", name: "env", params: ['"DATABASE_URL"']},
-    },
-  ],
-})
-```
-
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-
-### Add a generator
-
-```ts
-schema.list.push({
-  type: "generator",
-  name: "nexusPrisma",
-  assignments: [{type: "assignment", key: "provider", value: '"nexus-prisma"'}],
-})
-```
-
-```prisma
-generator nexusPrisma {
-  provider = "nexus-prisma"
-}
-```
-
-### Add a model
-
-```ts
-const model = schema.list.push({
-  type: "model",
-  name: "Project",
-  properties: [
-    { type: "field", name: "name", fieldType: "String" }
-  ]
-})
-```
-
-```prisma
-model Project {
-  name String
-}
-```
-
-### Add a field to a model
-
-```ts
-const field = model.properties.push({
-  type: "field",
-  name: "projectCode",
-  fieldType: "String",
-  optional: false,
-  attributes: [{type: "attribute", kind: "field", name: "unique"}],
-})
-```
-
-```prisma
-model Project {
-  name        String
-  projectCode String @unique
-}
-```
-
-### Add an index to a model
-
-```ts
-model.properties.push({
-  type: "attribute",
-  kind: "model",
-  name: "index",
-  args: [{ type: "attributeArgument", value: { type: "array", args: ["name"] } }]
-})
-```
-
-```prisma
-model Project {
-  name        String
-  projectCode String @unique
-  @@index([name])
-}
-```
-
-### Add an enum
-
-```ts
-schema.list.push({
-  type: "enum",
-  name: "Role",
-  enumerators: [
-    {type: "enumerator", name: "USER"},
-    {type: "enumerator", name: "ADMIN"},
-  ],
-})
-```
-
-```prisma
-enum Role {
-  USER
-  ADMIN
-}
-```
-
-### Comments and Line breaks are also parsed and can be added to the schema
-
-```ts
-model.properties.push({
-  type: "break"
-}, {
-  type: "comment",
-  text: "// I wish I could add a color to your rainbow"
-})
-```
-
-```prisma
-model Project {
-  name        String
-  projectCode String @unique
-  @@index([name])
-
-  // I wish I could add a color to your rainbow
-}
+const source = printSchema(schema, { sort: true, locales: "en-US", sortOrder: ["datasource", "generator", "model", "enum"] })
 ```

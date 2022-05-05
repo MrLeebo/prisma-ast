@@ -10,7 +10,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
   }
 
   schema(ctx: CstNode & { list: CstNode[] }): Types.Schema {
-    const list = ctx.list?.map(item => this.visit([item]));
+    const list = ctx.list?.map(item => this.visit([item])) || [];
     return { type: 'schema', list };
   }
 

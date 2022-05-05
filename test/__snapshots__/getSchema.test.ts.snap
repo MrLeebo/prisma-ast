@@ -6717,6 +6717,13 @@ exports[`getSchema parse example.prisma 1`] = `
           \\"fieldType\\": \\"Post\\",
           \\"array\\": true,
           \\"optional\\": false
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"projects\\",
+          \\"fieldType\\": \\"Project\\",
+          \\"array\\": true,
+          \\"optional\\": false
         }
       ]
     },
@@ -6914,6 +6921,175 @@ exports[`getSchema parse example.prisma 1`] = `
           \\"array\\": false,
           \\"optional\\": false,
           \\"comment\\": \\"// inline comment\\"
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"map\\",
+          \\"kind\\": \\"model\\",
+          \\"args\\": [
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": \\"\\\\\\"posts\\\\\\"\\"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"Project\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"client\\",
+          \\"fieldType\\": \\"User\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"relation\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"keyValue\\",
+                    \\"key\\": \\"fields\\",
+                    \\"value\\": {
+                      \\"type\\": \\"array\\",
+                      \\"args\\": [
+                        \\"clientId\\"
+                      ]
+                    }
+                  }
+                },
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"keyValue\\",
+                    \\"key\\": \\"references\\",
+                    \\"value\\": {
+                      \\"type\\": \\"array\\",
+                      \\"args\\": [
+                        \\"id\\"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"clientId\\",
+          \\"fieldType\\": \\"Int\\",
+          \\"array\\": false,
+          \\"optional\\": false
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"projectCode\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"dueDate\\",
+          \\"fieldType\\": \\"DateTime\\",
+          \\"array\\": false,
+          \\"optional\\": false
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"id\\",
+          \\"kind\\": \\"model\\",
+          \\"args\\": [
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": {
+                \\"type\\": \\"array\\",
+                \\"args\\": [
+                  \\"projectCode\\"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"unique\\",
+          \\"kind\\": \\"model\\",
+          \\"args\\": [
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": {
+                \\"type\\": \\"array\\",
+                \\"args\\": [
+                  \\"clientId\\",
+                  \\"projectCode\\"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"index\\",
+          \\"kind\\": \\"model\\",
+          \\"args\\": [
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": {
+                \\"type\\": \\"array\\",
+                \\"args\\": [
+                  \\"dueDate\\"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"Model\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"id\\",
+          \\"fieldType\\": \\"Int\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"id\\",
+              \\"kind\\": \\"field\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"ignore\\",
+          \\"kind\\": \\"model\\"
         }
       ]
     },
@@ -7581,6 +7757,212 @@ exports[`getSchema parse test.prisma 1`] = `
           \\"name\\": \\"special\\",
           \\"kind\\": \\"model\\",
           \\"group\\": \\"db\\"
+        }
+      ]
+    }
+  ]
+}"
+`;
+
+exports[`getSchema parse unsorted.prisma 1`] = `
+"{
+  \\"type\\": \\"schema\\",
+  \\"list\\": [
+    {
+      \\"type\\": \\"enum\\",
+      \\"name\\": \\"Role\\",
+      \\"enumerators\\": [
+        {
+          \\"type\\": \\"enumerator\\",
+          \\"name\\": \\"ADMIN\\"
+        },
+        {
+          \\"type\\": \\"enumerator\\",
+          \\"name\\": \\"OWNER\\",
+          \\"comment\\": \\"// similar to ADMIN, but can delete the project\\"
+        },
+        {
+          \\"type\\": \\"enumerator\\",
+          \\"name\\": \\"MEMBER\\"
+        },
+        {
+          \\"type\\": \\"enumerator\\",
+          \\"name\\": \\"USER\\",
+          \\"comment\\": \\"// deprecated\\"
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"datasource\\",
+      \\"name\\": \\"db\\",
+      \\"assignments\\": [
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"url\\",
+          \\"value\\": {
+            \\"type\\": \\"function\\",
+            \\"name\\": \\"env\\",
+            \\"params\\": [
+              \\"\\\\\\"DATABASE_URL\\\\\\"\\"
+            ]
+          }
+        },
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"provider\\",
+          \\"value\\": \\"\\\\\\"postgresql\\\\\\"\\"
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"comment\\",
+      \\"text\\": \\"// this is a comment\\"
+    },
+    {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"User\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"id\\",
+          \\"fieldType\\": \\"Int\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"id\\",
+              \\"kind\\": \\"field\\"
+            },
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"default\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"function\\",
+                    \\"name\\": \\"autoincrement\\"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"createdAt\\",
+          \\"fieldType\\": \\"DateTime\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"default\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"function\\",
+                    \\"name\\": \\"now\\"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"email\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"unique\\",
+              \\"kind\\": \\"field\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"name\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": true
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"role\\",
+          \\"fieldType\\": \\"Role\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"default\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": \\"MEMBER\\"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"generator\\",
+      \\"name\\": \\"client\\",
+      \\"assignments\\": [
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"provider\\",
+          \\"value\\": \\"\\\\\\"prisma-client-js\\\\\\"\\"
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"AppSetting\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"key\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"id\\",
+              \\"kind\\": \\"field\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"value\\",
+          \\"fieldType\\": \\"Json\\",
+          \\"array\\": false,
+          \\"optional\\": false
         }
       ]
     }
