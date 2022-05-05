@@ -61,10 +61,10 @@ The `produceSchema()` utility will construct a builder for you, but you can also
 ```ts
 import { createPrismaSchemaBuilder } from '@mrleebo/prisma-ast'
 
-const builder = createPrismaSchemaBuilder(source)
+const builder = createPrismaSchemaBuilder()
 
 builder.model('User')
-  .field('id', 'Int', [{ name: 'id' }, { name: 'default', type: 'function', args: [{ name: 'autoincrement', type: 'function' }] }])
+  .field('id', 'Int')
   .attribute('id')
   .attribute('default', [{ function: 'autoincrement' }])
   .field('name', 'String')
@@ -72,6 +72,14 @@ builder.model('User')
   .index(['name'])
 
 const output = builder.print()
+```
+
+```prisma
+model User {
+  id   Int @id @default(autoincrement())
+  name String @unique  
+  @@index([name])
+}
 ```
 
 ### Re-sort the schema
