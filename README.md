@@ -69,6 +69,8 @@ builder.model('User')
   .attribute('default', [{ function: 'autoincrement' }])
   .field('name', 'String')
   .attribute('unique')
+  .break()
+  .comment("this is a comment")
   .blockAttribute('index', ['name'])
 
 const output = builder.print()
@@ -77,7 +79,9 @@ const output = builder.print()
 ```prisma
 model User {
   id   Int @id @default(autoincrement())
-  name String @unique  
+  name String @unique
+
+  // this is a comment
   @@index([name])
 }
 ```
