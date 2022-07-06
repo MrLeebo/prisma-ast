@@ -11,12 +11,13 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  email     String    @unique
   name      String?
-  role      Role     @default(USER)
+  role      Role      @default(USER)
   posts     Post[]
+  projects  Project[]
 }
 
 model Post {
@@ -32,6 +33,25 @@ model Post {
   generator  String
   datasource String
   enum       String // inline comment
+
+  @@map("posts")
+}
+
+model Project {
+  client      User     @relation(fields: [clientId], references: [id])
+  clientId    Int
+  projectCode String
+  dueDate     DateTime
+
+  @@id([projectCode])
+  @@unique([clientId, projectCode])
+  @@index([dueDate])
+}
+
+model Model {
+  id Int @id
+
+  @@ignore
 }
 
 enum Role {

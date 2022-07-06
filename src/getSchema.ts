@@ -104,7 +104,7 @@ export type GroupedAttribute = Attribute & { group: string };
 
 export interface AttributeArgument {
   type: 'attributeArgument';
-  value: KeyValue | Value;
+  value: KeyValue | Value | Func;
 }
 
 export interface KeyValue {
