@@ -1,6 +1,6 @@
 # @mrleebo/prisma-ast
 
-This library uses an abstract syntax tree to parse schema.prisma files into an object in JavaScript. 
+This library uses an abstract syntax tree to parse schema.prisma files into an object in JavaScript. It also allows you to update your Prisma schema files using a Builder object pattern that is fully implemented in TypeScript.
 
 It is similar to [@prisma/sdk](https://github.com/prisma/prisma/tree/master/src/packages/sdk) except that it preserves comments and model attributes. It also doesn't attempt to validate the correctness of the schema at all; the focus is instead on the ability to parse the schema into an object, manipulate it using JavaScript, and re-print the schema back to a file without losing information that isn't captured by other parsers.
 
