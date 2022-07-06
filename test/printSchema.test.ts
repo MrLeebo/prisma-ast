@@ -69,7 +69,7 @@ model Foo {
     expect(
       printSchema(schema, {
         sort: true,
-        locales: 'en-US',
+        locales: undefined,
         sortOrder: ['generator', 'datasource', 'model', 'enum'],
       })
     ).toMatchInlineSnapshot(`
