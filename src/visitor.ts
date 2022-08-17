@@ -109,10 +109,12 @@ export class PrismaVisitor extends BasePrismaVisitor {
     return { type: 'attributeArgument', value };
   }
 
-  func(ctx: CstNode & { funcName: [IToken]; value: CstNode[] }): Types.Func {
+  func(ctx: CstNode & { funcName: [IToken]; value: CstNode[]; keyedArg: CstNode[] }): Types.Func {
     const [{ image: name }] = ctx.funcName;
     const params = ctx.value && ctx.value.map(item => this.visit([item]));
-    return { type: 'function', name, params };
+    const keyedParams = ctx.keyedArg && ctx.keyedArg.map(item => this.visit([item]));
+    const pars = (params || keyedParams) && [...(params ?? []), ...(keyedParams ?? [])];
+    return { type: 'function', name, params: pars };
   }
 
   array(ctx: CstNode & { value: CstNode[] }): Types.RelationArray {

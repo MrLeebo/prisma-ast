@@ -188,8 +188,7 @@ function printFieldType(field: Types.Field) {
   if (typeof field.fieldType === 'object') {
     switch (field.fieldType.type) {
       case 'function': {
-        const params = field.fieldType.params.map(printValue);
-        return `${field.fieldType.name}(${params})${suffix}`;
+        return `${printFunction(field.fieldType)}${suffix}`;
       }
       default:
         throw new Error(`Unexpected field type`);
@@ -197,6 +196,11 @@ function printFieldType(field: Types.Field) {
   }
 
   return `${field.fieldType}${suffix}`;
+}
+
+function printFunction(func: Types.Func) {
+  const params = func.params ? func.params.map(printValue) : '';
+  return `${func.name}(${params})`;
 }
 
 function printValue(value: Types.KeyValue | Types.Value): string {
@@ -207,11 +211,9 @@ function printValue(value: Types.KeyValue | Types.Value): string {
           case 'keyValue':
             return `${value.key}: ${printValue(value.value)}`;
           case 'function':
-            return `${value.name}(${
-              value.params ? value.params.map(printValue) : ''
-            })`;
+            return printFunction(value);
           case 'array':
-            return `[${value.args.join(', ')}]`;
+            return `[${value.args.map(printValue).join(', ')}]`;
           default:
             throw new Error(`Unexpected value type`);
         }

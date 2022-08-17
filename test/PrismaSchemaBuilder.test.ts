@@ -322,6 +322,14 @@ describe('PrismaSchemaBuilder', () => {
         USER // basic role
         ADMIN // more powerful role
       }
+
+      model Indexed {
+        id  String @id(map: \\"PK_indexed\\") @db.UniqueIdentifier
+        foo String @db.UniqueIdentifier
+        bar String @db.UniqueIdentifier
+
+        @@index([foo, bar(sort: Desc)], map: \\"IX_indexed_indexedFoo\\")
+      }
       "
     `);
   });
