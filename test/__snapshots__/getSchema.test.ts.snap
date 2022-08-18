@@ -7111,6 +7111,113 @@ exports[`getSchema parse example.prisma 1`] = `
           \\"comment\\": \\"// more powerful role\\"
         }
       ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"Indexed\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"id\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"id\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"keyValue\\",
+                    \\"key\\": \\"map\\",
+                    \\"value\\": \\"\\\\\\"PK_indexed\\\\\\"\\"
+                  }
+                }
+              ]
+            },
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"UniqueIdentifier\\",
+              \\"kind\\": \\"field\\",
+              \\"group\\": \\"db\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"foo\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"UniqueIdentifier\\",
+              \\"kind\\": \\"field\\",
+              \\"group\\": \\"db\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"bar\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"UniqueIdentifier\\",
+              \\"kind\\": \\"field\\",
+              \\"group\\": \\"db\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"attribute\\",
+          \\"name\\": \\"index\\",
+          \\"kind\\": \\"model\\",
+          \\"args\\": [
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": {
+                \\"type\\": \\"array\\",
+                \\"args\\": [
+                  \\"foo\\",
+                  {
+                    \\"type\\": \\"function\\",
+                    \\"name\\": \\"bar\\",
+                    \\"params\\": [
+                      {
+                        \\"type\\": \\"keyValue\\",
+                        \\"key\\": \\"sort\\",
+                        \\"value\\": \\"Desc\\"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              \\"type\\": \\"attributeArgument\\",
+              \\"value\\": {
+                \\"type\\": \\"keyValue\\",
+                \\"key\\": \\"map\\",
+                \\"value\\": \\"\\\\\\"IX_indexed_indexedFoo\\\\\\"\\"
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }"

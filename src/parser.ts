@@ -35,7 +35,10 @@ export class PrismaParser extends CstParser {
     this.MANY_SEP({
       SEP: lexer.Comma,
       DEF: () => {
-        this.SUBRULE(this.value);
+        this.OR([
+          { ALT: () => this.SUBRULE(this.keyedArg) },
+          { ALT: () => this.SUBRULE(this.value) }
+        ])
       },
     });
     this.CONSUME(lexer.RRound);
