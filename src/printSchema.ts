@@ -213,7 +213,9 @@ function printValue(value: Types.KeyValue | Types.Value): string {
           case 'function':
             return printFunction(value);
           case 'array':
-            return `[${value.args.map(printValue).join(', ')}]`;
+            return `[${
+              value.args != null ? value.args.map(printValue).join(', ') : ''
+            }]`;
           default:
             throw new Error(`Unexpected value type`);
         }

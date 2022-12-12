@@ -7223,6 +7223,126 @@ exports[`getSchema parse example.prisma 1`] = `
 }"
 `;
 
+exports[`getSchema parse links.prisma 1`] = `
+"{
+  \\"type\\": \\"schema\\",
+  \\"list\\": [
+    {
+      \\"type\\": \\"datasource\\",
+      \\"name\\": \\"db\\",
+      \\"assignments\\": [
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"provider\\",
+          \\"value\\": \\"\\\\\\"postgres\\\\\\"\\"
+        },
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"url\\",
+          \\"value\\": {
+            \\"type\\": \\"function\\",
+            \\"name\\": \\"env\\",
+            \\"params\\": [
+              \\"\\\\\\"DATABASE_URL\\\\\\"\\"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"generator\\",
+      \\"name\\": \\"client\\",
+      \\"assignments\\": [
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"provider\\",
+          \\"value\\": \\"\\\\\\"prisma-client-js\\\\\\"\\"
+        },
+        {
+          \\"type\\": \\"assignment\\",
+          \\"key\\": \\"binaryTargets\\",
+          \\"value\\": \\"\\\\\\"native\\\\\\"\\"
+        }
+      ]
+    },
+    {
+      \\"type\\": \\"break\\"
+    },
+    {
+      \\"type\\": \\"model\\",
+      \\"name\\": \\"UserProfile\\",
+      \\"properties\\": [
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"userID\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"id\\",
+              \\"kind\\": \\"field\\"
+            },
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"unique\\",
+              \\"kind\\": \\"field\\"
+            }
+          ]
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"comment\\",
+          \\"text\\": \\"/// A one liner\\"
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"bio\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": false,
+          \\"optional\\": true
+        },
+        {
+          \\"type\\": \\"break\\"
+        },
+        {
+          \\"type\\": \\"comment\\",
+          \\"text\\": \\"/// Hrefs which show under the user\\"
+        },
+        {
+          \\"type\\": \\"field\\",
+          \\"name\\": \\"links\\",
+          \\"fieldType\\": \\"String\\",
+          \\"array\\": true,
+          \\"optional\\": false,
+          \\"attributes\\": [
+            {
+              \\"type\\": \\"attribute\\",
+              \\"name\\": \\"default\\",
+              \\"kind\\": \\"field\\",
+              \\"args\\": [
+                {
+                  \\"type\\": \\"attributeArgument\\",
+                  \\"value\\": {
+                    \\"type\\": \\"array\\"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}"
+`;
+
 exports[`getSchema parse redwood.prisma 1`] = `
 "{
   \\"type\\": \\"schema\\",

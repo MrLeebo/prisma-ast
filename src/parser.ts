@@ -1,6 +1,7 @@
 import { CstParser } from 'chevrotain';
 import * as lexer from './lexer';
 
+type ComponentType = 'datasource' | 'generator' | 'model' | 'enum';
 export class PrismaParser extends CstParser {
   constructor() {
     super(lexer.multiModeTokens);
@@ -37,8 +38,8 @@ export class PrismaParser extends CstParser {
       DEF: () => {
         this.OR([
           { ALT: () => this.SUBRULE(this.keyedArg) },
-          { ALT: () => this.SUBRULE(this.value) }
-        ])
+          { ALT: () => this.SUBRULE(this.value) },
+        ]);
       },
     });
     this.CONSUME(lexer.RRound);
@@ -74,7 +75,12 @@ export class PrismaParser extends CstParser {
     this.SUBRULE(this.value, { LABEL: 'fieldType' });
     this.OPTION1(() => {
       this.OR([
-        { ALT: () => this.CONSUME(lexer.Array, { LABEL: 'array' }) },
+        {
+          ALT: () => {
+            this.CONSUME(lexer.LSquare, { LABEL: 'array' });
+            this.CONSUME(lexer.RSquare, { LABEL: 'array' });
+          },
+        },
         { ALT: () => this.CONSUME(lexer.QuestionMark, { LABEL: 'optional' }) },
       ]);
     });
@@ -86,38 +92,46 @@ export class PrismaParser extends CstParser {
     });
   });
 
-  private block = this.RULE('block', ({ componentType } = {}) => {
-    const isEnum = componentType === 'enum';
-    const isModel = componentType === 'model';
+  private block = this.RULE(
+    'block',
+    (
+      options: {
+        componentType?: ComponentType;
+      } = {}
+    ) => {
+      const { componentType } = options;
+      const isEnum = componentType === 'enum';
+      const isModel = componentType === 'model';
 
-    this.CONSUME(lexer.LCurly);
-    this.CONSUME1(lexer.LineBreak);
-    this.MANY(() => {
-      this.OR([
-        { ALT: () => this.SUBRULE(this.comment, { LABEL: 'list' }) },
-        {
-          GATE: () => isModel,
-          ALT: () => this.SUBRULE(this.property, { LABEL: 'list' }),
-        },
-        { ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }) },
-        {
-          GATE: () => isModel,
-          ALT: () => this.SUBRULE(this.field, { LABEL: 'list' }),
-        },
-        {
-          GATE: () => isEnum,
-          ALT: () => this.SUBRULE(this.enum, { LABEL: 'list' }),
-        },
-        {
-          GATE: () => !isModel,
-          ALT: () => this.SUBRULE(this.assignment, { LABEL: 'list' }),
-        },
-        { ALT: () => this.SUBRULE(this.break, { LABEL: 'list' }) },
-        { ALT: () => this.CONSUME2(lexer.LineBreak) },
-      ]);
-    });
-    this.CONSUME(lexer.RCurly);
-  });
+      this.CONSUME(lexer.LCurly);
+      this.CONSUME1(lexer.LineBreak);
+      this.MANY(() => {
+        this.OR([
+          { ALT: () => this.SUBRULE(this.comment, { LABEL: 'list' }) },
+          {
+            GATE: () => isModel,
+            ALT: () => this.SUBRULE(this.property, { LABEL: 'list' }),
+          },
+          { ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }) },
+          {
+            GATE: () => isModel,
+            ALT: () => this.SUBRULE(this.field, { LABEL: 'list' }),
+          },
+          {
+            GATE: () => isEnum,
+            ALT: () => this.SUBRULE(this.enum, { LABEL: 'list' }),
+          },
+          {
+            GATE: () => !isModel,
+            ALT: () => this.SUBRULE(this.assignment, { LABEL: 'list' }),
+          },
+          { ALT: () => this.SUBRULE(this.break, { LABEL: 'list' }) },
+          { ALT: () => this.CONSUME2(lexer.LineBreak) },
+        ]);
+      });
+      this.CONSUME(lexer.RCurly);
+    }
+  );
 
   private enum = this.RULE('enum', () => {
     this.CONSUME(lexer.Identifier, { LABEL: 'enumName' });
@@ -163,8 +177,12 @@ export class PrismaParser extends CstParser {
 
   private attributeArg = this.RULE('attributeArg', () => {
     this.OR([
-      { ALT: () => this.SUBRULE(this.keyedArg, { LABEL: 'value' }) },
-      { ALT: () => this.SUBRULE(this.value, { LABEL: 'value' }) },
+      {
+        ALT: () => this.SUBRULE(this.keyedArg, { LABEL: 'value' }),
+      },
+      {
+        ALT: () => this.SUBRULE(this.value, { LABEL: 'value' }),
+      },
     ]);
   });
 
@@ -188,7 +206,9 @@ export class PrismaParser extends CstParser {
       },
     ]);
 
-    this.SUBRULE(this.block, { ARGS: [{ componentType: type.image }] });
+    this.SUBRULE(this.block, {
+      ARGS: [{ componentType: type.image as ComponentType }],
+    });
   });
 
   private comment = this.RULE('comment', () => {

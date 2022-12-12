@@ -80,11 +80,6 @@ export const QuestionMark = createToken({
   pattern: /\?/,
   label: "'?'",
 });
-export const Array = createToken({
-  name: 'Array',
-  pattern: /\[\]/,
-  label: "'[]'",
-});
 export const LCurly = createToken({
   name: 'LCurly',
   pattern: /{/,
@@ -163,7 +158,6 @@ export const multiModeTokens: IMultiModeLexerDefinition = {
       FieldAttribute,
       Dot,
       QuestionMark,
-      Array,
       LCurly,
       RCurly,
       LSquare,

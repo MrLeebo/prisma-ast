@@ -1,0 +1,19 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+model UserProfile {
+  userID String @id @unique
+
+  /// A one liner
+  bio String?
+
+  /// Hrefs which show under the user
+  links String[] @default([])
+}
