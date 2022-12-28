@@ -17,6 +17,23 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('updates an existing generator', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .generator('client', 'prisma-client-js')
+      .assignment('output', 'client.js');
+    builder.generator('client').assignment('engineType', 'library');
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      generator client {
+        provider   = \\"prisma-client-js\\"
+        output     = \\"client.js\\"
+        engineType = \\"library\\"
+      }
+      "
+    `);
+  });
+
   it('sets the datasource', () => {
     const builder = createPrismaSchemaBuilder();
     builder.datasource('postgresql', { env: 'DATABASE_URL' });
@@ -126,6 +143,22 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('updates an existing enum', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder.enum('Role', ['USER', 'ADMIN']);
+    builder.enum('Role').enumerator('OWNER');
+
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      enum Role {
+        USER
+        ADMIN
+        OWNER
+      }
+      "
+    `);
+  });
+
   it('adds a field to an existing model', () => {
     const builder = createPrismaSchemaBuilder(`
     model Project {
@@ -133,14 +166,13 @@ describe('PrismaSchemaBuilder', () => {
     }
     `);
     builder.model('Project').field('description', 'String');
+    builder.model('Project').field('owner', 'String');
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       model Project {
-        name String
-      }
-
-      model Project {
+        name        String
         description String
+        owner       String
       }
       "
     `);

@@ -97,7 +97,7 @@ export class ConcretePrismaSchemaBuilder {
   }
 
   /** Adds or updates a generator block based on the name. */
-  generator(name: string, provider: string): this {
+  generator(name: string, provider = 'prisma-client-js'): this {
     const generator: schema.Generator = this.schema.list.reduce<
       schema.Generator
     >(
@@ -112,7 +112,7 @@ export class ConcretePrismaSchemaBuilder {
       }
     );
 
-    this.schema.list.push(generator);
+    if (!this.schema.list.includes(generator)) this.schema.list.push(generator);
     this._subject = generator;
     return this;
   }
@@ -156,20 +156,31 @@ export class ConcretePrismaSchemaBuilder {
 
   /** Adds or updates a model based on the name. Can be chained with .field() or .modelAttribute() to add to it. */
   model(name: string): this {
-    const model: schema.Model = { type: 'model', name, properties: [] };
-    this.schema.list.push(model);
+    const model = this.schema.list.reduce<schema.Model>(
+      (memo, block) =>
+        block.type === 'model' && block.name === name ? block : memo,
+      { type: 'model', name, properties: [] }
+    );
+    if (!this.schema.list.includes(model)) this.schema.list.push(model);
     this._subject = model;
     return this;
   }
 
   /** Adds or updates an enum based on the name. Can be chained with .enumerator() to add a value to it. */
   enum(name: string, enumeratorNames: string[] = []): this {
-    const e: schema.Enum = {
-      type: 'enum',
-      name,
-      enumerators: enumeratorNames.map(name => ({ type: 'enumerator', name })),
-    };
-    this.schema.list.push(e);
+    const e = this.schema.list.reduce<schema.Enum>(
+      (memo, block) =>
+        block.type === 'enum' && block.name === name ? block : memo,
+      {
+        type: 'enum',
+        name,
+        enumerators: enumeratorNames.map(name => ({
+          type: 'enumerator',
+          name,
+        })),
+      }
+    );
+    if (!this.schema.list.includes(e)) this.schema.list.push(e);
     this._subject = e;
     return this;
   }
