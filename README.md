@@ -197,6 +197,21 @@ model Project {
 }
 ```
 
+### Add an attribute to an existing field
+
+If the field already exists, you can add new attributes to it by making calls to `.attribute()`.
+
+```ts
+builder.model('Project').field('name').attribute('unique')
+```
+
+```prisma
+model Project {
+  name        String @unique
+  projectCode String @unique
+}
+```
+
 ### Add an index to a model
 
 ```ts

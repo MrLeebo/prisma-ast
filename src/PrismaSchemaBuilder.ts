@@ -410,8 +410,11 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
-  /** Add a field to the current model. The field can be customized further with one or more .attribute() calls. */
-  field(name: string, fieldType: string | schema.Func): this {
+  /**
+   * Adds or updates a field in the current model. The field can be customized
+   * further with one or more .attribute() calls.
+   * */
+  field(name: string, fieldType: string | schema.Func = 'String'): this {
     let subject = this.getSubject<schema.Model>();
     if (!subject || !('type' in subject) || subject.type !== 'model') {
       const parent = this.getParent<schema.Model>();
@@ -421,12 +424,17 @@ export class ConcretePrismaSchemaBuilder {
       subject = this._subject = parent;
     }
 
-    const field: schema.Field = {
-      type: 'field',
-      name,
-      fieldType,
-    };
-    subject.properties.push(field);
+    const field = subject.properties.reduce<schema.Field>(
+      (memo, block) =>
+        block.type === 'field' && block.name === name ? block : memo,
+      {
+        type: 'field',
+        name,
+        fieldType,
+      }
+    );
+
+    if (!subject.properties.includes(field)) subject.properties.push(field);
     this._parent = subject;
     this._subject = field;
     return this;

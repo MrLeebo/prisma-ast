@@ -178,6 +178,33 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('updates an existing field', () => {
+    const builder = createPrismaSchemaBuilder(`
+    model TaskScript {
+      name      String
+      createdAt DateTime
+      updatedAt DateTime
+    }
+    `);
+    builder
+      .model('TaskScript')
+      .field('createdAt', 'DateTime')
+      .attribute('default', [{ name: 'now' }]);
+    builder
+      .model('TaskScript')
+      .field('updatedAt', 'DateTime')
+      .attribute('updatedAt');
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model TaskScript {
+        name      String
+        createdAt DateTime @default(now())
+        updatedAt DateTime @updatedAt
+      }
+      "
+    `);
+  });
+
   it('adds a field relation', () => {
     const builder = createPrismaSchemaBuilder();
     builder
