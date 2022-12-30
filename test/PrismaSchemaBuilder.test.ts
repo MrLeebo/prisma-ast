@@ -319,8 +319,8 @@ describe('PrismaSchemaBuilder', () => {
     // Replace the @db.Timestamptz(6) attribute by dropping and re-creating the field
     builder
       .model('TaskMessage')
-      .removeField('createdAt')
       .field('createdAt', 'DateTime?')
+      .removeAttribute('db.Timestamptz')
       .attribute('default', [{ name: 'now' }]);
     expect(builder.print()).toMatchInlineSnapshot(`
       "
