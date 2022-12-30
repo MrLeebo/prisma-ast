@@ -131,6 +131,26 @@ datasource db {
 }
 ```
 
+### Access a datasource programmatially
+
+If you want to perform a custom action that there isn't a Builder method for, you can access the underlying schema object programmatically.
+
+```ts
+import { Datasource } from '@mrleebo/prisma-ast'
+
+// rename the datasource programmatically
+builder.datasource('postgresql', { env: 'DATABASE_URL' }).then<Datasource>((datasource) => {
+  datasource.name = "DS"
+})
+```
+
+```prisma
+datasource DS {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
 ### Add or update a generator
 
 ```ts
@@ -164,7 +184,34 @@ builder.generator('client', 'prisma-client-js').assignment('output', 'db.js')
 ```prisma
 generator client {
   provider = "prisma-client-js"
-  output = "db.js"
+  output   = "db.js"
+}
+```
+
+### Access a generator programmatically
+
+If you want to perform a custom action that there isn't a Builder method for, you can access the underlying schema object programmatically.
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "db.js"
+}
+```
+
+```ts
+import { Generator } from '@mrleebo/prisma-ast'
+
+// rename the generator programmatically
+builder.generator('client').then<Generator>((generator) => {
+  generator.name = "foo"
+})
+```
+
+```prisma
+generator foo {
+  provider = "prisma-client-js"
+  output   = "db.js"
 }
 ```
 
@@ -182,9 +229,41 @@ model Project {
 }
 ```
 
+### Access a model programmatically
+
+If you want to perform a custom action that there isn't a Builder method for, you can access the underlying schema object programmatically.
+
+```prisma
+model Project {
+  name String
+}
+```
+
+```ts
+import { Model } from '@mrleebo/prisma-ast'
+
+// rename the datasource programmatically
+builder.model('Project').then<Model>((model) => {
+  model.name = "Task"
+})
+```
+
+```prisma
+model Task {
+  name String
+}
+```
+
+
 ### Add a field with an attribute to a model
 
 If the entered model name already exists, that model will be used as the subject for any field and attribute calls that follow.
+
+```prisma
+model Project {
+  name        String
+}
+```
 
 ```ts
 builder.model('Project').field('projectCode', 'String').attribute('unique')
@@ -201,6 +280,13 @@ model Project {
 
 If the field already exists, you can add new attributes to it by making calls to `.attribute()`.
 
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+}
+```
+
 ```ts
 builder.model('Project').field('name').attribute('unique')
 ```
@@ -212,7 +298,91 @@ model Project {
 }
 ```
 
+### Remove a field
+
+You can remove an existing field with `.removeField()`.
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+}
+```
+
+```ts
+builder.model('Project').removeField('projectCode')
+```
+
+```prisma
+model Project {
+  name String
+}
+```
+
+### Remove an attribute from an existing field
+
+You can remove an attribute from a field with `.removeAttribute()`.
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+}
+```
+
+```ts
+builder.model('Project').field('projectCode').removeAttribute('unique')
+```
+
+```prisma
+model Project {
+  name        String
+  projectCode String
+}
+```
+
+### Access a field programmatically
+
+If you want to perform a custom action that there isn't a Builder method for, you can access the underlying schema object programmatically.
+
+```prisma
+model TaskMessage {
+  createdAt DateTime? @db.Timestamptz(6)
+}
+```
+
+```ts
+import { Field, Attribute } from '@mrleebo/prisma-ast'
+
+// Replace the @db.Timestamptz(6) attribute with @default(now())
+builder
+  .model('TaskMessage')
+  .field('createdAt')
+  .then<Field>(field => {
+    const attribute: Attribute = {
+      type: 'attribute',
+      kind: 'field',
+      name: 'default',
+      args: [{ type: 'attributeArgument', value: 'now()' }],
+    };
+    field.attributes = [attribute];
+  });
+```
+
+```prisma
+model TaskMessage {
+  createdAt DateTime? @default(now())
+}
+```
+
 ### Add an index to a model
+
+```prisma
+model Project {
+  name        String
+  projectCode String @unique
+}
+```
 
 ```ts
 builder.model('Project').blockAttribute('index', ['name'])

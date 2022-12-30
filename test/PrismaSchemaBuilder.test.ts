@@ -1,4 +1,5 @@
 import { createPrismaSchemaBuilder } from '../src/PrismaSchemaBuilder';
+import * as schema from '../src/getSchema';
 import { loadFixture } from './utils';
 
 describe('PrismaSchemaBuilder', () => {
@@ -34,12 +35,44 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('accesses a generator', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder.generator('client').then<schema.Generator>(generator => {
+      const assignment = generator.assignments[0] as schema.Assignment;
+      assignment.value = '"prisma-client-ts"';
+    });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      generator client {
+        provider = \\"prisma-client-ts\\"
+      }
+      "
+    `);
+  });
+
   it('sets the datasource', () => {
     const builder = createPrismaSchemaBuilder();
     builder.datasource('postgresql', { env: 'DATABASE_URL' });
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       datasource db {
+        url      = env(\\"DATABASE_URL\\")
+        provider = postgresql
+      }
+      "
+    `);
+  });
+
+  it('accesses the datasource', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .datasource('postgresql', { env: 'DATABASE_URL' })
+      .then<schema.Datasource>(datasource => {
+        datasource.name = 'my-database';
+      });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      datasource my-database {
         url      = env(\\"DATABASE_URL\\")
         provider = postgresql
       }
@@ -93,6 +126,24 @@ describe('PrismaSchemaBuilder', () => {
       }
 
 
+      "
+    `);
+  });
+
+  it('accesses a model', () => {
+    const builder = createPrismaSchemaBuilder(`
+    model Project {
+      name String
+    }
+  `);
+    builder.model('Project').then<schema.Model>(project => {
+      project.name = 'Task';
+    });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model Task {
+        name String
+      }
       "
     `);
   });
@@ -159,6 +210,22 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('accesses an enum', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder.enum('Role', ['USER', 'ADMIN']).then<schema.Enum>(e => {
+      e.name = 'UserType';
+    });
+
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      enum UserType {
+        USER
+        ADMIN
+      }
+      "
+    `);
+  });
+
   it('adds a field to an existing model', () => {
     const builder = createPrismaSchemaBuilder(`
     model Project {
@@ -167,6 +234,7 @@ describe('PrismaSchemaBuilder', () => {
     `);
     builder.model('Project').field('description', 'String');
     builder.model('Project').field('owner', 'String');
+
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       model Project {
@@ -200,6 +268,94 @@ describe('PrismaSchemaBuilder', () => {
         name      String
         createdAt DateTime @default(now())
         updatedAt DateTime @updatedAt
+      }
+      "
+    `);
+  });
+
+  it('removes a field', () => {
+    const builder = createPrismaSchemaBuilder(`
+    model TaskScript {
+      name      String
+      createdAt DateTime
+      updatedAt DateTime
+    }
+    `);
+    builder
+      .model('TaskScript')
+      .removeField('createdAt')
+      .removeField('updatedAt');
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model TaskScript {
+        name String
+      }
+      "
+    `);
+  });
+
+  it('adds an attribute', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .model('TaskMessage')
+      .field('createdAt', 'DateTime?')
+      .attribute('db.Timestamptz', ['6']);
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model TaskMessage {
+        createdAt DateTime? @db.Timestamptz(6)
+      }
+      "
+    `);
+  });
+
+  it('replaces an attribute', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .model('TaskMessage')
+      .field('createdAt', 'DateTime?')
+      .attribute('db.Timestamptz', ['6']);
+
+    // Replace the @db.Timestamptz(6) attribute by dropping and re-creating the field
+    builder
+      .model('TaskMessage')
+      .removeField('createdAt')
+      .field('createdAt', 'DateTime?')
+      .attribute('default', [{ name: 'now' }]);
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model TaskMessage {
+        createdAt DateTime? @default(now())
+      }
+      "
+    `);
+  });
+
+  it('replaces an attribute with access', () => {
+    // Set up the schema with a model and a field with an attribute
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .model('TaskMessage')
+      .field('createdAt', 'DateTime?')
+      .attribute('db.Timestamptz', ['6']);
+
+    // Replace the @db.Timestamptz(6) attribute with @default(now())
+    builder
+      .model('TaskMessage')
+      .field('createdAt')
+      .then<schema.Field>(field => {
+        const attribute: schema.Attribute = {
+          kind: 'field',
+          name: 'default',
+          type: 'attribute',
+          args: [{ type: 'attributeArgument', value: 'now()' }],
+        };
+        field.attributes = [attribute];
+      });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model TaskMessage {
+        createdAt DateTime? @default(now())
       }
       "
     `);

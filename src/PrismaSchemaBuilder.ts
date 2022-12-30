@@ -14,7 +14,7 @@ type ReplaceReturnType<Original extends (...args: any) => any, NewReturn> = (
 type ExtractKeys = 'getSchema' | 'getSubject' | 'getParent' | 'print';
 
 /** These keys preserve the return value context that they were given */
-type NeutralKeys = 'break' | 'comment' | 'attribute' | 'enumerator';
+type NeutralKeys = 'break' | 'comment' | 'attribute' | 'enumerator' | 'then';
 
 /** Keys allowed when you call .datasource() or .generator() */
 type DatasourceOrGeneratorKeys = 'assignment';
@@ -23,10 +23,10 @@ type DatasourceOrGeneratorKeys = 'assignment';
 type EnumKeys = 'enumerator';
 
 /** Keys allowed when you call .field("name") */
-type FieldKeys = 'attribute';
+type FieldKeys = 'attribute' | 'removeAttribute';
 
 /** Keys allowed when you call .model("name") */
-type ModelKeys = 'blockAttribute' | 'field';
+type ModelKeys = 'blockAttribute' | 'field' | 'removeField';
 
 /**
  * Utility type for making the PrismaSchemaBuilder below readable:
@@ -60,8 +60,12 @@ type PrismaSchemaBuilder<K extends keyof ConcretePrismaSchemaBuilder> = {
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
     : U extends 'field'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys>
+    : U extends 'removeField'
+    ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
     : U extends 'enum'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | ModelKeys | FieldKeys>
+    : U extends 'removeAttribute'
+    ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys>
     : PrismaSchemaSubset<
         U,
         DatasourceOrGeneratorKeys | EnumKeys | FieldKeys | ModelKeys | 'comment'
@@ -306,6 +310,26 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
+  /** Remove an attribute from the current field */
+  removeAttribute<T extends schema.Field>(name: string): this {
+    const parent = this.getParent();
+    const subject = this.getSubject<T>();
+    if (!parent || !('type' in parent) || parent.type !== 'model') {
+      throw new Error('Parent must be a prisma model!');
+    }
+
+    if (!subject || !('type' in subject) || subject.type !== 'field') {
+      throw new Error('Subject must be a prisma field!');
+    }
+
+    if (!subject.attributes) subject.attributes = [];
+    subject.attributes = subject.attributes.filter(
+      attr => !(attr.type === 'attribute' && attr.name === name)
+    );
+
+    return this;
+  }
+
   /** Add an assignment to a generator or datasource */
   assignment<T extends schema.Generator | schema.Datasource>(
     key: string,
@@ -440,11 +464,30 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
+  /** Drop a field from the current model. */
+  removeField(name: string): this {
+    let subject = this.getSubject<schema.Model>();
+    if (!subject || !('type' in subject) || subject.type !== 'model') {
+      const parent = this.getParent<schema.Model>();
+      if (!parent || !('type' in parent) || parent.type !== 'model')
+        throw new Error('Subject must be a prisma model!');
+
+      subject = this._subject = parent;
+    }
+
+    subject.properties = subject.properties.filter(
+      field => !(field.type === 'field' && field.name === name)
+    );
+    return this;
+  }
+
   /**
    * Returns the current subject, allowing for more advanced ways of
    * manipulating the schema.
    * */
-  then<R extends schema.Block>(callback: (subject: R) => R): this {
+  then<R extends schema.Block | schema.Property>(
+    callback: (subject: R) => unknown
+  ): this {
     callback(this._subject as R);
     return this;
   }
