@@ -273,7 +273,10 @@ export class ConcretePrismaSchemaBuilder {
     if (!subject.attributes) subject.attributes = [];
     const attribute = subject.attributes.reduce<schema.Attribute>(
       (memo, attr) =>
-        attr.type === 'attribute' && attr.name === name ? attr : memo,
+        attr.type === 'attribute' &&
+        `${attr.group ? `${attr.group}.` : ''}${attr.name}` === name
+          ? attr
+          : memo,
       {
         type: 'attribute',
         kind: 'field',

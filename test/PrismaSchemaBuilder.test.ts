@@ -473,6 +473,29 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('can reference the same attribute', () => {
+    const builder = createPrismaSchemaBuilder(`
+    model Test {
+      id String @id @default(auto()) @map(\\"_id\\") @db.ObjectId
+    }
+    `);
+    const result = builder
+      .model('Test')
+      .field('id', 'String')
+      .attribute('id')
+      .attribute('default', [{ name: 'auto' }])
+      .attribute('map', [`"_id"`])
+      .attribute('db.ObjectId')
+      .print();
+    expect(result).toMatchInlineSnapshot(`
+    "
+    model Test {
+      id String @id @default(auto()) @map(\\"_id\\") @db.ObjectId
+    }
+    "
+  `);
+  });
+
   it('prints the schema', async () => {
     const source = await loadFixture('example.prisma');
     const result = createPrismaSchemaBuilder(source).print();
