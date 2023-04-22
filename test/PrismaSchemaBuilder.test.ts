@@ -496,6 +496,53 @@ describe('PrismaSchemaBuilder', () => {
   `);
   });
 
+  it('can create a view', () => {
+    const builder = createPrismaSchemaBuilder(`
+    model Project {
+      name String
+    }
+    `);
+    const result = builder
+      .view('TestView')
+      .field('id', 'String')
+      .attribute('id')
+      .attribute('default', [{ name: 'auto' }])
+      .attribute('map', [`"_id"`])
+      .attribute('db.ObjectId')
+      .print();
+    expect(result).toMatchInlineSnapshot(`
+    "
+    model Project {
+      name String
+    }
+
+    view TestView {
+      id String @id @default(auto()) @map(\\"_id\\") @db.ObjectId
+    }
+    "
+  `);
+  });
+
+  it('edits an existing view', () => {
+    const builder = createPrismaSchemaBuilder(`
+    view TestView {
+      id String
+    }
+    `);
+    const result = builder
+      .view('TestView')
+      .field('name', 'String')
+      .print();
+    expect(result).toMatchInlineSnapshot(`
+    "
+    view TestView {
+      id   String
+      name String
+    }
+    "
+  `);
+  });
+
   it('prints the schema', async () => {
     const source = await loadFixture('example.prisma');
     const result = createPrismaSchemaBuilder(source).print();

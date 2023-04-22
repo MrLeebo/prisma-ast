@@ -141,7 +141,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -280,7 +280,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -439,7 +439,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -535,7 +535,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -780,7 +780,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -905,7 +905,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1163,7 +1163,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1288,7 +1288,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1433,7 +1433,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1593,7 +1593,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1718,7 +1718,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1836,7 +1836,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -1968,7 +1968,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2114,7 +2114,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2232,7 +2232,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2391,7 +2391,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2555,7 +2555,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2673,7 +2673,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2825,7 +2825,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -2989,7 +2989,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -3263,7 +3263,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -3381,7 +3381,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -3587,7 +3587,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -3831,7 +3831,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -4337,7 +4337,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -4481,7 +4481,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -4729,7 +4729,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -4873,7 +4873,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -5055,7 +5055,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -5199,7 +5199,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -5395,7 +5395,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -5513,7 +5513,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -5680,7 +5680,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -5924,7 +5924,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -6056,7 +6056,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -6244,7 +6244,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -6355,7 +6355,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -6543,7 +6543,7 @@ exports[`getSchema parse atena-server.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -6928,7 +6928,7 @@ exports[`getSchema parse example.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -7014,7 +7014,7 @@ exports[`getSchema parse example.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"id\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -7030,7 +7030,7 @@ exports[`getSchema parse example.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"unique\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -7047,7 +7047,7 @@ exports[`getSchema parse example.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"index\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -7089,7 +7089,7 @@ exports[`getSchema parse example.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"ignore\\",
-          \\"kind\\": \\"model\\"
+          \\"kind\\": \\"object\\"
         }
       ]
     },
@@ -7185,7 +7185,7 @@ exports[`getSchema parse example.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"index\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -7971,7 +7971,7 @@ exports[`getSchema parse test.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"map\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"args\\": [
             {
               \\"type\\": \\"attributeArgument\\",
@@ -7982,7 +7982,7 @@ exports[`getSchema parse test.prisma 1`] = `
         {
           \\"type\\": \\"attribute\\",
           \\"name\\": \\"special\\",
-          \\"kind\\": \\"model\\",
+          \\"kind\\": \\"object\\",
           \\"group\\": \\"db\\"
         }
       ]

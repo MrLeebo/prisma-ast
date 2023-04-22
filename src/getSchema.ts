@@ -16,12 +16,27 @@ export interface Schema {
   list: Block[];
 }
 
-export type Block = Model | Datasource | Generator | Enum | Comment | Break;
+export type Block =
+  | Model
+  | View
+  | Datasource
+  | Generator
+  | Enum
+  | Comment
+  | Break;
 
-export interface Model {
-  type: 'model';
+export interface Object {
+  type: 'model' | 'view';
   name: string;
   properties: Array<Property | Comment | Break>;
+}
+
+export interface Model extends Object {
+  type: 'model';
+}
+
+export interface View extends Object {
+  type: 'view';
 }
 
 export interface Datasource {
@@ -51,7 +66,7 @@ export interface Break {
   type: 'break';
 }
 
-export type Property = GroupedModelAttribute | ModelAttribute | Field;
+export type Property = GroupedObjectAttribute | ObjectAttribute | Field;
 
 export interface Assignment {
   type: 'assignment';
@@ -66,15 +81,15 @@ export interface Enumerator {
   comment?: string;
 }
 
-export interface ModelAttribute {
+export interface ObjectAttribute {
   type: 'attribute';
-  kind: 'model';
+  kind: 'object' | 'view';
   group?: string;
   name: string;
   args: AttributeArgument[];
 }
 
-export type GroupedModelAttribute = ModelAttribute & { group: string };
+export type GroupedObjectAttribute = ObjectAttribute & { group: string };
 
 export interface Field {
   type: 'field';
@@ -89,8 +104,8 @@ export interface Field {
 export type Attr =
   | Attribute
   | GroupedAttribute
-  | ModelAttribute
-  | GroupedModelAttribute;
+  | ObjectAttribute
+  | GroupedObjectAttribute;
 
 export interface Attribute {
   type: 'attribute';

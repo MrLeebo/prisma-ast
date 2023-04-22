@@ -32,6 +32,8 @@ export class PrismaVisitor extends BasePrismaVisitor {
         return { type: 'generator', name, assignments: list };
       case 'model':
         return { type: 'model', name, properties: list };
+      case 'view':
+        return { type: 'view', name, properties: list };
       case 'enum':
         return { type: 'enum', name, enumerators: list };
       default:
@@ -88,7 +90,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
 
   attribute(
     ctx: CstNode & {
-      modelAttribute: [IToken];
+      objectAttribute: [IToken];
       fieldAttribute: [IToken];
       groupName: [IToken];
       attributeName: [IToken];
@@ -99,7 +101,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
     const [{ image: group }] = ctx.groupName || [{}];
     const args =
       ctx.attributeArg && ctx.attributeArg.map(attr => this.visit(attr));
-    const kind = ctx.modelAttribute != null ? 'model' : 'field';
+    const kind = ctx.objectAttribute != null ? 'object' : 'field';
 
     return { type: 'attribute', name, kind, group, args };
   }
@@ -109,11 +111,17 @@ export class PrismaVisitor extends BasePrismaVisitor {
     return { type: 'attributeArgument', value };
   }
 
-  func(ctx: CstNode & { funcName: [IToken]; value: CstNode[]; keyedArg: CstNode[] }): Types.Func {
+  func(
+    ctx: CstNode & { funcName: [IToken]; value: CstNode[]; keyedArg: CstNode[] }
+  ): Types.Func {
     const [{ image: name }] = ctx.funcName;
     const params = ctx.value && ctx.value.map(item => this.visit([item]));
-    const keyedParams = ctx.keyedArg && ctx.keyedArg.map(item => this.visit([item]));
-    const pars = (params || keyedParams) && [...(params ?? []), ...(keyedParams ?? [])];
+    const keyedParams =
+      ctx.keyedArg && ctx.keyedArg.map(item => this.visit([item]));
+    const pars = (params || keyedParams) && [
+      ...(params ?? []),
+      ...(keyedParams ?? []),
+    ];
     return { type: 'function', name, params: pars };
   }
 
