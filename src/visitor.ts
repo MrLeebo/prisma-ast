@@ -90,7 +90,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
 
   attribute(
     ctx: CstNode & {
-      objectAttribute: [IToken];
+      blockAttribute: [IToken];
       fieldAttribute: [IToken];
       groupName: [IToken];
       attributeName: [IToken];
@@ -101,7 +101,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
     const [{ image: group }] = ctx.groupName || [{}];
     const args =
       ctx.attributeArg && ctx.attributeArg.map(attr => this.visit(attr));
-    const kind = ctx.objectAttribute != null ? 'object' : 'field';
+    const kind = ctx.blockAttribute != null ? 'object' : 'field';
 
     return { type: 'attribute', name, kind, group, args };
   }

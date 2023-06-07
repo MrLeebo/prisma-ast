@@ -66,7 +66,7 @@ export interface Break {
   type: 'break';
 }
 
-export type Property = GroupedObjectAttribute | ObjectAttribute | Field;
+export type Property = GroupedBlockAttribute | BlockAttribute | Field;
 
 export interface Assignment {
   type: 'assignment';
@@ -81,7 +81,7 @@ export interface Enumerator {
   comment?: string;
 }
 
-export interface ObjectAttribute {
+export interface BlockAttribute {
   type: 'attribute';
   kind: 'object' | 'view';
   group?: string;
@@ -89,7 +89,7 @@ export interface ObjectAttribute {
   args: AttributeArgument[];
 }
 
-export type GroupedObjectAttribute = ObjectAttribute & { group: string };
+export type GroupedBlockAttribute = BlockAttribute & { group: string };
 
 export interface Field {
   type: 'field';
@@ -104,8 +104,8 @@ export interface Field {
 export type Attr =
   | Attribute
   | GroupedAttribute
-  | ObjectAttribute
-  | GroupedObjectAttribute;
+  | BlockAttribute
+  | GroupedBlockAttribute;
 
 export interface Attribute {
   type: 'attribute';

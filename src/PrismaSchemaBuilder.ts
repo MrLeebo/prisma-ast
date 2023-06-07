@@ -27,7 +27,7 @@ type EnumKeys = 'enumerator';
 type FieldKeys = 'attribute' | 'removeAttribute';
 
 /** Keys allowed when you call .model("name") */
-type ObjectKeys = 'blockAttribute' | 'field' | 'removeField';
+type BlockKeys = 'blockAttribute' | 'field' | 'removeField';
 
 /**
  * Utility type for making the PrismaSchemaBuilder below readable:
@@ -54,9 +54,9 @@ type PrismaSchemaBuilder<K extends keyof ConcretePrismaSchemaBuilder> = {
     : U extends NeutralKeys
     ? ConcretePrismaSchemaBuilder[U] //ReplaceReturnType<ConcretePrismaSchemaBuilder[U], PrismaSchemaBuilder<K>>
     : U extends 'datasource'
-    ? PrismaSchemaSubset<U, 'datasource' | EnumKeys | FieldKeys | ObjectKeys>
+    ? PrismaSchemaSubset<U, 'datasource' | EnumKeys | FieldKeys | BlockKeys>
     : U extends 'generator'
-    ? PrismaSchemaSubset<U, EnumKeys | FieldKeys | ObjectKeys>
+    ? PrismaSchemaSubset<U, EnumKeys | FieldKeys | BlockKeys>
     : U extends 'model'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
     : U extends 'view'
@@ -66,16 +66,12 @@ type PrismaSchemaBuilder<K extends keyof ConcretePrismaSchemaBuilder> = {
     : U extends 'removeField'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
     : U extends 'enum'
-    ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | ObjectKeys | FieldKeys>
+    ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | BlockKeys | FieldKeys>
     : U extends 'removeAttribute'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys>
     : PrismaSchemaSubset<
         U,
-        | DatasourceOrGeneratorKeys
-        | EnumKeys
-        | FieldKeys
-        | ObjectKeys
-        | 'comment'
+        DatasourceOrGeneratorKeys | EnumKeys | FieldKeys | BlockKeys | 'comment'
       >;
 };
 
@@ -165,7 +161,7 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
-  /** Adds or updates a model based on the name. Can be chained with .field() or .objectAttribute() to add to it. */
+  /** Adds or updates a model based on the name. Can be chained with .field() or .blockAttribute() to add to it. */
   model(name: string): this {
     const model = this.schema.list.reduce<schema.Model>(
       (memo, block) =>
@@ -177,7 +173,7 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
-  /** Adds or updates a view based on the name. Can be chained with .field() or .objectAttribute() to add to it. */
+  /** Adds or updates a view based on the name. Can be chained with .field() or .blockAttribute() to add to it. */
   view(name: string): this {
     const view = this.schema.list.reduce<schema.View>(
       (memo, block) =>
@@ -264,7 +260,7 @@ export class ConcretePrismaSchemaBuilder {
       }));
     })();
 
-    const property: schema.ObjectAttribute = {
+    const property: schema.BlockAttribute = {
       type: 'attribute',
       kind: 'object',
       name,
@@ -520,7 +516,7 @@ export function createPrismaSchemaBuilder(
 ): PrismaSchemaBuilder<
   Exclude<
     keyof ConcretePrismaSchemaBuilder,
-    DatasourceOrGeneratorKeys | EnumKeys | FieldKeys | ObjectKeys
+    DatasourceOrGeneratorKeys | EnumKeys | FieldKeys | BlockKeys
   >
 > {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -63,8 +63,8 @@ export const Attribute = createToken({
   name: 'Attribute',
   pattern: Lexer.NA,
 });
-export const ObjectAttribute = createToken({
-  name: 'ObjectAttribute',
+export const BlockAttribute = createToken({
+  name: 'BlockAttribute',
   pattern: /@@/,
   label: "'@@'",
   categories: [Attribute],
@@ -159,7 +159,7 @@ export const multiModeTokens: IMultiModeLexerDefinition = {
     block: [
       ...naTokens,
       Attribute,
-      ObjectAttribute,
+      BlockAttribute,
       FieldAttribute,
       Dot,
       QuestionMark,

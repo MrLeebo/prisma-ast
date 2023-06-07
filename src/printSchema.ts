@@ -150,7 +150,7 @@ function printProperty(
   }
 }
 
-function printAttribute(attribute: Types.Attribute | Types.ObjectAttribute) {
+function printAttribute(attribute: Types.Attribute | Types.BlockAttribute) {
   const args =
     attribute.args && attribute.args.length > 0
       ? `(${attribute.args

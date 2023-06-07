@@ -143,7 +143,7 @@ export class PrismaParser extends CstParser {
     this.OR1([
       {
         ALT: () =>
-          this.CONSUME(lexer.ObjectAttribute, { LABEL: 'objectAttribute' }),
+          this.CONSUME(lexer.BlockAttribute, { LABEL: 'blockAttribute' }),
       },
       {
         ALT: () =>
