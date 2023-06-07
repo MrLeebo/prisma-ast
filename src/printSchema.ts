@@ -5,7 +5,7 @@ import { schemaSorter } from './schemaSorter';
 export interface PrintOptions {
   sort?: boolean;
   locales?: string | string[];
-  sortOrder?: Array<'generator' | 'datasource' | 'model' | 'enum'>;
+  sortOrder?: Array<'generator' | 'datasource' | 'model' | 'view' | 'enum'>;
 }
 
 export function printSchema(
@@ -41,7 +41,8 @@ function printBlock(block: Types.Block): string {
     case 'generator':
       return printGenerator(block);
     case 'model':
-      return printModel(block);
+    case 'view':
+      return printObject(block);
     case 'break':
       return printBreak();
     default:
@@ -105,11 +106,11 @@ generator ${generator.name} {
 }`;
 }
 
-function printModel(model: Types.Model) {
-  const children = computePropertyFormatting(model.properties);
+function printObject(object: Types.Object) {
+  const children = computePropertyFormatting(object.properties);
 
   return `
-model ${model.name} {
+${object.type} ${object.name} {
   ${children}
 }`;
 }
@@ -149,7 +150,7 @@ function printProperty(
   }
 }
 
-function printAttribute(attribute: Types.Attribute | Types.ModelAttribute) {
+function printAttribute(attribute: Types.Attribute | Types.BlockAttribute) {
   const args =
     attribute.args && attribute.args.length > 0
       ? `(${attribute.args

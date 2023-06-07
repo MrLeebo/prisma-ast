@@ -5,6 +5,7 @@ const defaultSortOrder = [
   'generator',
   'datasource',
   'model',
+  'view',
   'enum',
   'break',
   'comment',

@@ -1,7 +1,7 @@
 import { CstParser } from 'chevrotain';
 import * as lexer from './lexer';
 
-type ComponentType = 'datasource' | 'generator' | 'model' | 'enum';
+type ComponentType = 'datasource' | 'generator' | 'model' | 'view' | 'enum';
 export class PrismaParser extends CstParser {
   constructor() {
     super(lexer.multiModeTokens);
@@ -101,7 +101,7 @@ export class PrismaParser extends CstParser {
     ) => {
       const { componentType } = options;
       const isEnum = componentType === 'enum';
-      const isModel = componentType === 'model';
+      const isObject = componentType === 'model' || componentType === 'view';
 
       this.CONSUME(lexer.LCurly);
       this.CONSUME1(lexer.LineBreak);
@@ -109,12 +109,12 @@ export class PrismaParser extends CstParser {
         this.OR([
           { ALT: () => this.SUBRULE(this.comment, { LABEL: 'list' }) },
           {
-            GATE: () => isModel,
+            GATE: () => isObject,
             ALT: () => this.SUBRULE(this.property, { LABEL: 'list' }),
           },
           { ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }) },
           {
-            GATE: () => isModel,
+            GATE: () => isObject,
             ALT: () => this.SUBRULE(this.field, { LABEL: 'list' }),
           },
           {
@@ -122,7 +122,7 @@ export class PrismaParser extends CstParser {
             ALT: () => this.SUBRULE(this.enum, { LABEL: 'list' }),
           },
           {
-            GATE: () => !isModel,
+            GATE: () => !isObject,
             ALT: () => this.SUBRULE(this.assignment, { LABEL: 'list' }),
           },
           { ALT: () => this.SUBRULE(this.break, { LABEL: 'list' }) },
@@ -143,7 +143,7 @@ export class PrismaParser extends CstParser {
     this.OR1([
       {
         ALT: () =>
-          this.CONSUME(lexer.ModelAttribute, { LABEL: 'modelAttribute' }),
+          this.CONSUME(lexer.BlockAttribute, { LABEL: 'blockAttribute' }),
       },
       {
         ALT: () =>
@@ -191,6 +191,7 @@ export class PrismaParser extends CstParser {
       { ALT: () => this.CONSUME(lexer.Datasource, { LABEL: 'type' }) },
       { ALT: () => this.CONSUME(lexer.Generator, { LABEL: 'type' }) },
       { ALT: () => this.CONSUME(lexer.Model, { LABEL: 'type' }) },
+      { ALT: () => this.CONSUME(lexer.View, { LABEL: 'type' }) },
       { ALT: () => this.CONSUME(lexer.Enum, { LABEL: 'type' }) },
     ]);
     this.OR2([

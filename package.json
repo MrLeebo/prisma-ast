@@ -17,8 +17,7 @@
     "test:watch": "tsdx test --watch",
     "lint": "eslint src",
     "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
+    "size": "NODE_OPTIONS=--openssl-legacy-provider size-limit",
     "publish-better": "npx np"
   },
   "peerDependencies": {},
@@ -39,11 +38,11 @@
   "size-limit": [
     {
       "path": "dist/prisma-ast.cjs.production.min.js",
-      "limit": "45 KB"
+      "limit": "56 KB"
     },
     {
       "path": "dist/prisma-ast.esm.js",
-      "limit": "45 KB"
+      "limit": "56 KB"
     }
   ],
   "devDependencies": {
@@ -52,13 +51,13 @@
     "@typescript-eslint/parser": "^4.22.0",
     "eslint": "^7.24.0",
     "husky": "^6.0.0",
-    "size-limit": "^4.10.2",
+    "size-limit": "^8.2.4",
     "tsdx": "^0.14.1",
     "tslib": "^2.4.0",
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "chevrotain": "^10.4.2"
+    "chevrotain": "^10.5.0"
   },
   "publishConfig": {
     "access": "public"

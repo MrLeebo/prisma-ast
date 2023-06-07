@@ -19,6 +19,11 @@ export const Model = createToken({
   pattern: /model/,
   push_mode: 'block',
 });
+export const View = createToken({
+  name: 'View',
+  pattern: /view/,
+  push_mode: 'block',
+});
 export const Enum = createToken({
   name: 'Enum',
   pattern: /enum/,
@@ -58,8 +63,8 @@ export const Attribute = createToken({
   name: 'Attribute',
   pattern: Lexer.NA,
 });
-export const ModelAttribute = createToken({
-  name: 'ModelAttribute',
+export const BlockAttribute = createToken({
+  name: 'BlockAttribute',
   pattern: /@@/,
   label: "'@@'",
   categories: [Attribute],
@@ -150,11 +155,11 @@ const naTokens = [Comment, DocComment, LineComment, LineBreak, WhiteSpace];
 
 export const multiModeTokens: IMultiModeLexerDefinition = {
   modes: {
-    global: [...naTokens, Datasource, Generator, Model, Enum],
+    global: [...naTokens, Datasource, Generator, Model, View, Enum],
     block: [
       ...naTokens,
       Attribute,
-      ModelAttribute,
+      BlockAttribute,
       FieldAttribute,
       Dot,
       QuestionMark,
