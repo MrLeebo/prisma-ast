@@ -1,10 +1,14 @@
-name: size
-on: [pull_request]
+name: 'size'
+on:
+  pull_request:
+    branches:
+      - main
 jobs:
   size:
     runs-on: ubuntu-latest
     env:
       CI_JOB_NUMBER: 1
+      NODE_OPTIONS: --openssl-legacy-provider
     steps:
       - uses: actions/checkout@v1
       - uses: andresz1/size-limit-action@v1
