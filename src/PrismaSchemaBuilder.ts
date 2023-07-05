@@ -503,7 +503,7 @@ export class ConcretePrismaSchemaBuilder {
    * Returns the current subject, allowing for more advanced ways of
    * manipulating the schema.
    * */
-  then<R extends schema.Block | schema.Property>(
+  then<R extends NonNullable<Subject>>(
     callback: (subject: R) => unknown
   ): this {
     callback(this._subject as R);
