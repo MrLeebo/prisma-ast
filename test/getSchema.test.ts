@@ -25,12 +25,12 @@ describe('getSchema', () => {
     it('contains location info', async () => {
       const source = await loadFixture('example.prisma');
       const components = getSchema(source);
-      expect(components).toHaveProperty('list[0].startLine', 1);
-      expect(components).toHaveProperty('list[0].startColumn', 1);
-      expect(components).toHaveProperty('list[0].startOffset', 0);
-      expect(components).toHaveProperty('list[0].endLine', 1);
-      expect(components).toHaveProperty('list[0].endColumn', 63);
-      expect(components).toHaveProperty('list[0].endOffset', 62);
+      expect(components).toHaveProperty('list[0].location.startLine', 1);
+      expect(components).toHaveProperty('list[0].location.startColumn', 1);
+      expect(components).toHaveProperty('list[0].location.startOffset', 0);
+      expect(components).toHaveProperty('list[0].location.endLine', 1);
+      expect(components).toHaveProperty('list[0].location.endColumn', 63);
+      expect(components).toHaveProperty('list[0].location.endOffset', 62);
     });
   });
 
@@ -38,12 +38,12 @@ describe('getSchema', () => {
     it('does not contain location info', async () => {
       const source = await loadFixture('example.prisma');
       const components = getSchema(source);
-      expect(components).not.toHaveProperty('list[0].startLine');
-      expect(components).not.toHaveProperty('list[0].startColumn');
-      expect(components).not.toHaveProperty('list[0].startOffset');
-      expect(components).not.toHaveProperty('list[0].endLine');
-      expect(components).not.toHaveProperty('list[0].endColumn');
-      expect(components).not.toHaveProperty('list[0].endOffset');
+      expect(components).not.toHaveProperty('list[0].location.startLine');
+      expect(components).not.toHaveProperty('list[0].location.startColumn');
+      expect(components).not.toHaveProperty('list[0].location.startOffset');
+      expect(components).not.toHaveProperty('list[0].location.endLine');
+      expect(components).not.toHaveProperty('list[0].location.endColumn');
+      expect(components).not.toHaveProperty('list[0].location.endOffset');
     });
   });
 });

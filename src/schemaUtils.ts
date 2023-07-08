@@ -31,7 +31,7 @@ export function appendLocationData<T extends Record<string, unknown>>(
   const { parser } = getConfig();
   if (parser.nodeLocationTracking === 'none') return data;
 
-  const ctx = tokens.reduce((memo, token) => {
+  const location = tokens.reduce((memo, token) => {
     if (!token) return memo;
 
     const {
@@ -60,5 +60,5 @@ export function appendLocationData<T extends Record<string, unknown>>(
     return memo;
   }, {} as IToken);
 
-  return Object.assign(data, ctx);
+  return Object.assign(data, { location });
 }
