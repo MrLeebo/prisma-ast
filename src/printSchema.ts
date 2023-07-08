@@ -8,6 +8,11 @@ export interface PrintOptions {
   sortOrder?: Array<'generator' | 'datasource' | 'model' | 'view' | 'enum'>;
 }
 
+/**
+ * Converts the given schema object into a string representing the prisma
+ * schema's source code. Optionally can take options to change the sort order
+ * of the schema parts.
+ * */
 export function printSchema(
   schema: Types.Schema,
   options: PrintOptions = {}
@@ -16,7 +21,7 @@ export function printSchema(
   let blocks = schema.list;
   if (sort) {
     // no point in preserving line breaks when re-sorting
-    blocks = schema.list = blocks.filter(block => block.type !== 'break');
+    blocks = schema.list = blocks.filter((block) => block.type !== 'break');
     const sorter = schemaSorter(schema, locales, sortOrder);
     blocks.sort(sorter);
   }
@@ -153,10 +158,7 @@ function printProperty(
 function printAttribute(attribute: Types.Attribute | Types.BlockAttribute) {
   const args =
     attribute.args && attribute.args.length > 0
-      ? `(${attribute.args
-          .map(printAttributeArg)
-          .filter(Boolean)
-          .join(', ')})`
+      ? `(${attribute.args.map(printAttributeArg).filter(Boolean).join(', ')})`
       : '';
 
   const name = [attribute.name];
@@ -243,7 +245,7 @@ function computeAssignmentFormatting(
     [[]]
   );
 
-  const keyLengths = listBlocks.map(lists =>
+  const keyLengths = listBlocks.map((lists) =>
     lists.reduce(
       (max, current) =>
         Math.max(
@@ -280,7 +282,7 @@ function computePropertyFormatting(
     [[]]
   );
 
-  const nameLengths = listBlocks.map(lists =>
+  const nameLengths = listBlocks.map((lists) =>
     lists.reduce(
       (max, current) =>
         Math.max(
@@ -292,7 +294,7 @@ function computePropertyFormatting(
     )
   );
 
-  const typeLengths = listBlocks.map(lists =>
+  const typeLengths = listBlocks.map((lists) =>
     lists.reduce(
       (max, current) =>
         Math.max(
