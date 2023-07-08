@@ -11,8 +11,8 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       generator client {
-        provider = \\"prisma-client-js\\"
-        output   = \\"client.js\\"
+        provider = "prisma-client-js"
+        output   = "client.js"
       }
       "
     `);
@@ -27,9 +27,9 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       generator client {
-        provider   = \\"prisma-client-js\\"
-        output     = \\"client.js\\"
-        engineType = \\"library\\"
+        provider   = "prisma-client-js"
+        output     = "client.js"
+        engineType = "library"
       }
       "
     `);
@@ -44,7 +44,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       generator client {
-        provider = \\"prisma-client-ts\\"
+        provider = "prisma-client-ts"
       }
       "
     `);
@@ -56,7 +56,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       datasource db {
-        url      = env(\\"DATABASE_URL\\")
+        url      = env("DATABASE_URL")
         provider = postgresql
       }
       "
@@ -73,7 +73,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       datasource my-database {
-        url      = env(\\"DATABASE_URL\\")
+        url      = env("DATABASE_URL")
         provider = postgresql
       }
       "
@@ -89,7 +89,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       datasource db {
-        url      = \\"https://database.com\\"
+        url      = "https://database.com"
         provider = postgresql
       }
       "
@@ -122,7 +122,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       datasource db {
-        url = env(\\"DATABASE_URL\\")
+        url = env("DATABASE_URL")
       }
 
 
@@ -165,7 +165,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       datasource db {
-        url = env(\\"DATABASE_URL\\")
+        url = env("DATABASE_URL")
       }
 
 
@@ -382,7 +382,7 @@ describe('PrismaSchemaBuilder', () => {
     expect(builder.print()).toMatchInlineSnapshot(`
       "
       model Project {
-        @@map(\\"projects\\")
+        @@map("projects")
       }
       "
     `);
@@ -488,12 +488,12 @@ describe('PrismaSchemaBuilder', () => {
       .attribute('db.ObjectId')
       .print();
     expect(result).toMatchInlineSnapshot(`
-    "
-    model Test {
-      id String @id @default(auto()) @map(\\"_id\\") @db.ObjectId
-    }
-    "
-  `);
+      "
+      model Test {
+        id String @id @default(auto()) @map("_id") @db.ObjectId
+      }
+      "
+    `);
   });
 
   it('can create a view', () => {
@@ -511,16 +511,16 @@ describe('PrismaSchemaBuilder', () => {
       .attribute('db.ObjectId')
       .print();
     expect(result).toMatchInlineSnapshot(`
-    "
-    model Project {
-      name String
-    }
+      "
+      model Project {
+        name String
+      }
 
-    view TestView {
-      id String @id @default(auto()) @map(\\"_id\\") @db.ObjectId
-    }
-    "
-  `);
+      view TestView {
+        id String @id @default(auto()) @map("_id") @db.ObjectId
+      }
+      "
+    `);
   });
 
   it('edits an existing view', () => {
@@ -534,13 +534,13 @@ describe('PrismaSchemaBuilder', () => {
       .field('name', 'String')
       .print();
     expect(result).toMatchInlineSnapshot(`
-    "
-    view TestView {
-      id   String
-      name String
-    }
-    "
-  `);
+          "
+          view TestView {
+            id   String
+            name String
+          }
+          "
+      `);
   });
 
   it('prints the schema', async () => {
@@ -551,12 +551,12 @@ describe('PrismaSchemaBuilder', () => {
       // added some fields to test keyword ambiguous
 
       datasource db {
-        url      = env(\\"DATABASE_URL\\")
-        provider = \\"postgresql\\"
+        url      = env("DATABASE_URL")
+        provider = "postgresql"
       }
 
       generator client {
-        provider = \\"prisma-client-js\\"
+        provider = "prisma-client-js"
       }
 
       model User {
@@ -583,7 +583,7 @@ describe('PrismaSchemaBuilder', () => {
         datasource String
         enum       String // inline comment
 
-        @@map(\\"posts\\")
+        @@map("posts")
       }
 
       model Project {
@@ -609,11 +609,11 @@ describe('PrismaSchemaBuilder', () => {
       }
 
       model Indexed {
-        id  String @id(map: \\"PK_indexed\\") @db.UniqueIdentifier
+        id  String @id(map: "PK_indexed") @db.UniqueIdentifier
         foo String @db.UniqueIdentifier
         bar String @db.UniqueIdentifier
 
-        @@index([foo, bar(sort: Desc)], map: \\"IX_indexed_indexedFoo\\")
+        @@index([foo, bar(sort: Desc)], map: "IX_indexed_indexedFoo")
       }
       "
     `);

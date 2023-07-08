@@ -7,12 +7,12 @@ exports[`printSchema print atena-server.prisma 1`] = `
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = \\"postgresql\\"
-  url      = env(\\"DATABASE_URL\\")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = \\"prisma-client-js\\"
+  provider = "prisma-client-js"
 }
 
 model City {
@@ -23,7 +23,7 @@ model City {
   companies Company[]
   groups    Group[]
 
-  @@map(name: \\"cities\\")
+  @@map(name: "cities")
 }
 
 model Company {
@@ -35,7 +35,7 @@ model Company {
   sphere     String
   agreements Agreement[]
 
-  @@map(name: \\"companies\\")
+  @@map(name: "companies")
 }
 
 model User {
@@ -47,7 +47,7 @@ model User {
   group    Group?  @relation(fields: [groupId], references: [id])
   groupId  String?
 
-  @@map(name: \\"users\\")
+  @@map(name: "users")
 }
 
 model Group {
@@ -57,7 +57,7 @@ model Group {
   cities City[]
   users  User[]
 
-  @@map(name: \\"groups\\")
+  @@map(name: "groups")
 }
 
 enum GroupAccess {
@@ -84,7 +84,7 @@ model Agreement {
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @default(now())
 
-  @@map(name: \\"agreements\\")
+  @@map(name: "agreements")
 }
 
 model ProposalData {
@@ -95,7 +95,7 @@ model ProposalData {
   programs     Program[]
   participants Participants?
 
-  @@map(name: \\"proposals_data\\")
+  @@map(name: "proposals_data")
 }
 
 model Data {
@@ -125,7 +125,7 @@ model Data {
   biddingDate                   DateTime?
   homologationDate              DateTime?
 
-  @@map(name: \\"agreements_data\\")
+  @@map(name: "agreements_data")
 }
 
 model Status {
@@ -136,7 +136,7 @@ model Status {
   committed   String?
   publication String?
 
-  @@map(name: \\"status\\")
+  @@map(name: "status")
 }
 
 model Program {
@@ -148,7 +148,7 @@ model Program {
   value          Float?          @default(0)
   details        ProgramDetails?
 
-  @@map(name: \\"programs\\")
+  @@map(name: "programs")
 }
 
 model ProgramDetails {
@@ -164,7 +164,7 @@ model ProgramDetails {
   couterpartValues ProgramDetailsCounterpartValues?
   transferValues   ProgramDetailsTransferValues?
 
-  @@map(name: \\"programs_details\\")
+  @@map(name: "programs_details")
 }
 
 model ProgramDetailsCounterpartValues {
@@ -175,7 +175,7 @@ model ProgramDetailsCounterpartValues {
   financial         Float?
   assetsAndServices Float?
 
-  @@map(name: \\"programs_details_counterpart_values\\")
+  @@map(name: "programs_details_counterpart_values")
 }
 
 model ProgramDetailsTransferValues {
@@ -185,7 +185,7 @@ model ProgramDetailsTransferValues {
   total            Float?
   amendment        String?
 
-  @@map(name: \\"programs_details_transfer_values\\")
+  @@map(name: "programs_details_transfer_values")
 }
 
 model Participants {
@@ -197,7 +197,7 @@ model Participants {
   grantor        String?
   respGrantor    String?
 
-  @@map(name: \\"participants\\")
+  @@map(name: "participants")
 }
 
 model WorkPlan {
@@ -211,7 +211,7 @@ model WorkPlan {
   attachments                 Attachments?
   notions                     Notions?
 
-  @@map(name: \\"work_plans\\")
+  @@map(name: "work_plans")
 }
 
 model PhysicalChrono {
@@ -221,7 +221,7 @@ model PhysicalChrono {
   list       PhysicalChronoItem[]
   values     PhysicalChronoValues?
 
-  @@map(name: \\"physical_chronos\\")
+  @@map(name: "physical_chronos")
 }
 
 model PhysicalChronoItem {
@@ -235,7 +235,7 @@ model PhysicalChronoItem {
   endDate          DateTime?
   income           String?
 
-  @@map(name: \\"physical_chrono_items\\")
+  @@map(name: "physical_chrono_items")
 }
 
 model PhysicalChronoValues {
@@ -246,7 +246,7 @@ model PhysicalChronoValues {
   register         Float?          @default(0)
   global           Float?          @default(0)
 
-  @@map(name: \\"physical_chrono_values\\")
+  @@map(name: "physical_chrono_values")
 }
 
 model DisbursementChrono {
@@ -256,7 +256,7 @@ model DisbursementChrono {
   list       DisbursementChronoItem[]
   values     DisbursementChronoValues?
 
-  @@map(name: \\"disbursement_chronos\\")
+  @@map(name: "disbursement_chronos")
 }
 
 model DisbursementChronoItem {
@@ -269,33 +269,33 @@ model DisbursementChronoItem {
   year                 Int?
   value                Float?              @default(0)
 
-  @@map(name: \\"disbursement_chrono_item\\")
+  @@map(name: "disbursement_chrono_item")
 }
 
 model DisbursementChronoValues {
   id                   String                   @id @default(uuid())
   disbursementChrono   DisbursementChrono?      @relation(fields: [disbursementChronoId], references: [id])
   disbursementChronoId String?
-  registered           DisbursementChronoValue? @relation(\\"RegisteredDisbursementChronoValue\\")
-  register             DisbursementChronoValue? @relation(\\"RegisterDisbursementChronoValue\\")
-  total                DisbursementChronoValue? @relation(\\"TotalDisbursementChronoValue\\")
+  registered           DisbursementChronoValue? @relation("RegisteredDisbursementChronoValue")
+  register             DisbursementChronoValue? @relation("RegisterDisbursementChronoValue")
+  total                DisbursementChronoValue? @relation("TotalDisbursementChronoValue")
 
-  @@map(name: \\"disbursement_chrono_values\\")
+  @@map(name: "disbursement_chrono_values")
 }
 
 model DisbursementChronoValue {
   id                String                    @id @default(uuid())
-  registeredValue   DisbursementChronoValues? @relation(\\"RegisteredDisbursementChronoValue\\", fields: [registeredValueOf], references: [id])
+  registeredValue   DisbursementChronoValues? @relation("RegisteredDisbursementChronoValue", fields: [registeredValueOf], references: [id])
   registeredValueOf String?
-  registerValue     DisbursementChronoValues? @relation(\\"RegisterDisbursementChronoValue\\", fields: [registerValueOf], references: [id])
+  registerValue     DisbursementChronoValues? @relation("RegisterDisbursementChronoValue", fields: [registerValueOf], references: [id])
   registerValueOf   String?
-  totalValue        DisbursementChronoValues? @relation(\\"TotalDisbursementChronoValue\\", fields: [totalValueOf], references: [id])
+  totalValue        DisbursementChronoValues? @relation("TotalDisbursementChronoValue", fields: [totalValueOf], references: [id])
   totalValueOf      String?
   granting          Float?                    @default(0)
   convenient        Float?                    @default(0)
   yield             Float?                    @default(0)
 
-  @@map(name: \\"disbursement_chrono_value\\")
+  @@map(name: "disbursement_chrono_value")
 }
 
 model DetailedApplicationPlan {
@@ -305,7 +305,7 @@ model DetailedApplicationPlan {
   list       DetailedApplicationPlanItem[]
   values     DetailedApplicationPlanValues?
 
-  @@map(name: \\"detailed_application_plans\\")
+  @@map(name: "detailed_application_plans")
 }
 
 model DetailedApplicationPlanItem {
@@ -322,63 +322,63 @@ model DetailedApplicationPlanItem {
   totalValue                Float?                   @default(0)
   status                    String?
 
-  @@map(name: \\"detailed_application_plan_items\\")
+  @@map(name: "detailed_application_plan_items")
 }
 
 model DetailedApplicationPlanValues {
   id                        String                        @id @default(uuid())
   detailedApplicationPlan   DetailedApplicationPlan?      @relation(fields: [detailedApplicationPlanId], references: [id])
   detailedApplicationPlanId String?
-  assets                    DetailedApplicationPlanValue? @relation(\\"AssetsDetailedApplicationPlanValue\\")
-  tributes                  DetailedApplicationPlanValue? @relation(\\"TributesDetailedApplicationPlanValue\\")
-  construction              DetailedApplicationPlanValue? @relation(\\"ConstructionDetailedApplicationPlanValue\\")
-  services                  DetailedApplicationPlanValue? @relation(\\"ServicesDetailedApplicationPlanValue\\")
-  others                    DetailedApplicationPlanValue? @relation(\\"OthersDetailedApplicationPlanValue\\")
-  administrative            DetailedApplicationPlanValue? @relation(\\"AdministrativeDetailedApplicationPlanValue\\")
-  total                     DetailedApplicationPlanValue? @relation(\\"TotalDetailedApplicationPlanValue\\")
+  assets                    DetailedApplicationPlanValue? @relation("AssetsDetailedApplicationPlanValue")
+  tributes                  DetailedApplicationPlanValue? @relation("TributesDetailedApplicationPlanValue")
+  construction              DetailedApplicationPlanValue? @relation("ConstructionDetailedApplicationPlanValue")
+  services                  DetailedApplicationPlanValue? @relation("ServicesDetailedApplicationPlanValue")
+  others                    DetailedApplicationPlanValue? @relation("OthersDetailedApplicationPlanValue")
+  administrative            DetailedApplicationPlanValue? @relation("AdministrativeDetailedApplicationPlanValue")
+  total                     DetailedApplicationPlanValue? @relation("TotalDetailedApplicationPlanValue")
 
-  @@map(name: \\"detailed_application_plan_values\\")
+  @@map(name: "detailed_application_plan_values")
 }
 
 model DetailedApplicationPlanValue {
   id                    String                         @id @default(uuid())
-  assetsValue           DetailedApplicationPlanValues? @relation(\\"AssetsDetailedApplicationPlanValue\\", fields: [assetsValueOf], references: [id])
+  assetsValue           DetailedApplicationPlanValues? @relation("AssetsDetailedApplicationPlanValue", fields: [assetsValueOf], references: [id])
   assetsValueOf         String?
-  tributesValue         DetailedApplicationPlanValues? @relation(\\"TributesDetailedApplicationPlanValue\\", fields: [tributesValueOf], references: [id])
+  tributesValue         DetailedApplicationPlanValues? @relation("TributesDetailedApplicationPlanValue", fields: [tributesValueOf], references: [id])
   tributesValueOf       String?
-  constructionValue     DetailedApplicationPlanValues? @relation(\\"ConstructionDetailedApplicationPlanValue\\", fields: [constructionValueOf], references: [id])
+  constructionValue     DetailedApplicationPlanValues? @relation("ConstructionDetailedApplicationPlanValue", fields: [constructionValueOf], references: [id])
   constructionValueOf   String?
-  servicesValue         DetailedApplicationPlanValues? @relation(\\"ServicesDetailedApplicationPlanValue\\", fields: [servicesValueOf], references: [id])
+  servicesValue         DetailedApplicationPlanValues? @relation("ServicesDetailedApplicationPlanValue", fields: [servicesValueOf], references: [id])
   servicesValueOf       String?
-  othersValue           DetailedApplicationPlanValues? @relation(\\"OthersDetailedApplicationPlanValue\\", fields: [othersValueOf], references: [id])
+  othersValue           DetailedApplicationPlanValues? @relation("OthersDetailedApplicationPlanValue", fields: [othersValueOf], references: [id])
   othersValueOf         String?
-  administrativeValue   DetailedApplicationPlanValues? @relation(\\"AdministrativeDetailedApplicationPlanValue\\", fields: [administrativeValueOf], references: [id])
+  administrativeValue   DetailedApplicationPlanValues? @relation("AdministrativeDetailedApplicationPlanValue", fields: [administrativeValueOf], references: [id])
   administrativeValueOf String?
-  totalValue            DetailedApplicationPlanValues? @relation(\\"TotalDetailedApplicationPlanValue\\", fields: [totalValueId], references: [id])
+  totalValue            DetailedApplicationPlanValues? @relation("TotalDetailedApplicationPlanValue", fields: [totalValueId], references: [id])
   totalValueId          String?
   total                 Float?                         @default(0)
   resource              Float?                         @default(0)
   counterpart           Float?                         @default(0)
   yield                 Float?                         @default(0)
 
-  @@map(name: \\"detailed_application_plan_value\\")
+  @@map(name: "detailed_application_plan_value")
 }
 
 model ConsolidatedApplicationPlan {
   id         String                            @id @default(uuid())
   workPlan   WorkPlan?                         @relation(fields: [workPlanId], references: [id])
   workPlanId String?
-  list       ConsolidatedApplicationPlanItem[] @relation(\\"ListConsolidatedApplicationPlanItems\\")
-  total      ConsolidatedApplicationPlanItem?  @relation(\\"TotalConsolidatedApplicationPlanItems\\")
+  list       ConsolidatedApplicationPlanItem[] @relation("ListConsolidatedApplicationPlanItems")
+  total      ConsolidatedApplicationPlanItem?  @relation("TotalConsolidatedApplicationPlanItems")
 
-  @@map(name: \\"consolidated_application_plans\\")
+  @@map(name: "consolidated_application_plans")
 }
 
 model ConsolidatedApplicationPlanItem {
   id             String                        @id @default(uuid())
-  listItem       ConsolidatedApplicationPlan[] @relation(\\"ListConsolidatedApplicationPlanItems\\", fields: [listItemOf], references: [id])
+  listItem       ConsolidatedApplicationPlan[] @relation("ListConsolidatedApplicationPlanItems", fields: [listItemOf], references: [id])
   listItemOf     String?
-  totalItem      ConsolidatedApplicationPlan?  @relation(\\"TotalConsolidatedApplicationPlanItems\\", fields: [totalItemOf], references: [id])
+  totalItem      ConsolidatedApplicationPlan?  @relation("TotalConsolidatedApplicationPlanItems", fields: [totalItemOf], references: [id])
   totalItemOf    String?
   classification String?
   resources      Float?                        @default(0)
@@ -386,47 +386,47 @@ model ConsolidatedApplicationPlanItem {
   yield          Float?                        @default(0)
   total          Float?                        @default(0)
 
-  @@map(name: \\"consolidated_application_plan_items\\")
+  @@map(name: "consolidated_application_plan_items")
 }
 
 model Attachments {
   id            String       @id @default(uuid())
   workPlan      WorkPlan?    @relation(fields: [workPlanId], references: [id])
   workPlanId    String?
-  proposalList  Attachment[] @relation(\\"ProposalAttachments\\")
-  executionList Attachment[] @relation(\\"ExecutionAttachments\\")
+  proposalList  Attachment[] @relation("ProposalAttachments")
+  executionList Attachment[] @relation("ExecutionAttachments")
 
-  @@map(name: \\"attachments\\")
+  @@map(name: "attachments")
 }
 
 model Attachment {
   id                    String        @id @default(uuid())
-  proposalAttachment    Attachments[] @relation(\\"ProposalAttachments\\", fields: [proposalAttachmentOf], references: [id])
+  proposalAttachment    Attachments[] @relation("ProposalAttachments", fields: [proposalAttachmentOf], references: [id])
   proposalAttachmentOf  String?
-  executionAttachment   Attachments[] @relation(\\"ExecutionAttachments\\", fields: [executionAttachmentOf], references: [id])
+  executionAttachment   Attachments[] @relation("ExecutionAttachments", fields: [executionAttachmentOf], references: [id])
   executionAttachmentOf String?
   name                  String?
   description           String?
   date                  DateTime?
 
-  @@map(name: \\"attachment\\")
+  @@map(name: "attachment")
 }
 
 model Notions {
   id           String       @id @default(uuid())
   workPlan     WorkPlan?    @relation(fields: [workPlanId], references: [id])
   workPlanId   String?
-  proposalList NotionItem[] @relation(\\"ProposalNotionItems\\")
-  workPlanList NotionItem[] @relation(\\"WorkPlanNotionItems\\")
+  proposalList NotionItem[] @relation("ProposalNotionItems")
+  workPlanList NotionItem[] @relation("WorkPlanNotionItems")
 
-  @@map(name: \\"notions\\")
+  @@map(name: "notions")
 }
 
 model NotionItem {
   id                    String    @id @default(uuid())
-  proposalNotionItem    Notions[] @relation(\\"ProposalNotionItems\\", fields: [proposalNotionItemOf], references: [id])
+  proposalNotionItem    Notions[] @relation("ProposalNotionItems", fields: [proposalNotionItemOf], references: [id])
   proposalNotionItemOf  String?
-  executionNotionItem   Notions[] @relation(\\"WorkPlanNotionItems\\", fields: [executionNotionItemOf], references: [id])
+  executionNotionItem   Notions[] @relation("WorkPlanNotionItems", fields: [executionNotionItemOf], references: [id])
   executionNotionItemOf String?
   date                  DateTime?
   type                  String?
@@ -434,7 +434,7 @@ model NotionItem {
   assignment            String?
   occupation            String?
 
-  @@map(name: \\"notion_item\\")
+  @@map(name: "notion_item")
 }
 
 model ConvenientExecution {
@@ -444,7 +444,7 @@ model ConvenientExecution {
   executionProcesses ExecutionProcess[]
   contracts          Contract[]
 
-  @@map(name: \\"convenient_execution\\")
+  @@map(name: "convenient_execution")
 }
 
 model ExecutionProcess {
@@ -461,7 +461,7 @@ model ExecutionProcess {
   accepted              String?
   details               ExecutionProcessDetails?
 
-  @@map(name: \\"execution_processes\\")
+  @@map(name: "execution_processes")
 }
 
 model ExecutionProcessDetails {
@@ -489,7 +489,7 @@ model ExecutionProcessDetails {
   analysisDate          DateTime?
   accepted              String?
 
-  @@map(name: \\"execution_processes_details\\")
+  @@map(name: "execution_processes_details")
 }
 
 model Contract {
@@ -501,7 +501,7 @@ model Contract {
   date                  DateTime?
   details               ContractDetails?
 
-  @@map(name: \\"contracts\\")
+  @@map(name: "contracts")
 }
 
 model ContractDetails {
@@ -521,7 +521,7 @@ model ContractDetails {
   biddingModality    String?
   processId          String?
 
-  @@map(name: \\"contracts_details\\")
+  @@map(name: "contracts_details")
 }
 
 model Accountability {
@@ -530,7 +530,7 @@ model Accountability {
   agreementId String?
   data        AccountabilityData?
 
-  @@map(name: \\"accountabilities\\")
+  @@map(name: "accountabilities")
 }
 
 model AccountabilityData {
@@ -550,7 +550,7 @@ model AccountabilityData {
   counterpartValue Float?
   yieldValue       Float?
 
-  @@map(name: \\"accountabilities_data\\")
+  @@map(name: "accountabilities_data")
 }
 "
 `;
@@ -560,12 +560,12 @@ exports[`printSchema print example.prisma 1`] = `
 // added some fields to test keyword ambiguous
 
 datasource db {
-  url      = env(\\"DATABASE_URL\\")
-  provider = \\"postgresql\\"
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
 }
 
 generator client {
-  provider = \\"prisma-client-js\\"
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -592,7 +592,7 @@ model Post {
   datasource String
   enum       String // inline comment
 
-  @@map(\\"posts\\")
+  @@map("posts")
 }
 
 model Project {
@@ -618,11 +618,11 @@ enum Role {
 }
 
 model Indexed {
-  id  String @id(map: \\"PK_indexed\\") @db.UniqueIdentifier
+  id  String @id(map: "PK_indexed") @db.UniqueIdentifier
   foo String @db.UniqueIdentifier
   bar String @db.UniqueIdentifier
 
-  @@index([foo, bar(sort: Desc)], map: \\"IX_indexed_indexedFoo\\")
+  @@index([foo, bar(sort: Desc)], map: "IX_indexed_indexedFoo")
 }
 "
 `;
@@ -630,13 +630,13 @@ model Indexed {
 exports[`printSchema print links.prisma 1`] = `
 "
 datasource db {
-  provider = \\"postgres\\"
-  url      = env(\\"DATABASE_URL\\")
+  provider = "postgres"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider      = \\"prisma-client-js\\"
-  binaryTargets = \\"native\\"
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
 }
 
 model UserProfile {
@@ -654,13 +654,13 @@ model UserProfile {
 exports[`printSchema print redwood.prisma 1`] = `
 "
 datasource DS {
-  provider = \\"sqlite\\"
-  url      = env(\\"DATABASE_URL\\")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider      = \\"prisma-client-js\\"
-  binaryTargets = \\"native\\"
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
 }
 
 /// Define your own datamodels here and run \`yarn redwood db save\` to create
@@ -698,9 +698,9 @@ exports[`printSchema print star.prisma 1`] = `
 
 model Star {
   id       Int                    @id @default(autoincrement())
-  position Unsupported(\\"circle\\")?
-  example1 Unsupported(\\"circle\\")
-  circle   Unsupported(\\"circle\\")? @default(dbgenerated(\\"'<(10,4),11>'::circle\\"))
+  position Unsupported("circle")?
+  example1 Unsupported("circle")
+  circle   Unsupported("circle")? @default(dbgenerated("'<(10,4),11>'::circle"))
 }
 "
 `;
@@ -708,24 +708,24 @@ model Star {
 exports[`printSchema print test.prisma 1`] = `
 "
 datasource db {
-  provider = \\"postgres\\"
-  url      = env(\\"DATABASE_URL\\")
+  provider = "postgres"
+  url      = env("DATABASE_URL")
 }
 
 // this is foo
 
 generator foo {
   // it is a nexus
-  provider        = \\"nexus\\"
-  previewFeatures = [\\"napi\\"]
+  provider        = "nexus"
+  previewFeatures = ["napi"]
 }
 
 model Bar {
-  id   Int    @id @first(fields: [one, two]) @second(fields: [\\"three\\", \\"four\\"])
+  id   Int    @id @first(fields: [one, two]) @second(fields: ["three", "four"])
   // this is not a break
   name String @unique
 
-  supercalifragilisticexpialidocious String @default(\\"it is something quite atrocious\\")
+  supercalifragilisticexpialidocious String @default("it is something quite atrocious")
   owner                              String // test
 
   /// test
@@ -738,7 +738,7 @@ enum Role {
   USER
   ADMIN
 
-  @@map(\\"membership_role\\")
+  @@map("membership_role")
   @@db.special
 }
 "
@@ -754,8 +754,8 @@ enum Role {
 }
 
 datasource db {
-  url      = env(\\"DATABASE_URL\\")
-  provider = \\"postgresql\\"
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
 }
 
 // this is a comment
@@ -769,7 +769,7 @@ model User {
 }
 
 generator client {
-  provider = \\"prisma-client-js\\"
+  provider = "prisma-client-js"
 }
 
 model AppSetting {

@@ -27,11 +27,11 @@ describe('produceSchema', () => {
     expect(result).toMatchInlineSnapshot(`
       "
       generator client {
-        provider = \\"prisma-client-js\\"
+        provider = "prisma-client-js"
       }
 
       datasource db {
-        url      = env(\\"DATABASE_URL\\")
+        url      = env("DATABASE_URL")
         provider = postgresql
       }
 

@@ -30,12 +30,12 @@ model Foo {
       .toMatchInlineSnapshot(`
       "
       generator client {
-        provider = \\"prisma-client-js\\"
+        provider = "prisma-client-js"
       }
 
       datasource db {
-        url      = env(\\"DATABASE_URL\\")
-        provider = \\"postgresql\\"
+        url      = env("DATABASE_URL")
+        provider = "postgresql"
       }
 
       model AppSetting {
@@ -75,12 +75,12 @@ model Foo {
     ).toMatchInlineSnapshot(`
       "
       generator client {
-        provider = \\"prisma-client-js\\"
+        provider = "prisma-client-js"
       }
 
       datasource db {
-        url      = env(\\"DATABASE_URL\\")
-        provider = \\"postgresql\\"
+        url      = env("DATABASE_URL")
+        provider = "postgresql"
       }
 
       model AppSetting {
