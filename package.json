@@ -4,19 +4,18 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "test:watch": "tsdx test --watch",
+    "start": "dts watch",
+    "build": "dts build",
+    "test": "dts test",
+    "test:watch": "dts test --watch",
     "lint": "eslint src",
-    "prepare": "tsdx build",
+    "prepare": "dts build",
     "size": "NODE_OPTIONS=--openssl-legacy-provider size-limit",
     "publish-better": "npx np"
   },
@@ -49,12 +48,12 @@
     "@size-limit/preset-small-lib": "^4.10.2",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "dts-cli": "^2.0.3",
     "eslint": "^7.24.0",
     "husky": "^6.0.0",
     "size-limit": "^8.2.4",
-    "tsdx": "^0.14.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.2.4"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "chevrotain": "^10.5.0"
