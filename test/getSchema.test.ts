@@ -1,5 +1,5 @@
 import getConfig from '../src/getConfig';
-import { getSchema } from '../src/getSchema';
+import { type Field, getSchema, type BlockAttribute } from '../src/getSchema';
 import { loadFixture, getFixtures } from './utils';
 
 describe('getSchema', () => {
@@ -22,15 +22,52 @@ describe('getSchema', () => {
       getConfig().parser.nodeLocationTracking = 'none';
     });
 
-    it('contains location info', async () => {
+    it('contains field location info', async () => {
       const source = await loadFixture('example.prisma');
       const components = getSchema(source);
-      expect(components).toHaveProperty('list[0].location.startLine', 1);
-      expect(components).toHaveProperty('list[0].location.startColumn', 1);
-      expect(components).toHaveProperty('list[0].location.startOffset', 0);
-      expect(components).toHaveProperty('list[0].location.endLine', 1);
-      expect(components).toHaveProperty('list[0].location.endColumn', 63);
-      expect(components).toHaveProperty('list[0].location.endOffset', 62);
+      const field = getField();
+      expect(field).toHaveProperty('location.startLine', 14);
+      expect(field).toHaveProperty('location.startColumn', 3);
+      expect(field).toHaveProperty('location.startOffset', 259);
+      expect(field).toHaveProperty('location.endLine', 14);
+      expect(field).toHaveProperty('location.endColumn', 4);
+      expect(field).toHaveProperty('location.endOffset', 260);
+
+      function getField(): Field | null {
+        for (const component of components.list) {
+          if (component.type === 'model') {
+            const field = component.properties.find(
+              (field) => field.type === 'field'
+            ) as Field;
+            if (field) return field;
+          }
+        }
+        return null;
+      }
+    });
+
+    it('contains block attribute location info', async () => {
+      const source = await loadFixture('example.prisma');
+      const components = getSchema(source);
+      const attr = getBlockAttribute();
+      expect(attr).toHaveProperty('location.startLine', 37);
+      expect(attr).toHaveProperty('location.startColumn', 3);
+      expect(attr).toHaveProperty('location.startOffset', 898);
+      expect(attr).toHaveProperty('location.endLine', 37);
+      expect(attr).toHaveProperty('location.endColumn', 7);
+      expect(attr).toHaveProperty('location.endOffset', 902);
+
+      function getBlockAttribute(): BlockAttribute | null {
+        for (const component of components.list) {
+          if (component.type === 'model' && component.name === 'Post') {
+            const attr = component.properties.find(
+              (attr) => attr.type === 'attribute'
+            );
+            if (attr) return attr as BlockAttribute;
+          }
+        }
+        return null;
+      }
     });
   });
 

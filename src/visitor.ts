@@ -102,7 +102,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
       comment,
     } as const;
 
-    return appendLocationData(data, ctx.optional?.[0], ctx.array?.[0]);
+    return appendLocationData(data, name, ctx.optional?.[0], ctx.array?.[0]);
   }
 
   attribute(

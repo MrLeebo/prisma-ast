@@ -104,6 +104,7 @@ export interface BlockAttribute {
   group?: string;
   name: string;
   args: AttributeArgument[];
+  location?: CstNodeLocation;
 }
 
 export type GroupedBlockAttribute = BlockAttribute & { group: string };
@@ -116,6 +117,7 @@ export interface Field {
   optional?: boolean;
   attributes?: Attribute[];
   comment?: string;
+  location?: CstNodeLocation;
 }
 
 export type Attr =
@@ -130,6 +132,7 @@ export interface Attribute {
   group?: string;
   name: string;
   args?: AttributeArgument[];
+  location?: CstNodeLocation;
 }
 
 export type GroupedAttribute = Attribute & { group: string };
