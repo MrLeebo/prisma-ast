@@ -37,10 +37,11 @@
   "module": "dist/prisma-ast.esm.js",
   "size-limit": [
     {
-      "path": [
-        "dist/prisma-ast.cjs.production.min.js",
-        "dist/prisma-ast.esm.js"
-      ],
+      "path": "dist/prisma-ast.cjs.production.min.js",
+      "limit": "56 KB"
+    },
+    {
+      "path": "dist/prisma-ast.esm.js",
       "limit": "56 KB"
     }
   ],
