@@ -37,7 +37,7 @@ describe('PrismaSchemaBuilder', () => {
 
   it('accesses a generator', () => {
     const builder = createPrismaSchemaBuilder();
-    builder.generator('client').then<schema.Generator>(generator => {
+    builder.generator('client').then<schema.Generator>((generator) => {
       const assignment = generator.assignments[0] as schema.Assignment;
       assignment.value = '"prisma-client-ts"';
     });
@@ -67,7 +67,7 @@ describe('PrismaSchemaBuilder', () => {
     const builder = createPrismaSchemaBuilder();
     builder
       .datasource('postgresql', { env: 'DATABASE_URL' })
-      .then<schema.Datasource>(datasource => {
+      .then<schema.Datasource>((datasource) => {
         datasource.name = 'my-database';
       });
     expect(builder.print()).toMatchInlineSnapshot(`
@@ -130,13 +130,37 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it("removes nothing if the object being dropped doesn't exist", () => {
+    const builder = createPrismaSchemaBuilder(`
+      datasource db {
+        url = env("DATABASE_URL")
+      }
+
+      model Project {
+        name String
+      }
+    `);
+    builder.drop('TheBeat');
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      datasource db {
+        url = env("DATABASE_URL")
+      }
+
+      model Project {
+        name String
+      }
+      "
+    `);
+  });
+
   it('accesses a model', () => {
     const builder = createPrismaSchemaBuilder(`
     model Project {
       name String
     }
   `);
-    builder.model('Project').then<schema.Model>(project => {
+    builder.model('Project').then<schema.Model>((project) => {
       project.name = 'Task';
     });
     expect(builder.print()).toMatchInlineSnapshot(`
@@ -146,6 +170,33 @@ describe('PrismaSchemaBuilder', () => {
       }
       "
     `);
+  });
+
+  it('renames a model attribute', () => {
+    const builder = createPrismaSchemaBuilder(`
+    model Project {
+      name String
+
+      @@id([name])
+    }
+  `);
+    builder.model('Project').then<schema.Model>((project) => {
+      for (const prop of project.properties) {
+        if (prop.type === 'attribute' && prop.name === 'id') {
+          prop.name = 'unique';
+          return;
+        }
+      }
+    });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model Project {
+        name String
+
+        @@unique([name])
+      }
+      "
+`);
   });
 
   it('removes an enum', () => {
@@ -212,7 +263,7 @@ describe('PrismaSchemaBuilder', () => {
 
   it('accesses an enum', () => {
     const builder = createPrismaSchemaBuilder();
-    builder.enum('Role', ['USER', 'ADMIN']).then<schema.Enum>(e => {
+    builder.enum('Role', ['USER', 'ADMIN']).then<schema.Enum>((e) => {
       e.name = 'UserType';
     });
 
@@ -343,7 +394,7 @@ describe('PrismaSchemaBuilder', () => {
     builder
       .model('TaskMessage')
       .field('createdAt')
-      .then<schema.Field>(field => {
+      .then<schema.Field>((field) => {
         const attribute: schema.Attribute = {
           kind: 'field',
           name: 'default',
@@ -529,10 +580,7 @@ describe('PrismaSchemaBuilder', () => {
       id String
     }
     `);
-    const result = builder
-      .view('TestView')
-      .field('name', 'String')
-      .print();
+    const result = builder.view('TestView').field('name', 'String').print();
     expect(result).toMatchInlineSnapshot(`
           "
           view TestView {

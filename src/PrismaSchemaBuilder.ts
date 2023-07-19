@@ -105,30 +105,30 @@ export class ConcretePrismaSchemaBuilder {
 
   /** Adds or updates a generator block based on the name. */
   generator(name: string, provider = 'prisma-client-js'): this {
-    const generator: schema.Generator = this.schema.list.reduce<
-      schema.Generator
-    >(
-      (memo, block) =>
-        block.type === 'generator' && block.name === name ? block : memo,
-      {
-        type: 'generator',
-        name,
-        assignments: [
-          { type: 'assignment', key: 'provider', value: `"${provider}"` },
-        ],
-      }
-    );
+    const generator: schema.Generator =
+      this.schema.list.reduce<schema.Generator>(
+        (memo, block) =>
+          block.type === 'generator' && block.name === name ? block : memo,
+        {
+          type: 'generator',
+          name,
+          assignments: [
+            { type: 'assignment', key: 'provider', value: `"${provider}"` },
+          ],
+        }
+      );
 
     if (!this.schema.list.includes(generator)) this.schema.list.push(generator);
     this._subject = generator;
     return this;
   }
 
+  /** Removes something from the schema with the given name. */
   drop(name: string): this {
     const index = this.schema.list.findIndex(
-      block => 'name' in block && block.name === name
+      (block) => 'name' in block && block.name === name
     );
-    this.schema.list.splice(index, 1);
+    if (index !== -1) this.schema.list.splice(index, 1);
     return this;
   }
 
@@ -150,7 +150,7 @@ export class ConcretePrismaSchemaBuilder {
       ],
     };
     const existingIndex = this.schema.list.findIndex(
-      block => block.type === 'datasource'
+      (block) => block.type === 'datasource'
     );
     this.schema.list.splice(
       existingIndex,
@@ -193,7 +193,7 @@ export class ConcretePrismaSchemaBuilder {
       {
         type: 'enum',
         name,
-        enumerators: enumeratorNames.map(name => ({
+        enumerators: enumeratorNames.map((name) => ({
           type: 'enumerator',
           name,
         })),
@@ -204,6 +204,7 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
+  /** Add an enum value to the current enum. */
   enumerator(value: string): this {
     const subject = this.getSubject<schema.Enum>();
     if (!subject || !('type' in subject) || subject.type !== 'enum') {
@@ -311,7 +312,7 @@ export class ConcretePrismaSchemaBuilder {
       };
 
       if (args.length > 0)
-        attribute.args = args.map(arg => ({
+        attribute.args = args.map((arg) => ({
           type: 'attributeArgument',
           value: mapArg(arg),
         }));
@@ -342,7 +343,7 @@ export class ConcretePrismaSchemaBuilder {
 
     if (!subject.attributes) subject.attributes = [];
     subject.attributes = subject.attributes.filter(
-      attr => !(attr.type === 'attribute' && attr.name === name)
+      (attr) => !(attr.type === 'attribute' && attr.name === name)
     );
 
     return this;
@@ -369,7 +370,7 @@ export class ConcretePrismaSchemaBuilder {
     const assignment = subject.assignments.reduce<schema.Assignment>(
       (memo, assignment) =>
         assignment.type === 'assignment' && assignment.key === key
-          ? tap(assignment, a => {
+          ? tap(assignment, (a) => {
               a.value = `"${value}"`;
             })
           : memo,
@@ -494,7 +495,7 @@ export class ConcretePrismaSchemaBuilder {
     }
 
     subject.properties = subject.properties.filter(
-      field => !(field.type === 'field' && field.name === name)
+      (field) => !(field.type === 'field' && field.name === name)
     );
     return this;
   }

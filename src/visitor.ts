@@ -1,6 +1,7 @@
 import { CstNode, IToken } from '@chevrotain/types';
 import { parser } from './parser';
 import * as Types from './getSchema';
+import { appendLocationData, isToken } from './schemaUtils';
 
 const BasePrismaVisitor = parser.getBaseCstVisitorConstructorWithDefaults();
 export class PrismaVisitor extends BasePrismaVisitor {
@@ -10,7 +11,7 @@ export class PrismaVisitor extends BasePrismaVisitor {
   }
 
   schema(ctx: CstNode & { list: CstNode[] }): Types.Schema {
-    const list = ctx.list?.map(item => this.visit([item])) || [];
+    const list = ctx.list?.map((item) => this.visit([item])) || [];
     return { type: 'schema', list };
   }
 
@@ -21,24 +22,36 @@ export class PrismaVisitor extends BasePrismaVisitor {
       block: [CstNode];
     }
   ): Types.Block {
-    const [{ image: type }] = ctx.type;
-    const [{ image: name }] = ctx.componentName;
+    const [type] = ctx.type;
+    const [name] = ctx.componentName;
     const list = this.visit(ctx.block);
 
-    switch (type) {
-      case 'datasource':
-        return { type: 'datasource', name, assignments: list };
-      case 'generator':
-        return { type: 'generator', name, assignments: list };
-      case 'model':
-        return { type: 'model', name, properties: list };
-      case 'view':
-        return { type: 'view', name, properties: list };
-      case 'enum':
-        return { type: 'enum', name, enumerators: list };
-      default:
-        throw new Error(`Unexpected block type: ${type}`);
-    }
+    const data = (() => {
+      switch (type.image) {
+        case 'datasource':
+          return {
+            type: 'datasource',
+            name: name.image,
+            assignments: list,
+          } as const;
+        case 'generator':
+          return {
+            type: 'generator',
+            name: name.image,
+            assignments: list,
+          } as const;
+        case 'model':
+          return { type: 'model', name: name.image, properties: list } as const;
+        case 'view':
+          return { type: 'view', name: name.image, properties: list } as const;
+        case 'enum':
+          return { type: 'enum', name: name.image, enumerators: list } as const;
+        default:
+          throw new Error(`Unexpected block type: ${type}`);
+      }
+    })();
+
+    return appendLocationData(data, type, name);
   }
 
   break(): Types.Break {
@@ -46,20 +59,22 @@ export class PrismaVisitor extends BasePrismaVisitor {
   }
 
   comment(ctx: CstNode & { text: [IToken] }): Types.Comment {
-    const [{ image: comment }] = ctx.text;
-    return { type: 'comment', text: comment };
+    const [comment] = ctx.text;
+    const data = { type: 'comment', text: comment.image } as const;
+    return appendLocationData(data, comment);
   }
 
   block(ctx: CstNode & { list: CstNode[] }): Types.Block[] {
-    return ctx.list?.map(item => this.visit([item]));
+    return ctx.list?.map((item) => this.visit([item]));
   }
 
   assignment(
     ctx: CstNode & { assignmentName: [IToken]; assignmentValue: [CstNode] }
   ): Types.Assignment {
     const value = this.visit(ctx.assignmentValue);
-    const [{ image: key }] = ctx.assignmentName;
-    return { type: 'assignment', key, value };
+    const [key] = ctx.assignmentName;
+    const data = { type: 'assignment', key: key.image, value } as const;
+    return appendLocationData(data, key);
   }
 
   field(
@@ -73,19 +88,21 @@ export class PrismaVisitor extends BasePrismaVisitor {
     }
   ): Types.Field {
     const fieldType = this.visit(ctx.fieldType);
-    const [{ image: name }] = ctx.fieldName;
+    const [name] = ctx.fieldName;
     const attributes =
-      ctx.attributeList && ctx.attributeList.map(item => this.visit([item]));
+      ctx.attributeList && ctx.attributeList.map((item) => this.visit([item]));
     const comment = ctx.comment?.[0]?.image;
-    return {
+    const data = {
       type: 'field',
-      name,
+      name: name.image,
       fieldType,
       array: ctx.array != null,
       optional: ctx.optional != null,
       attributes,
       comment,
-    };
+    } as const;
+
+    return appendLocationData(data, name, ctx.optional?.[0], ctx.array?.[0]);
   }
 
   attribute(
@@ -97,13 +114,20 @@ export class PrismaVisitor extends BasePrismaVisitor {
       attributeArg: CstNode[];
     }
   ): Types.Attr {
-    const [{ image: name }] = ctx.attributeName;
-    const [{ image: group }] = ctx.groupName || [{}];
+    const [name] = ctx.attributeName;
+    const [group] = ctx.groupName || [{}];
     const args =
-      ctx.attributeArg && ctx.attributeArg.map(attr => this.visit(attr));
+      ctx.attributeArg && ctx.attributeArg.map((attr) => this.visit(attr));
     const kind = ctx.blockAttribute != null ? 'object' : 'field';
-
-    return { type: 'attribute', name, kind, group, args };
+    const data = {
+      type: 'attribute',
+      name: name.image,
+      kind,
+      group: group.image,
+      args,
+    } as const;
+    const attrs = kind === 'object' ? ctx.blockAttribute : ctx.fieldAttribute;
+    return appendLocationData(data, name, ...attrs, group);
   }
 
   attributeArg(ctx: CstNode & { value: [CstNode] }): Types.AttributeArgument {
@@ -114,28 +138,30 @@ export class PrismaVisitor extends BasePrismaVisitor {
   func(
     ctx: CstNode & { funcName: [IToken]; value: CstNode[]; keyedArg: CstNode[] }
   ): Types.Func {
-    const [{ image: name }] = ctx.funcName;
-    const params = ctx.value && ctx.value.map(item => this.visit([item]));
+    const [name] = ctx.funcName;
+    const params = ctx.value && ctx.value.map((item) => this.visit([item]));
     const keyedParams =
-      ctx.keyedArg && ctx.keyedArg.map(item => this.visit([item]));
+      ctx.keyedArg && ctx.keyedArg.map((item) => this.visit([item]));
     const pars = (params || keyedParams) && [
       ...(params ?? []),
       ...(keyedParams ?? []),
     ];
-    return { type: 'function', name, params: pars };
+    const data = { type: 'function', name: name.image, params: pars } as const;
+    return appendLocationData(data, name);
   }
 
   array(ctx: CstNode & { value: CstNode[] }): Types.RelationArray {
-    const args = ctx.value && ctx.value.map(item => this.visit([item]));
+    const args = ctx.value && ctx.value.map((item) => this.visit([item]));
     return { type: 'array', args };
   }
 
   keyedArg(
     ctx: CstNode & { keyName: [IToken]; value: [CstNode] }
   ): Types.KeyValue {
-    const [{ image: key }] = ctx.keyName;
+    const [key] = ctx.keyName;
     const value = this.visit(ctx.value);
-    return { type: 'keyValue', key, value };
+    const data = { type: 'keyValue', key: key.image, value } as const;
+    return appendLocationData(data, key);
   }
 
   value(ctx: CstNode & { value: [IToken] | [CstNode] }): Types.Value {
@@ -149,12 +175,9 @@ export class PrismaVisitor extends BasePrismaVisitor {
   enum(
     ctx: CstNode & { enumName: [IToken]; comment: [IToken] }
   ): Types.Enumerator {
-    const [{ image: name }] = ctx.enumName;
+    const [name] = ctx.enumName;
     const comment = ctx.comment?.[0]?.image;
-    return { type: 'enumerator', name, comment };
+    const data = { type: 'enumerator', name: name.image, comment } as const;
+    return appendLocationData(data, name);
   }
-}
-
-function isToken(node: [IToken] | [CstNode]): node is [IToken] {
-  return 'image' in node[0];
 }

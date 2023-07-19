@@ -4,7 +4,7 @@ describe('produceSchema', () => {
   it('prints the schema', () => {
     const result = produceSchema(
       '',
-      builder => {
+      (builder) => {
         builder
           .datasource('postgresql', { env: 'DATABASE_URL' })
           .generator('client', 'prisma-client-js')

@@ -1,7 +1,19 @@
 import { PrismaLexer } from './lexer';
 import { PrismaVisitor } from './visitor';
 import { parser } from './parser';
+import type { CstNodeLocation } from 'chevrotain';
 
+/**
+ * Parses a string containing a prisma schema's source code and returns an
+ * object that represents the parsed data structure. You can make direct
+ * modifications to the objects and arrays nested within, and then produce
+ * a new prisma schema using printSchema().
+ *
+ * @example
+ * const schema = getSchema(source)
+ * // ... make changes to schema object ...
+ * const changedSource = printSchema(schema)
+ * */
 export function getSchema(source: string): Schema {
   const lexingResult = PrismaLexer.tokenize(source);
   parser.input = lexingResult.tokens;
@@ -33,28 +45,33 @@ export interface Object {
 
 export interface Model extends Object {
   type: 'model';
+  location?: CstNodeLocation;
 }
 
 export interface View extends Object {
   type: 'view';
+  location?: CstNodeLocation;
 }
 
 export interface Datasource {
   type: 'datasource';
   name: string;
   assignments: Array<Assignment | Comment | Break>;
+  location?: CstNodeLocation;
 }
 
 export interface Generator {
   type: 'generator';
   name: string;
   assignments: Array<Assignment | Comment | Break>;
+  location?: CstNodeLocation;
 }
 
 export interface Enum {
   type: 'enum';
   name: string;
   enumerators: Array<Enumerator | Comment | Break>;
+  location?: CstNodeLocation;
 }
 
 export interface Comment {
@@ -87,6 +104,7 @@ export interface BlockAttribute {
   group?: string;
   name: string;
   args: AttributeArgument[];
+  location?: CstNodeLocation;
 }
 
 export type GroupedBlockAttribute = BlockAttribute & { group: string };
@@ -99,6 +117,7 @@ export interface Field {
   optional?: boolean;
   attributes?: Attribute[];
   comment?: string;
+  location?: CstNodeLocation;
 }
 
 export type Attr =
@@ -113,6 +132,7 @@ export interface Attribute {
   group?: string;
   name: string;
   args?: AttributeArgument[];
+  location?: CstNodeLocation;
 }
 
 export type GroupedAttribute = Attribute & { group: string };

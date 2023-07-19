@@ -1,10 +1,11 @@
 import { CstParser } from 'chevrotain';
+import getConfig from './getConfig';
 import * as lexer from './lexer';
 
 type ComponentType = 'datasource' | 'generator' | 'model' | 'view' | 'enum';
 export class PrismaParser extends CstParser {
   constructor() {
-    super(lexer.multiModeTokens);
+    super(lexer.multiModeTokens, getConfig().parser);
     this.performSelfAnalysis();
   }
 
