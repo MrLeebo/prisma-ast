@@ -134,7 +134,7 @@ datasource db {
 }
 ```
 
-### Access a datasource programmatially
+### Access a datasource programmatically
 
 If you want to perform a custom action that there isn't a Builder method for, you can access the underlying schema object programmatically.
 
