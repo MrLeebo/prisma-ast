@@ -1,5 +1,4 @@
 import type { CstNode, IToken } from 'chevrotain';
-import getConfig from './getConfig';
 import * as schema from './getSchema';
 
 const schemaObjects = ['model', 'view'];
@@ -28,9 +27,6 @@ export function appendLocationData<T extends Record<string, unknown>>(
   data: T,
   ...tokens: IToken[]
 ): T {
-  const { parser } = getConfig();
-  if (parser.nodeLocationTracking === 'none') return data;
-
   const location = tokens.reduce((memo, token) => {
     if (!token) return memo;
 
