@@ -1,8 +1,7 @@
 import { PrismaLexer } from './lexer';
-import { VisitorClassFactory } from './visitor';
+import { PrismaVisitor, defaultVisitor } from './visitor';
 import type { CstNodeLocation } from 'chevrotain';
-import getConfig, { PrismaAstConfig } from './getConfig';
-import { PrismaParser } from './parser';
+import { PrismaParser, defaultParser } from './parser';
 
 /**
  * Parses a string containing a prisma schema's source code and returns an
@@ -17,16 +16,19 @@ import { PrismaParser } from './parser';
  * */
 export function getSchema(
   source: string,
-  configOverride?: PrismaAstConfig
+  options?: {
+    parser: PrismaParser;
+    visitor: PrismaVisitor;
+  }
 ): Schema {
-  const config = configOverride ?? getConfig();
   const lexingResult = PrismaLexer.tokenize(source);
-  const parser = new PrismaParser(config);
+
+  const parser = options?.parser ?? defaultParser;
   parser.input = lexingResult.tokens;
   const cstNode = parser.schema();
   if (parser.errors.length > 0) throw parser.errors[0];
-  const VisitorClass = VisitorClassFactory(parser);
-  const visitor = new VisitorClass(config);
+
+  const visitor = options?.visitor ?? defaultVisitor;
   return visitor.visit(cstNode);
 }
 

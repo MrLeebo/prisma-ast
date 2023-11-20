@@ -2,18 +2,18 @@ import { CstNode, IToken } from '@chevrotain/types';
 import * as Types from './getSchema';
 
 import { appendLocationData, isToken } from './schemaUtils';
-import { PrismaAstConfig } from './getConfig';
-import { PrismaParser } from './parser';
+import { PrismaParser, defaultParser } from './parser';
 import { ICstVisitor } from 'chevrotain';
 
 type Class<T> = new (...args: any[]) => T;
+export type PrismaVisitor = ICstVisitor<any, any>;
 
 export const VisitorClassFactory = (
   parser: PrismaParser
-): Class<ICstVisitor<any, any>> => {
+): Class<PrismaVisitor> => {
   const BasePrismaVisitor = parser.getBaseCstVisitorConstructorWithDefaults();
   return class PrismaVisitor extends BasePrismaVisitor {
-    constructor(private readonly config: PrismaAstConfig) {
+    constructor() {
       super();
       this.validateVisitor();
     }
@@ -219,8 +219,11 @@ export const VisitorClassFactory = (
       data: T,
       ...tokens: IToken[]
     ): T {
-      if (this.config.parser.nodeLocationTracking === 'none') return data;
+      if (parser.config.nodeLocationTracking === 'none') return data;
       return appendLocationData(data, ...tokens);
     }
   };
 };
+
+export const DefaultVisitorClass = VisitorClassFactory(defaultParser);
+export const defaultVisitor = new DefaultVisitorClass();

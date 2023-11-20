@@ -1,5 +1,7 @@
-import getConfig from '../src/getConfig';
+import getConfig, { PrismaAstParserConfig } from '../src/getConfig';
 import { type Field, getSchema, type BlockAttribute } from '../src/getSchema';
+import { PrismaParser } from '../src/parser';
+import { VisitorClassFactory } from '../src/visitor';
 import { loadFixture, getFixtures } from './utils';
 
 describe('getSchema', () => {
@@ -14,13 +16,18 @@ describe('getSchema', () => {
   }
 
   describe('with location tracking', () => {
-    describe('passed-in config', () => {
+    describe('passed-in parser and visitor', () => {
       it('contains field location info', async () => {
         const source = await loadFixture('example.prisma');
+        const config: PrismaAstParserConfig = {
+          nodeLocationTracking: 'full',
+        };
+        const parser = new PrismaParser(config);
+        const VisitorClass = VisitorClassFactory(parser);
+        const visitor = new VisitorClass(parser);
         const components = getSchema(source, {
-          parser: {
-            nodeLocationTracking: 'full',
-          },
+          parser,
+          visitor,
         });
         const field = getField();
         expect(field).toHaveProperty('location.startLine', 14);
@@ -84,7 +91,7 @@ describe('getSchema', () => {
     it('does not contain location info', async () => {
       const source = await loadFixture('example.prisma');
       const components = getSchema(source);
-      expect(components).not.toHaveProperty('list[0].location.startLine');
+      expect(components).not.toHaveProperty('list.location.startLine');
       expect(components).not.toHaveProperty('list[0].location.startColumn');
       expect(components).not.toHaveProperty('list[0].location.startOffset');
       expect(components).not.toHaveProperty('list[0].location.endLine');

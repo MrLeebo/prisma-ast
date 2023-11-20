@@ -1,12 +1,15 @@
 import { CstParser } from 'chevrotain';
-import { PrismaAstConfig } from './getConfig';
+import getConfig, { PrismaAstParserConfig } from './getConfig';
 import * as lexer from './lexer';
 
 type ComponentType = 'datasource' | 'generator' | 'model' | 'view' | 'enum';
 export class PrismaParser extends CstParser {
-  constructor(config: PrismaAstConfig) {
-    super(lexer.multiModeTokens, config.parser);
+  readonly config: PrismaAstParserConfig;
+
+  constructor(config: PrismaAstParserConfig) {
+    super(lexer.multiModeTokens, config);
     this.performSelfAnalysis();
+    this.config = config;
   }
 
   private break = this.RULE('break', () => {
@@ -228,3 +231,5 @@ export class PrismaParser extends CstParser {
     });
   });
 }
+
+export const defaultParser = new PrismaParser(getConfig().parser);
