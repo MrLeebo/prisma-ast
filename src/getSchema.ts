@@ -1,7 +1,7 @@
 import { PrismaLexer } from './lexer';
-import { PrismaVisitor } from './visitor';
-import { parser } from './parser';
+import { PrismaVisitor, defaultVisitor } from './visitor';
 import type { CstNodeLocation } from 'chevrotain';
+import { PrismaParser, defaultParser } from './parser';
 
 /**
  * Parses a string containing a prisma schema's source code and returns an
@@ -14,12 +14,21 @@ import type { CstNodeLocation } from 'chevrotain';
  * // ... make changes to schema object ...
  * const changedSource = printSchema(schema)
  * */
-export function getSchema(source: string): Schema {
+export function getSchema(
+  source: string,
+  options?: {
+    parser: PrismaParser;
+    visitor: PrismaVisitor;
+  }
+): Schema {
   const lexingResult = PrismaLexer.tokenize(source);
+
+  const parser = options?.parser ?? defaultParser;
   parser.input = lexingResult.tokens;
   const cstNode = parser.schema();
   if (parser.errors.length > 0) throw parser.errors[0];
-  const visitor = new PrismaVisitor();
+
+  const visitor = options?.visitor ?? defaultVisitor;
   return visitor.visit(cstNode);
 }
 

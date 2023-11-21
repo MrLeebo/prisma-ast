@@ -4,8 +4,9 @@ import {
   type LilconfigResult as ConfigResultRaw,
 } from 'lilconfig';
 
+export type PrismaAstParserConfig = Pick<IParserConfig, 'nodeLocationTracking'>;
 export interface PrismaAstConfig {
-  parser: Pick<IParserConfig, 'nodeLocationTracking'>;
+  parser: PrismaAstParserConfig;
 }
 
 type ConfigResult<T> = Omit<ConfigResultRaw, 'config'> & {

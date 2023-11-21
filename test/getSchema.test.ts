@@ -1,5 +1,7 @@
-import getConfig from '../src/getConfig';
+import getConfig, { PrismaAstParserConfig } from '../src/getConfig';
 import { type Field, getSchema, type BlockAttribute } from '../src/getSchema';
+import { PrismaParser } from '../src/parser';
+import { VisitorClassFactory } from '../src/visitor';
 import { loadFixture, getFixtures } from './utils';
 
 describe('getSchema', () => {
@@ -14,61 +16,74 @@ describe('getSchema', () => {
   }
 
   describe('with location tracking', () => {
-    beforeAll(() => {
-      getConfig().parser.nodeLocationTracking = 'full';
-    });
+    describe('passed-in parser and visitor', () => {
+      it('contains field location info', async () => {
+        const source = await loadFixture('example.prisma');
+        const config: PrismaAstParserConfig = {
+          nodeLocationTracking: 'full',
+        };
+        const parser = new PrismaParser(config);
+        const VisitorClass = VisitorClassFactory(parser);
+        const visitor = new VisitorClass(parser);
+        const components = getSchema(source, {
+          parser,
+          visitor,
+        });
+        const field = getField();
+        expect(field).toHaveProperty('location.startLine', 14);
+        expect(field).toHaveProperty('location.startColumn', 3);
+        // TODO: these offsets are OS-specific, due to the differing length of the line endings
+        expect(field).toHaveProperty('location.startOffset');
+        expect(field).toHaveProperty('location.endLine', 14);
+        expect(field).toHaveProperty('location.endColumn', 4);
+        expect(field).toHaveProperty('location.endOffset');
 
-    afterAll(() => {
-      getConfig().parser.nodeLocationTracking = 'none';
-    });
-
-    it('contains field location info', async () => {
-      const source = await loadFixture('example.prisma');
-      const components = getSchema(source);
-      const field = getField();
-      expect(field).toHaveProperty('location.startLine', 14);
-      expect(field).toHaveProperty('location.startColumn', 3);
-      // TODO: these offsets are OS-specific, due to the differing length of the line endings
-      expect(field).toHaveProperty('location.startOffset');
-      expect(field).toHaveProperty('location.endLine', 14);
-      expect(field).toHaveProperty('location.endColumn', 4);
-      expect(field).toHaveProperty('location.endOffset');
-
-      function getField(): Field | null {
-        for (const component of components.list) {
-          if (component.type === 'model') {
-            const field = component.properties.find(
-              (field) => field.type === 'field'
-            ) as Field;
-            if (field) return field;
+        function getField(): Field | null {
+          for (const component of components.list) {
+            if (component.type === 'model') {
+              const field = component.properties.find(
+                (field) => field.type === 'field'
+              ) as Field;
+              if (field) return field;
+            }
           }
+          return null;
         }
-        return null;
-      }
+      });
     });
 
-    it('contains block attribute location info', async () => {
-      const source = await loadFixture('example.prisma');
-      const components = getSchema(source);
-      const attr = getBlockAttribute();
-      expect(attr).toHaveProperty('location.startLine', 37);
-      expect(attr).toHaveProperty('location.startColumn', 3);
-      expect(attr).toHaveProperty('location.startOffset');
-      expect(attr).toHaveProperty('location.endLine', 37);
-      expect(attr).toHaveProperty('location.endColumn', 7);
-      expect(attr).toHaveProperty('location.endOffset');
+    describe('static config', () => {
+      beforeAll(() => {
+        getConfig().parser.nodeLocationTracking = 'full';
+      });
 
-      function getBlockAttribute(): BlockAttribute | null {
-        for (const component of components.list) {
-          if (component.type === 'model' && component.name === 'Post') {
-            const attr = component.properties.find(
-              (attr) => attr.type === 'attribute'
-            );
-            if (attr) return attr as BlockAttribute;
+      afterAll(() => {
+        getConfig().parser.nodeLocationTracking = 'none';
+      });
+
+      it('contains block attribute location info', async () => {
+        const source = await loadFixture('example.prisma');
+        const components = getSchema(source);
+        const attr = getBlockAttribute();
+        expect(attr).toHaveProperty('location.startLine', 37);
+        expect(attr).toHaveProperty('location.startColumn', 3);
+        expect(attr).toHaveProperty('location.startOffset');
+        expect(attr).toHaveProperty('location.endLine', 37);
+        expect(attr).toHaveProperty('location.endColumn', 7);
+        expect(attr).toHaveProperty('location.endOffset');
+
+        function getBlockAttribute(): BlockAttribute | null {
+          for (const component of components.list) {
+            if (component.type === 'model' && component.name === 'Post') {
+              const attr = component.properties.find(
+                (attr) => attr.type === 'attribute'
+              );
+              if (attr) return attr as BlockAttribute;
+            }
           }
+          return null;
         }
-        return null;
-      }
+      });
     });
   });
 
