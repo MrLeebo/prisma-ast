@@ -91,7 +91,7 @@ describe('getSchema', () => {
     it('does not contain location info', async () => {
       const source = await loadFixture('example.prisma');
       const components = getSchema(source);
-      expect(components).not.toHaveProperty('list.location.startLine');
+      expect(components).not.toHaveProperty('list[0].location.startLine');
       expect(components).not.toHaveProperty('list[0].location.startColumn');
       expect(components).not.toHaveProperty('list[0].location.startOffset');
       expect(components).not.toHaveProperty('list[0].location.endLine');
