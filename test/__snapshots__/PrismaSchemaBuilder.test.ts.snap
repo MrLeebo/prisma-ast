@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrismaSchemaBuilder adds a composite type 1`] = `
+"
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  photos Photo[]
+}
+
+type Photo {
+  height Int    @default(0)
+  width  Int    @default(0)
+  url    String
+}
+"
+`;

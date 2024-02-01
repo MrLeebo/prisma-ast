@@ -614,7 +614,7 @@ describe('PrismaSchemaBuilder', () => {
       .field('url', 'String')
       .print();
 
-    expect(result).toMatch(await loadFixture('composite-types.prisma'));
+    expect(result).toMatchSnapshot();
   });
 
   it('prints the schema', async () => {
