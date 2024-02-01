@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                String            @id() @default(uuid()) @db.Uuid
+  //
+  productNumber     String            @unique
+  price             Decimal           @db.Decimal(19, 4) //
+  unit              String            @db.VarChar(3)
+  unitOfMeasurement UnitOfMeasurement @relation(fields: [unit], references: [unit])
+  salesOrderItems   SaleOrderItem[]
+  productTexts      ProductText[]
+  createdAt         DateTime          @default(now())
+  version           Int               @default(0)
+}
+
+model UnitOfMeasurement {
+  name     String
+  unit     String    @unique @db.VarChar(3)
+  products Product[]
+}
+
+model SaleOrderItem {
+  productId String  @id @db.Uuid
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model ProductText {
+  description String
+  productId   String   @id @db.Uuid
+  textType    TextType
+  product     Product  @relation(fields: [productId], references: [id])
+}
+
+enum TextType {
+  //
+  MARKDOWN
+  RICHTEXT //
+}
