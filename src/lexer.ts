@@ -51,12 +51,12 @@ export const Comment = createToken({
 
 export const DocComment = createToken({
   name: 'DocComment',
-  pattern: /\/\/\/\s*(.+)/,
+  pattern: /\/\/\/[ \t]*(.*)/,
   categories: [Comment],
 });
 export const LineComment = createToken({
   name: 'LineComment',
-  pattern: /\/\/\s*(.+)/,
+  pattern: /\/\/[ \t]*(.*)/,
   categories: [Comment],
 });
 export const Attribute = createToken({

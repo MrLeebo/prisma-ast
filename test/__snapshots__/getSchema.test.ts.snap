@@ -7405,6 +7405,515 @@ exports[`getSchema parse atena-server.prisma 1`] = `
 }
 `;
 
+exports[`getSchema parse empty-comment.prisma 1`] = `
+{
+  "list": [
+    {
+      "assignments": [
+        {
+          "key": "provider",
+          "type": "assignment",
+          "value": ""postgresql"",
+        },
+        {
+          "key": "url",
+          "type": "assignment",
+          "value": {
+            "name": "env",
+            "params": [
+              ""DATABASE_URL"",
+            ],
+            "type": "function",
+          },
+        },
+      ],
+      "name": "db",
+      "type": "datasource",
+    },
+    {
+      "type": "break",
+    },
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "id",
+              "type": "attribute",
+            },
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "name": "uuid",
+                    "params": undefined,
+                    "type": "function",
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": "db",
+              "kind": "field",
+              "name": "Uuid",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "id",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "text": "//",
+          "type": "comment",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "unique",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "productNumber",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": "19",
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": "4",
+                },
+              ],
+              "group": "db",
+              "kind": "field",
+              "name": "Decimal",
+              "type": "attribute",
+            },
+          ],
+          "comment": "//",
+          "fieldType": "Decimal",
+          "name": "price",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": "3",
+                },
+              ],
+              "group": "db",
+              "kind": "field",
+              "name": "VarChar",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "unit",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "unit",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "unit",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "UnitOfMeasurement",
+          "name": "unitOfMeasurement",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": undefined,
+          "comment": undefined,
+          "fieldType": "SaleOrderItem",
+          "name": "salesOrderItems",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": undefined,
+          "comment": undefined,
+          "fieldType": "ProductText",
+          "name": "productTexts",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "name": "now",
+                    "params": undefined,
+                    "type": "function",
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "DateTime",
+          "name": "createdAt",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": "0",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Int",
+          "name": "version",
+          "optional": false,
+          "type": "field",
+        },
+      ],
+      "type": "model",
+    },
+    {
+      "type": "break",
+    },
+    {
+      "name": "UnitOfMeasurement",
+      "properties": [
+        {
+          "array": false,
+          "attributes": undefined,
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "name",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "unique",
+              "type": "attribute",
+            },
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": "3",
+                },
+              ],
+              "group": "db",
+              "kind": "field",
+              "name": "VarChar",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "unit",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": undefined,
+          "comment": undefined,
+          "fieldType": "Product",
+          "name": "products",
+          "optional": false,
+          "type": "field",
+        },
+      ],
+      "type": "model",
+    },
+    {
+      "type": "break",
+    },
+    {
+      "name": "SaleOrderItem",
+      "properties": [
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "id",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": "db",
+              "kind": "field",
+              "name": "Uuid",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "productId",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "productId",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "id",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Product",
+          "name": "product",
+          "optional": false,
+          "type": "field",
+        },
+      ],
+      "type": "model",
+    },
+    {
+      "type": "break",
+    },
+    {
+      "name": "ProductText",
+      "properties": [
+        {
+          "array": false,
+          "attributes": undefined,
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "description",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "id",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": "db",
+              "kind": "field",
+              "name": "Uuid",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "productId",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": undefined,
+          "comment": undefined,
+          "fieldType": "TextType",
+          "name": "textType",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "productId",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "id",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Product",
+          "name": "product",
+          "optional": false,
+          "type": "field",
+        },
+      ],
+      "type": "model",
+    },
+    {
+      "type": "break",
+    },
+    {
+      "enumerators": [
+        {
+          "text": "//",
+          "type": "comment",
+        },
+        {
+          "comment": undefined,
+          "name": "MARKDOWN",
+          "type": "enumerator",
+        },
+        {
+          "comment": "//",
+          "name": "RICHTEXT",
+          "type": "enumerator",
+        },
+      ],
+      "name": "TextType",
+      "type": "enum",
+    },
+  ],
+  "type": "schema",
+}
+`;
+
 exports[`getSchema parse example.prisma 1`] = `
 {
   "list": [

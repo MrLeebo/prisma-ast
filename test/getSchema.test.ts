@@ -15,6 +15,85 @@ describe('getSchema', () => {
     });
   }
 
+  // https://github.com/MrLeebo/prisma-ast/issues/28
+  describe('empty comments', () => {
+    it('parses empty comments', async () => {
+      const source = await loadFixture('empty-comment.prisma');
+      const schema = getSchema(source);
+
+      for (const node of schema.list) {
+        if (node.type !== 'model') continue;
+        if (node.name !== 'Product') continue;
+
+        for (const property of node.properties) {
+          if (property.type === 'comment') {
+            expect(property.text).toEqual('//');
+            return;
+          }
+        }
+      }
+
+      fail();
+    });
+
+    it('parses empty inline comments', async () => {
+      const source = await loadFixture('empty-comment.prisma');
+      const schema = getSchema(source);
+
+      for (const node of schema.list) {
+        if (node.type !== 'model') continue;
+        if (node.name !== 'Product') continue;
+
+        for (const property of node.properties) {
+          if (property.type === 'field' && property.comment != null) {
+            expect(property.comment).toEqual('//');
+            return;
+          }
+        }
+      }
+
+      fail();
+    });
+
+    it('parses empty comments in enum', async () => {
+      const source = await loadFixture('empty-comment.prisma');
+      const schema = getSchema(source);
+
+      for (const node of schema.list) {
+        if (node.type !== 'enum') continue;
+        if (node.name !== 'TextType') continue;
+
+        for (const property of node.enumerators) {
+          if (property.type === 'comment') {
+            expect(property.text).toEqual('//');
+            return;
+          }
+        }
+      }
+
+      fail();
+    });
+
+    it('parses empty inline enum comments', async () => {
+      const source = await loadFixture('empty-comment.prisma');
+      const schema = getSchema(source);
+
+      for (const node of schema.list) {
+        if (node.type !== 'enum') continue;
+        if (node.name !== 'TextType') continue;
+
+        for (const property of node.enumerators) {
+          if (property.type === 'enumerator' && property.comment != null) {
+            expect(property.comment).toEqual('//');
+            return;
+          }
+        }
+      }
+
+      fail();
+    });
+  });
+
   describe('with location tracking', () => {
     describe('passed-in parser and visitor', () => {
       it('contains field location info', async () => {
