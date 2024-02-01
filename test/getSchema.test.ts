@@ -94,6 +94,35 @@ describe('getSchema', () => {
     });
   });
 
+  it('parses composite type', async () => {
+    const source = await loadFixture('composite-types.prisma');
+    const schema = getSchema(source);
+
+    for (const node of schema.list) {
+      if (node.type === 'type' && node.name === 'Photo') {
+        const [height, width, url] = node.properties;
+        expect(height).toMatchObject({
+          type: 'field',
+          name: 'height',
+          fieldType: 'Int',
+        });
+        expect(width).toMatchObject({
+          type: 'field',
+          name: 'width',
+          fieldType: 'Int',
+        });
+        expect(url).toMatchObject({
+          type: 'field',
+          name: 'url',
+          fieldType: 'String',
+        });
+        return;
+      }
+    }
+
+    fail();
+  });
+
   describe('with location tracking', () => {
     describe('passed-in parser and visitor', () => {
       it('contains field location info', async () => {

@@ -44,10 +44,11 @@ export type Block =
   | Generator
   | Enum
   | Comment
-  | Break;
+  | Break
+  | Type;
 
 export interface Object {
-  type: 'model' | 'view';
+  type: 'model' | 'view' | 'type';
   name: string;
   properties: Array<Property | Comment | Break>;
 }
@@ -59,6 +60,11 @@ export interface Model extends Object {
 
 export interface View extends Object {
   type: 'view';
+  location?: CstNodeLocation;
+}
+
+export interface Type extends Object {
+  type: 'type';
   location?: CstNodeLocation;
 }
 
@@ -109,7 +115,7 @@ export interface Enumerator {
 
 export interface BlockAttribute {
   type: 'attribute';
-  kind: 'object' | 'view';
+  kind: 'object' | 'view' | 'type';
   group?: string;
   name: string;
   args: AttributeArgument[];

@@ -2,10 +2,12 @@ import * as Types from './getSchema';
 import { EOL } from 'os';
 import { schemaSorter } from './schemaSorter';
 
+type Block = 'generator' | 'datasource' | 'model' | 'view' | 'enum' | 'type';
+
 export interface PrintOptions {
   sort?: boolean;
   locales?: string | string[];
-  sortOrder?: Array<'generator' | 'datasource' | 'model' | 'view' | 'enum'>;
+  sortOrder?: Block[];
 }
 
 /**
@@ -47,6 +49,7 @@ function printBlock(block: Types.Block): string {
       return printGenerator(block);
     case 'model':
     case 'view':
+    case 'type':
       return printObject(block);
     case 'break':
       return printBreak();

@@ -234,6 +234,36 @@ model Project {
 }
 ```
 
+### Add or update a view
+
+If the view with that name already exists in the schema, it will be selected and any fields that follow will be appended to the view. Otherwise, the view will be created and added to the schema.
+
+```ts
+builder.view('Project').field('name', 'String');
+```
+
+```prisma
+model Project {
+  name String
+}
+```
+
+### Add or update a composite type
+
+If the composite type with that name already exists in the schema, it will be selected and any fields that follow will be appended to the type. Otherwise, the composite type will be created and added to the schema.
+
+```ts
+builder.type('Photo').field('width', 'Int').field('height', 'Int').field('url', 'String');
+```
+
+```prisma
+type Photo {
+  width   Int
+  height  Int
+  url     String
+}
+```
+
 ### Access a model programmatically
 
 If you want to perform a custom action that there isn't a Builder method for, you can access the underlying schema object programmatically.

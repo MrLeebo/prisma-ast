@@ -2,7 +2,13 @@ import { CstParser } from 'chevrotain';
 import getConfig, { PrismaAstParserConfig } from './getConfig';
 import * as lexer from './lexer';
 
-type ComponentType = 'datasource' | 'generator' | 'model' | 'view' | 'enum';
+type ComponentType =
+  | 'datasource'
+  | 'generator'
+  | 'model'
+  | 'view'
+  | 'enum'
+  | 'type';
 export class PrismaParser extends CstParser {
   readonly config: PrismaAstParserConfig;
 
@@ -105,7 +111,10 @@ export class PrismaParser extends CstParser {
     ) => {
       const { componentType } = options;
       const isEnum = componentType === 'enum';
-      const isObject = componentType === 'model' || componentType === 'view';
+      const isObject =
+        componentType === 'model' ||
+        componentType === 'view' ||
+        componentType === 'type';
 
       this.CONSUME(lexer.LCurly);
       this.CONSUME1(lexer.LineBreak);
@@ -197,6 +206,7 @@ export class PrismaParser extends CstParser {
       { ALT: () => this.CONSUME(lexer.Model, { LABEL: 'type' }) },
       { ALT: () => this.CONSUME(lexer.View, { LABEL: 'type' }) },
       { ALT: () => this.CONSUME(lexer.Enum, { LABEL: 'type' }) },
+      { ALT: () => this.CONSUME(lexer.Type, { LABEL: 'type' }) },
     ]);
     this.OR2([
       {

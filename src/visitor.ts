@@ -5,8 +5,10 @@ import { appendLocationData, isToken } from './schemaUtils';
 import { PrismaParser, defaultParser } from './parser';
 import { ICstVisitor } from 'chevrotain';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type Class<T> = new (...args: any[]) => T;
 export type PrismaVisitor = ICstVisitor<any, any>;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export const VisitorClassFactory = (
   parser: PrismaParser
@@ -65,6 +67,12 @@ export const VisitorClassFactory = (
               type: 'enum',
               name: name.image,
               enumerators: list,
+            } as const;
+          case 'type':
+            return {
+              type: 'type',
+              name: name.image,
+              properties: list,
             } as const;
           default:
             throw new Error(`Unexpected block type: ${type}`);

@@ -555,6 +555,27 @@ model AccountabilityData {
 "
 `;
 
+exports[`printSchema print composite-types.prisma 1`] = `
+"
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  photos Photo[]
+}
+
+type Photo {
+  height Int    @default(0)
+  width  Int    @default(0)
+  url    String
+}
+"
+`;
+
 exports[`printSchema print empty-comment.prisma 1`] = `
 "
 datasource db {

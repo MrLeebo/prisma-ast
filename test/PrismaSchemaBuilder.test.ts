@@ -591,6 +591,32 @@ describe('PrismaSchemaBuilder', () => {
       `);
   });
 
+  it('adds a composite type', async () => {
+    const builder = createPrismaSchemaBuilder(`
+    datasource db {
+      provider = "mongodb"
+      url      = env("DATABASE_URL")
+    }
+    
+    model Product {
+      id     String  @id @default(auto()) @map("_id") @db.ObjectId
+      name   String
+      photos Photo[]
+    }
+    `);
+
+    const result = builder
+      .type('Photo')
+      .field('height', 'Int')
+      .attribute('default', ['0'])
+      .field('width', 'Int')
+      .attribute('default', ['0'])
+      .field('url', 'String')
+      .print();
+
+    expect(result).toMatch(await loadFixture('composite-types.prisma'));
+  });
+
   it('prints the schema', async () => {
     const source = await loadFixture('example.prisma');
     const result = createPrismaSchemaBuilder(source).print();
