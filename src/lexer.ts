@@ -29,6 +29,11 @@ export const Enum = createToken({
   pattern: /enum/,
   push_mode: 'block',
 });
+export const Type = createToken({
+  name: 'Type',
+  pattern: /type/,
+  push_mode: 'block',
+});
 export const True = createToken({
   name: 'True',
   pattern: /true/,
@@ -155,7 +160,7 @@ const naTokens = [Comment, DocComment, LineComment, LineBreak, WhiteSpace];
 
 export const multiModeTokens: IMultiModeLexerDefinition = {
   modes: {
-    global: [...naTokens, Datasource, Generator, Model, View, Enum],
+    global: [...naTokens, Datasource, Generator, Model, View, Enum, Type],
     block: [
       ...naTokens,
       Attribute,

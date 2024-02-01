@@ -61,6 +61,8 @@ type PrismaSchemaBuilder<K extends keyof ConcretePrismaSchemaBuilder> = {
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
     : U extends 'view'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
+    : U extends 'type'
+    ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys | FieldKeys>
     : U extends 'field'
     ? PrismaSchemaSubset<U, DatasourceOrGeneratorKeys | EnumKeys>
     : U extends 'removeField'
@@ -185,6 +187,18 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
+  /** Adds or updates a type based on the name. Can be chained with .field() or .blockAttribute() to add to it. */
+  type(name: string): this {
+    const type = this.schema.list.reduce<schema.Type>(
+      (memo, block) =>
+        block.type === 'type' && block.name === name ? block : memo,
+      { type: 'type', name, properties: [] }
+    );
+    if (!this.schema.list.includes(type)) this.schema.list.push(type);
+    this._subject = type;
+    return this;
+  }
+
   /** Adds or updates an enum based on the name. Can be chained with .enumerator() to add a value to it. */
   enum(name: string, enumeratorNames: string[] = []): this {
     const e = this.schema.list.reduce<schema.Enum>(
@@ -244,7 +258,7 @@ export class ConcretePrismaSchemaBuilder {
     if (!isSchemaObject(subject)) {
       const parent = this.getParent<schema.Object>();
       if (!isSchemaObject(parent))
-        throw new Error('Subject must be a prisma model or view!');
+        throw new Error('Subject must be a prisma model, view, or type!');
 
       subject = this._subject = parent;
     }
@@ -389,7 +403,14 @@ export class ConcretePrismaSchemaBuilder {
 
   private blockInsert(statement: schema.Break | schema.Comment): this {
     let subject = this.getSubject<schema.Block>();
-    const allowed = ['datasource', 'enum', 'generator', 'model', 'view'];
+    const allowed = [
+      'datasource',
+      'enum',
+      'generator',
+      'model',
+      'view',
+      'type',
+    ];
     if (!subject || !('type' in subject) || !allowed.includes(subject.type)) {
       const parent = this.getParent<schema.Block>();
       if (!parent || !('type' in parent) || !allowed.includes(parent.type)) {
@@ -462,7 +483,9 @@ export class ConcretePrismaSchemaBuilder {
     if (!isSchemaObject(subject)) {
       const parent = this.getParent<schema.Object>();
       if (!isSchemaObject(parent))
-        throw new Error('Subject must be a prisma model or view!');
+        throw new Error(
+          'Subject must be a prisma model or view or composite type!'
+        );
 
       subject = this._subject = parent;
     }
@@ -483,13 +506,15 @@ export class ConcretePrismaSchemaBuilder {
     return this;
   }
 
-  /** Drop a field from the current model or view. */
+  /** Drop a field from the current model or view or composite type. */
   removeField(name: string): this {
     let subject = this.getSubject<schema.Object>();
     if (!isSchemaObject(subject)) {
       const parent = this.getParent<schema.Object>();
       if (!isSchemaObject(parent))
-        throw new Error('Subject must be a prisma model or view!');
+        throw new Error(
+          'Subject must be a prisma model or view or composite type!'
+        );
 
       subject = this._subject = parent;
     }

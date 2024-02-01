@@ -1,9 +1,9 @@
 import type { CstNode, IToken } from 'chevrotain';
 import * as schema from './getSchema';
 
-const schemaObjects = ['model', 'view'];
+const schemaObjects = ['model', 'view', 'type'];
 
-/** Returns true if the value is an Object, such as a model or view. */
+/** Returns true if the value is an Object, such as a model or view or composite type. */
 export function isSchemaObject(obj: schema.Object): boolean {
   return obj != null && 'type' in obj && schemaObjects.includes(obj.type);
 }
