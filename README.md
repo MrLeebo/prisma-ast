@@ -25,7 +25,7 @@ produceSchema is the simplest way to interact with prisma-ast; you input your sc
 ```ts
 import { produceSchema } from '@mrleebo/prisma-ast';
 
-const input = `
+const source = `
 model User {
   id   Int    @id @default(autoincrement())
   name String @unique
