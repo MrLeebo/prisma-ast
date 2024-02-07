@@ -1,3 +1,4 @@
+export * from './produceSchema';
 export * from './getSchema';
 export * from './printSchema';
 export * from './PrismaSchemaBuilder';
