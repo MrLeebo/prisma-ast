@@ -87,6 +87,37 @@ model User {
 }
 ```
 
+### Query the prisma schema for specific objects
+
+The builder can also help you find matching objects in the schema based on name (by string or RegExp) or parent context. You can use this to write tests against your schema, or find fields that don't match a naming convention, for example.
+
+```ts
+const source = `
+  model Product {
+    id     String  @id @default(auto()) @map("_id") @db.ObjectId
+    name   String
+    photos Photo[]
+  }
+`
+
+const builder = createPrismaSchemaBuilder(source);
+
+const product = builder.findByType('model', { name: 'Product' });
+expect(product).toHaveProperty('name', 'Product');
+
+const id = builder.findByType('field', {
+  name: 'id',
+  within: product?.properties,
+});
+expect(id).toHaveProperty('name', 'id');
+
+const map = builder.findByType('attribute', {
+  name: 'map',
+  within: id?.attributes,
+});
+expect(map).toHaveProperty('name', 'map');
+```
+
 ### Re-sort the schema
 
 prisma-ast can sort the schema for you. The default sort order is `['generator', 'datasource', 'model', 'enum']` and will sort objects of the same type alphabetically.

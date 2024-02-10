@@ -1,6 +1,7 @@
 import * as schema from './getSchema';
 import { isSchemaField, isSchemaObject } from './schemaUtils';
 import { PrintOptions, printSchema } from './printSchema';
+import * as finder from './finder';
 
 /** Returns the function type Original with its return type changed to NewReturn. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +16,14 @@ type ReplaceReturnType<Original extends (...args: any) => any, NewReturn> = (
 type ExtractKeys = 'getSchema' | 'getSubject' | 'getParent' | 'print';
 
 /** These keys preserve the return value context that they were given */
-type NeutralKeys = 'break' | 'comment' | 'attribute' | 'enumerator' | 'then';
+type NeutralKeys =
+  | 'break'
+  | 'comment'
+  | 'attribute'
+  | 'enumerator'
+  | 'then'
+  | 'findByType'
+  | 'findAllByType';
 
 /** Keys allowed when you call .datasource() or .generator() */
 type DatasourceOrGeneratorKeys = 'assignment';
@@ -28,6 +36,10 @@ type FieldKeys = 'attribute' | 'removeAttribute';
 
 /** Keys allowed when you call .model("name") */
 type BlockKeys = 'blockAttribute' | 'field' | 'removeField';
+
+type PrismaSchemaFinderOptions = finder.ByTypeOptions & {
+  within?: finder.ByTypeSourceObject[];
+};
 
 /**
  * Utility type for making the PrismaSchemaBuilder below readable:
@@ -104,6 +116,8 @@ export class ConcretePrismaSchemaBuilder {
   getSchema(): schema.Schema {
     return this.schema;
   }
+
+  /** Mutation Methods */
 
   /** Adds or updates a generator block based on the name. */
   generator(name: string, provider = 'prisma-client-js'): this {
@@ -400,6 +414,32 @@ export class ConcretePrismaSchemaBuilder {
 
     return this;
   }
+
+  /** Finder Methods */
+
+  /**
+   * Queries the block list for the given block type. Returns `null` if none
+   * match. Throws an error if more than one match is found.
+   * */
+  findByType<const Match extends finder.ByTypeMatch>(
+    typeToMatch: Match,
+    { within = this.schema.list, ...options }: PrismaSchemaFinderOptions
+  ): finder.FindByBlock<Match> | null {
+    return finder.findByType(within, typeToMatch, options);
+  }
+
+  /**
+   * Queries the block list for the given block type. Returns an array of all
+   * matching objects, and an empty array (`[]`) if none match.
+   * */
+  findAllByType<const Match extends finder.ByTypeMatch>(
+    typeToMatch: Match,
+    { within = this.schema.list, ...options }: PrismaSchemaFinderOptions
+  ): Array<finder.FindByBlock<Match> | null> {
+    return finder.findAllByType(within, typeToMatch, options);
+  }
+
+  /** Internal Utilities */
 
   private blockInsert(statement: schema.Break | schema.Comment): this {
     let subject = this.getSubject<schema.Block>();
