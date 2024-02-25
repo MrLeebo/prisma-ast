@@ -1,0 +1,6 @@
+generator prisma-model-generator {
+  provider         = "node ./dist/apps/prisma-model-generator/src/generator.js"
+  fileNamingStyle  = "kebab"
+  classNamingStyle = "pascal"
+  output           = "./generated/"
+}

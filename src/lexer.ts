@@ -2,7 +2,7 @@ import { createToken, Lexer, IMultiModeLexerDefinition } from 'chevrotain';
 
 export const Identifier = createToken({
   name: 'Identifier',
-  pattern: /[a-zA-Z]\w*/,
+  pattern: /[a-zA-Z][\w-]*/,
 });
 export const Datasource = createToken({
   name: 'Datasource',
