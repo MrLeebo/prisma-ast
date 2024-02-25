@@ -5,7 +5,8 @@ export type ByTypeSourceObject =
   | schema.Enumerator
   | schema.Field
   | schema.Property
-  | schema.Attribute;
+  | schema.Attribute
+  | schema.Assignment;
 
 export type ByTypeMatchObject = Exclude<
   ByTypeSourceObject,
@@ -38,16 +39,26 @@ export const findAllByType = <const Match extends ByTypeMatch>(
   return list.filter(findBy(typeToMatch, options));
 };
 
+type NameOf<Match extends ByTypeMatch> = Extract<
+  Match,
+  Match extends 'assignment' ? 'key' : 'name'
+>;
+
 const findBy =
-  <Match extends ByTypeMatch>(
+  <Match extends ByTypeMatch, MatchName extends NameOf<Match>>(
     typeToMatch: Match,
     { name }: ByTypeOptions = {}
   ) =>
   (block: ByTypeSourceObject): block is FindByBlock<Match> => {
     if (name != null) {
-      if (!('name' in block)) return false;
+      const nameAttribute = (
+        typeToMatch === 'assignment' ? 'key' : 'name'
+      ) as MatchName;
+      if (!(nameAttribute in block)) return false;
       const nameMatches =
-        typeof name === 'string' ? block.name === name : name.test(block.name);
+        typeof name === 'string'
+          ? block[nameAttribute] === name
+          : name.test(block[nameAttribute]);
       if (!nameMatches) return false;
     }
 
