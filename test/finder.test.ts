@@ -75,4 +75,20 @@ describe('finder', () => {
     expect(map).toHaveProperty('name', 'map');
     expect(map).toHaveProperty(['args', 0, 'value'], '"_id"');
   });
+
+  it('finds an assignment', async () => {
+    const source = await loadFixture('kebab-case.prisma');
+    const finder = createPrismaSchemaBuilder(source);
+
+    const generator = finder.findByType('generator', {
+      name: 'prisma-model-generator',
+    });
+    expect(generator).toHaveProperty('name', 'prisma-model-generator');
+
+    const assignment = finder.findByType('assignment', {
+      name: 'fileNamingStyle',
+      within: generator?.assignments,
+    });
+    expect(assignment).toHaveProperty('value', '"kebab"');
+  });
 });
