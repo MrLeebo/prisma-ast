@@ -694,6 +694,17 @@ model Indexed {
 "
 `;
 
+exports[`printSchema print kebab-case.prisma 1`] = `
+"
+generator prisma-model-generator {
+  provider         = "node ./dist/apps/prisma-model-generator/src/generator.js"
+  fileNamingStyle  = "kebab"
+  classNamingStyle = "pascal"
+  output           = "./generated/"
+}
+"
+`;
+
 exports[`printSchema print links.prisma 1`] = `
 "
 datasource db {

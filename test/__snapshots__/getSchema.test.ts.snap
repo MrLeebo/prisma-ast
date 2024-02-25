@@ -8816,6 +8816,40 @@ exports[`getSchema parse example.prisma 1`] = `
 }
 `;
 
+exports[`getSchema parse kebab-case.prisma 1`] = `
+{
+  "list": [
+    {
+      "assignments": [
+        {
+          "key": "provider",
+          "type": "assignment",
+          "value": ""node ./dist/apps/prisma-model-generator/src/generator.js"",
+        },
+        {
+          "key": "fileNamingStyle",
+          "type": "assignment",
+          "value": ""kebab"",
+        },
+        {
+          "key": "classNamingStyle",
+          "type": "assignment",
+          "value": ""pascal"",
+        },
+        {
+          "key": "output",
+          "type": "assignment",
+          "value": ""./generated/"",
+        },
+      ],
+      "name": "prisma-model-generator",
+      "type": "generator",
+    },
+  ],
+  "type": "schema",
+}
+`;
+
 exports[`getSchema parse links.prisma 1`] = `
 {
   "list": [
