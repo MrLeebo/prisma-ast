@@ -1,3 +1,23 @@
+<p align="center">
+  <a href="https://www.npmjs.com/package/prisma-ast" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/npm/dw/@mrleebo/prisma-ast.svg" alt="Total Downloads" />
+  </a>
+  <a href="https://www.npmjs.com/package/prisma-ast" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/npm/v/@mrleebo/prisma-ast.svg" alt="npm package"/>
+  </a>
+  <a href="https://github.com/mrleebo/prisma-ast/blob/main/LICENSE" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/npm/l/@mrleebo/prisma-ast.svg" alt="License">
+  </a>
+</p>
+<p align="center">
+  <a href="https://www.prisma.io/">
+    <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" style="height: 20px" />
+  </a>
+  <a href="https://www.buymeacoffee.com/mrleebo" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 20px !important;" >
+  </a>
+</p>
+
 # @mrleebo/prisma-ast
 
 This library uses an abstract syntax tree to parse schema.prisma files into an object in JavaScript. It also allows you to update your Prisma schema files using a Builder object pattern that is fully implemented in TypeScript.
