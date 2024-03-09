@@ -111,7 +111,8 @@ model Foo {
     const source = await loadFixture('keystonejs-weird.prisma');
     const expected = await loadFixture('keystonejs.prisma');
     const schema = getSchema(source);
+    const result = printSchema(schema).replace(/\r\n/g, '\n');
     expect(schema).not.toBeUndefined();
-    expect(printSchema(schema)).toEqual(expected);
+    expect(result).toEqual(expected.replace(/\r\n/g, '\n'));
   });
 });
