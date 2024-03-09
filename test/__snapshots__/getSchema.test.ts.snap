@@ -8850,6 +8850,817 @@ exports[`getSchema parse kebab-case.prisma 1`] = `
 }
 `;
 
+exports[`getSchema parse keystonejs.prisma 1`] = `
+{
+  "list": [
+    {
+      "name": "Book",
+      "properties": [
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "name": "cuid",
+                    "params": undefined,
+                    "type": "function",
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "id",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "id",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": """",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "unique",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "slug",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": """",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "title",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""draft"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "status",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_authors"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "User",
+          "name": "authors",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_genres"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Genre",
+          "name": "genres",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""ua"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "language",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Chapter_book"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Chapter",
+          "name": "chapters",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_tags"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Tag",
+          "name": "tags",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_cover"",
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "coverId",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "id",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Image",
+          "name": "cover",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""cover"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "map",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "coverId",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_translationGroup"",
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "translationGroupId",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "id",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "TranslationGroup",
+          "name": "translationGroup",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""translationGroup"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "map",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "translationGroupId",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "type": "break",
+        },
+        {
+          "args": [
+            {
+              "type": "attributeArgument",
+              "value": {
+                "args": [
+                  "coverId",
+                ],
+                "type": "array",
+              },
+            },
+          ],
+          "group": undefined,
+          "kind": "object",
+          "name": "index",
+          "type": "attribute",
+        },
+        {
+          "args": [
+            {
+              "type": "attributeArgument",
+              "value": {
+                "args": [
+                  "translationGroupId",
+                ],
+                "type": "array",
+              },
+            },
+          ],
+          "group": undefined,
+          "kind": "object",
+          "name": "index",
+          "type": "attribute",
+        },
+      ],
+      "type": "model",
+    },
+  ],
+  "type": "schema",
+}
+`;
+
+exports[`getSchema parse keystonejs-weird.prisma 1`] = `
+{
+  "list": [
+    {
+      "name": "Book",
+      "properties": [
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "name": "cuid",
+                    "params": undefined,
+                    "type": "function",
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "id",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "id",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": """",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+            {
+              "args": undefined,
+              "group": undefined,
+              "kind": "field",
+              "name": "unique",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "slug",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": """",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "title",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""draft"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "status",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_authors"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "User",
+          "name": "authors",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_genres"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Genre",
+          "name": "genres",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""ua"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "default",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "language",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Chapter_book"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Chapter",
+          "name": "chapters",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": true,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_tags"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Tag",
+          "name": "tags",
+          "optional": false,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_cover"",
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "coverId",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "id",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "Image",
+          "name": "cover",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""cover"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "map",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "coverId",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "args": [
+            {
+              "type": "attributeArgument",
+              "value": {
+                "args": [
+                  "coverId",
+                ],
+                "type": "array",
+              },
+            },
+          ],
+          "group": undefined,
+          "kind": "object",
+          "name": "index",
+          "type": "attribute",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""Book_translationGroup"",
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "fields",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "translationGroupId",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+                {
+                  "type": "attributeArgument",
+                  "value": {
+                    "key": "references",
+                    "type": "keyValue",
+                    "value": {
+                      "args": [
+                        "id",
+                      ],
+                      "type": "array",
+                    },
+                  },
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "relation",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "TranslationGroup",
+          "name": "translationGroup",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "array": false,
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""translationGroup"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "map",
+              "type": "attribute",
+            },
+          ],
+          "comment": undefined,
+          "fieldType": "String",
+          "name": "translationGroupId",
+          "optional": true,
+          "type": "field",
+        },
+        {
+          "args": [
+            {
+              "type": "attributeArgument",
+              "value": {
+                "args": [
+                  "translationGroupId",
+                ],
+                "type": "array",
+              },
+            },
+          ],
+          "group": undefined,
+          "kind": "object",
+          "name": "index",
+          "type": "attribute",
+        },
+      ],
+      "type": "model",
+    },
+  ],
+  "type": "schema",
+}
+`;
+
 exports[`getSchema parse links.prisma 1`] = `
 {
   "list": [

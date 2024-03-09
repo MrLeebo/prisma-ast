@@ -95,7 +95,7 @@ export class PrismaParser extends CstParser {
       ]);
     });
     this.MANY(() => {
-      this.SUBRULE(this.attribute, { LABEL: 'attributeList' });
+      this.SUBRULE(this.fieldAttribute, { LABEL: 'attributeList' });
     });
     this.OPTION2(() => {
       this.CONSUME(lexer.Comment, { LABEL: 'comment' });
@@ -125,7 +125,7 @@ export class PrismaParser extends CstParser {
             GATE: () => isObject,
             ALT: () => this.SUBRULE(this.property, { LABEL: 'list' }),
           },
-          { ALT: () => this.SUBRULE(this.attribute, { LABEL: 'list' }) },
+          { ALT: () => this.SUBRULE(this.blockAttribute, { LABEL: 'list' }) },
           {
             GATE: () => isObject,
             ALT: () => this.SUBRULE(this.field, { LABEL: 'list' }),
@@ -152,18 +152,10 @@ export class PrismaParser extends CstParser {
       this.CONSUME(lexer.Comment, { LABEL: 'comment' });
     });
   });
-  private attribute = this.RULE('attribute', () => {
-    this.OR1([
-      {
-        ALT: () =>
-          this.CONSUME(lexer.BlockAttribute, { LABEL: 'blockAttribute' }),
-      },
-      {
-        ALT: () =>
-          this.CONSUME(lexer.FieldAttribute, { LABEL: 'fieldAttribute' }),
-      },
-    ]);
-    this.OR2([
+
+  private fieldAttribute = this.RULE('fieldAttribute', () => {
+    this.CONSUME(lexer.FieldAttribute, { LABEL: 'fieldAttribute' });
+    this.OR([
       {
         ALT: () => {
           this.CONSUME1(lexer.Identifier, { LABEL: 'groupName' });
@@ -175,6 +167,33 @@ export class PrismaParser extends CstParser {
         ALT: () => this.CONSUME(lexer.Identifier, { LABEL: 'attributeName' }),
       },
     ]);
+
+    this.OPTION(() => {
+      this.CONSUME(lexer.LRound);
+      this.MANY_SEP({
+        SEP: lexer.Comma,
+        DEF: () => {
+          this.SUBRULE(this.attributeArg);
+        },
+      });
+      this.CONSUME(lexer.RRound);
+    });
+  });
+
+  private blockAttribute = this.RULE('blockAttribute', () => {
+    this.CONSUME(lexer.BlockAttribute, { LABEL: 'blockAttribute' }),
+      this.OR([
+        {
+          ALT: () => {
+            this.CONSUME1(lexer.Identifier, { LABEL: 'groupName' });
+            this.CONSUME(lexer.Dot);
+            this.CONSUME2(lexer.Identifier, { LABEL: 'attributeName' });
+          },
+        },
+        {
+          ALT: () => this.CONSUME(lexer.Identifier, { LABEL: 'attributeName' }),
+        },
+      ]);
 
     this.OPTION(() => {
       this.CONSUME(lexer.LRound);

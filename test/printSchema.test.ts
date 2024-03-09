@@ -106,4 +106,12 @@ model Foo {
       "
     `);
   });
+
+  it('prints block attributes at the end', async () => {
+    const source = await loadFixture('keystonejs-weird.prisma');
+    const expected = await loadFixture('keystonejs.prisma');
+    const schema = getSchema(source);
+    expect(schema).not.toBeUndefined();
+    expect(printSchema(schema)).toEqual(expected);
+  });
 });
