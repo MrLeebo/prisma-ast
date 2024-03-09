@@ -38,6 +38,7 @@ describe('produceSchema', () => {
       model AppSetting {
         key   String @id
         value Json
+
         @@index([key])
       }
 

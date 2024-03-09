@@ -1,0 +1,17 @@
+model Book {
+          id String @default(cuid()) @id
+          slug String @default("")@unique
+          title String @default("")
+          status String? @default("draft")
+          authors User[] @relation("Book_authors")
+          genres Genre[] @relation("Book_genres")
+          language String @default("ua")
+          chapters Chapter[] @relation("Chapter_book")
+          tags Tag[] @relation("Book_tags")
+          cover Image? @relation("Book_cover", fields: [coverId], references: [id])
+          coverId String? @map("cover") 
+          @@index([coverId])
+          translationGroup TranslationGroup? @relation("Book_translationGroup", fields: [translationGroupId], references: [id])
+          translationGroupId String? @map("translationGroup") 
+          @@index([translationGroupId])
+          }

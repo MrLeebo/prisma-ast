@@ -115,7 +115,47 @@ generator ${generator.name} {
 }
 
 function printObject(object: Types.Object) {
-  const children = computePropertyFormatting(object.properties);
+  const props = [...object.properties];
+
+  // If block attributes are declared in the middle of the block, move them to
+  // the bottom of the list.
+  let blockAttributeMoved = false;
+  props.sort((a, b) => {
+    if (
+      a.type === 'attribute' &&
+      a.kind === 'object' &&
+      (b.type !== 'attribute' ||
+        (b.type === 'attribute' && b.kind !== 'object'))
+    ) {
+      blockAttributeMoved = true;
+      return 1;
+    }
+
+    if (
+      b.type === 'attribute' &&
+      b.kind === 'object' &&
+      (a.type !== 'attribute' ||
+        (a.type === 'attribute' && a.kind !== 'object'))
+    ) {
+      blockAttributeMoved = true;
+      return -1;
+    }
+
+    return 0;
+  });
+
+  // Insert a break between the block attributes and the file if the block
+  // attributes are too close to the model's fields
+  const attrIndex = props.findIndex(
+    (item) => item.type === 'attribute' && item.kind === 'object'
+  );
+
+  const needsSpace = !['break', 'comment'].includes(props[attrIndex - 1]?.type);
+  if (blockAttributeMoved && needsSpace) {
+    props.splice(attrIndex, 0, { type: 'break' });
+  }
+
+  const children = computePropertyFormatting(props);
 
   return `
 ${object.type} ${object.name} {

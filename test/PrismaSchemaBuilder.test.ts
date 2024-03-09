@@ -451,6 +451,7 @@ describe('PrismaSchemaBuilder', () => {
       model User {
         firstName String
         lastName  String
+
         @@id([firstName, lastName])
       }
       "
@@ -469,6 +470,7 @@ describe('PrismaSchemaBuilder', () => {
       model Project {
         code   String
         client String
+
         @@unique([code, client])
       }
       "

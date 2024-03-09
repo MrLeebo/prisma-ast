@@ -92,7 +92,7 @@ export const VisitorClassFactory = (
       return this.maybeAppendLocationData(data, comment);
     }
 
-    block(ctx: CstNode & { list: CstNode[] }): Types.Block[] {
+    block(ctx: CstNode & { list: CstNode[] }): BlockList {
       return ctx.list?.map((item) => this.visit([item]));
     }
 
@@ -139,9 +139,8 @@ export const VisitorClassFactory = (
       );
     }
 
-    attribute(
+    fieldAttribute(
       ctx: CstNode & {
-        blockAttribute: [IToken];
         fieldAttribute: [IToken];
         groupName: [IToken];
         attributeName: [IToken];
@@ -152,16 +151,47 @@ export const VisitorClassFactory = (
       const [group] = ctx.groupName || [{}];
       const args =
         ctx.attributeArg && ctx.attributeArg.map((attr) => this.visit(attr));
-      const kind = ctx.blockAttribute != null ? 'object' : 'field';
       const data = {
         type: 'attribute',
         name: name.image,
-        kind,
+        kind: 'field',
         group: group.image,
         args,
       } as const;
-      const attrs = kind === 'object' ? ctx.blockAttribute : ctx.fieldAttribute;
-      return this.maybeAppendLocationData(data, name, ...attrs, group);
+      return this.maybeAppendLocationData(
+        data,
+        name,
+        ...ctx.fieldAttribute,
+        group
+      );
+    }
+
+    blockAttribute(
+      ctx: CstNode & {
+        blockAttribute: [IToken];
+        groupName: [IToken];
+        attributeName: [IToken];
+        attributeArg: CstNode[];
+      }
+    ): Types.Attr | null {
+      const [name] = ctx.attributeName;
+      const [group] = ctx.groupName || [{}];
+      const args =
+        ctx.attributeArg && ctx.attributeArg.map((attr) => this.visit(attr));
+      const data = {
+        type: 'attribute',
+        name: name.image,
+        kind: 'object',
+        group: group.image,
+        args,
+      } as const;
+
+      return this.maybeAppendLocationData(
+        data,
+        name,
+        ...ctx.blockAttribute,
+        group
+      );
     }
 
     attributeArg(ctx: CstNode & { value: [CstNode] }): Types.AttributeArgument {
@@ -233,5 +263,14 @@ export const VisitorClassFactory = (
   };
 };
 
+type BlockList = Array<
+  | Types.Comment
+  | Types.Property
+  | Types.Attribute
+  | Types.Field
+  | Types.Enum
+  | Types.Assignment
+  | Types.Break
+>;
 export const DefaultVisitorClass = VisitorClassFactory(defaultParser);
 export const defaultVisitor = new DefaultVisitorClass();
