@@ -680,8 +680,10 @@ model Model {
 }
 
 enum Role {
-  USER // basic role
-  ADMIN // more powerful role
+  USER @map("usr") // basic role
+  ADMIN @map("adm") // more powerful role
+
+  @@map("roles")
 }
 
 model Indexed {

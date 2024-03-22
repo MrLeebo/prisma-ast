@@ -20,3 +20,29 @@ type Photo {
 }
 "
 `;
+
+exports[`PrismaSchemaBuilder adds a mapped enum 1`] = `
+"
+enum GradeLevel {
+  KINDERGARTEN @map("kindergarten")
+  FIRST @map("first")
+  SECOND @map("second")
+  THIRD @map("third")
+  FOURTH @map("fourth")
+  FIFTH @map("fifth")
+  SIXTH @map("sixth")
+  SEVENTH @map("seventh")
+  EIGHTH @map("eighth")
+  NINTH @map("ninth")
+  TENTH @map("tenth")
+  ELEVENTH @map("eleventh")
+  TWELFTH @map("twelfth")
+  THIRTEEN @map("thirteen")
+  POST_SECONDARY @map("post_secondary")
+  OTHER @map("other")
+  FOO @map("foo")
+
+  @@map("grades")
+}
+"
+`;

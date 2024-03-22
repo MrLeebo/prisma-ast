@@ -624,21 +624,25 @@ exports[`getSchema parse atena-server.prisma 1`] = `
     {
       "enumerators": [
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "ANY",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "MUNICIPAL_SPHERE",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "STATE_SPHERE",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "CITIES",
           "type": "enumerator",
@@ -8067,11 +8071,13 @@ exports[`getSchema parse empty-comment.prisma 1`] = `
           "type": "comment",
         },
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "MARKDOWN",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": "//",
           "name": "RICHTEXT",
           "type": "enumerator",
@@ -8683,14 +8689,57 @@ exports[`getSchema parse example.prisma 1`] = `
     {
       "enumerators": [
         {
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""usr"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "map",
+              "type": "attribute",
+            },
+          ],
           "comment": "// basic role",
           "name": "USER",
           "type": "enumerator",
         },
         {
+          "attributes": [
+            {
+              "args": [
+                {
+                  "type": "attributeArgument",
+                  "value": ""adm"",
+                },
+              ],
+              "group": undefined,
+              "kind": "field",
+              "name": "map",
+              "type": "attribute",
+            },
+          ],
           "comment": "// more powerful role",
           "name": "ADMIN",
           "type": "enumerator",
+        },
+        {
+          "type": "break",
+        },
+        {
+          "args": [
+            {
+              "type": "attributeArgument",
+              "value": ""roles"",
+            },
+          ],
+          "group": undefined,
+          "kind": "object",
+          "name": "map",
+          "type": "attribute",
         },
       ],
       "name": "Role",
@@ -10470,11 +10519,13 @@ exports[`getSchema parse test.prisma 1`] = `
     {
       "enumerators": [
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "USER",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "ADMIN",
           "type": "enumerator",
@@ -10516,21 +10567,25 @@ exports[`getSchema parse unsorted.prisma 1`] = `
     {
       "enumerators": [
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "ADMIN",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": "// similar to ADMIN, but can delete the project",
           "name": "OWNER",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": undefined,
           "name": "MEMBER",
           "type": "enumerator",
         },
         {
+          "attributes": undefined,
           "comment": "// deprecated",
           "name": "USER",
           "type": "enumerator",

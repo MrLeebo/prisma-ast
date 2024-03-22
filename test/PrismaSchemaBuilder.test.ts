@@ -619,6 +619,37 @@ describe('PrismaSchemaBuilder', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('adds a mapped enum', async () => {
+    const builder = createPrismaSchemaBuilder(`
+    enum GradeLevel {
+      KINDERGARTEN   @map("kindergarten")
+      FIRST          @map("first")
+      SECOND         @map("second")
+      THIRD          @map("third")
+      FOURTH         @map("fourth")
+      FIFTH          @map("fifth")
+      SIXTH          @map("sixth")
+      SEVENTH        @map("seventh")
+      EIGHTH         @map("eighth")
+      NINTH          @map("ninth")
+      TENTH          @map("tenth")
+      ELEVENTH       @map("eleventh")
+      TWELFTH        @map("twelfth")
+      THIRTEEN       @map("thirteen")
+      POST_SECONDARY @map("post_secondary")
+      OTHER          @map("other")
+    }
+    `);
+
+    builder
+      .enum('GradeLevel')
+      .enumerator('FOO')
+      .attribute('map', ['"foo"'])
+      .break()
+      .blockAttribute('map', 'grades');
+    expect(builder.print()).toMatchSnapshot();
+  });
+
   it('prints the schema', async () => {
     const source = await loadFixture('example.prisma');
     const result = createPrismaSchemaBuilder(source).print();
@@ -680,8 +711,10 @@ describe('PrismaSchemaBuilder', () => {
       }
 
       enum Role {
-        USER // basic role
-        ADMIN // more powerful role
+        USER @map("usr") // basic role
+        ADMIN @map("adm") // more powerful role
+
+        @@map("roles")
       }
 
       model Indexed {
