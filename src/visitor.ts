@@ -43,37 +43,37 @@ export const VisitorClassFactory = (
               type: 'datasource',
               name: name.image,
               assignments: list,
-            } as const;
+            } as const satisfies Types.Datasource;
           case 'generator':
             return {
               type: 'generator',
               name: name.image,
               assignments: list,
-            } as const;
+            } as const satisfies Types.Generator;
           case 'model':
             return {
               type: 'model',
               name: name.image,
               properties: list,
-            } as const;
+            } as const satisfies Types.Model;
           case 'view':
             return {
               type: 'view',
               name: name.image,
               properties: list,
-            } as const;
+            } as const satisfies Types.View;
           case 'enum':
             return {
               type: 'enum',
               name: name.image,
               enumerators: list,
-            } as const;
+            } as const satisfies Types.Enum;
           case 'type':
             return {
               type: 'type',
               name: name.image,
               properties: list,
-            } as const;
+            } as const satisfies Types.Type;
           default:
             throw new Error(`Unexpected block type: ${type}`);
         }
@@ -88,7 +88,10 @@ export const VisitorClassFactory = (
 
     comment(ctx: CstNode & { text: [IToken] }): Types.Comment {
       const [comment] = ctx.text;
-      const data = { type: 'comment', text: comment.image } as const;
+      const data = {
+        type: 'comment',
+        text: comment.image,
+      } as const satisfies Types.Comment;
       return this.maybeAppendLocationData(data, comment);
     }
 
@@ -101,7 +104,11 @@ export const VisitorClassFactory = (
     ): Types.Assignment {
       const value = this.visit(ctx.assignmentValue);
       const [key] = ctx.assignmentName;
-      const data = { type: 'assignment', key: key.image, value } as const;
+      const data = {
+        type: 'assignment',
+        key: key.image,
+        value,
+      } as const satisfies Types.Assignment;
       return this.maybeAppendLocationData(data, key);
     }
 
@@ -117,9 +124,7 @@ export const VisitorClassFactory = (
     ): Types.Field {
       const fieldType = this.visit(ctx.fieldType);
       const [name] = ctx.fieldName;
-      const attributes =
-        ctx.attributeList &&
-        ctx.attributeList.map((item) => this.visit([item]));
+      const attributes = ctx.attributeList?.map((item) => this.visit([item]));
       const comment = ctx.comment?.[0]?.image;
       const data = {
         type: 'field',
@@ -129,7 +134,7 @@ export const VisitorClassFactory = (
         optional: ctx.optional != null,
         attributes,
         comment,
-      } as const;
+      } as const satisfies Types.Field;
 
       return this.maybeAppendLocationData(
         data,
@@ -149,15 +154,14 @@ export const VisitorClassFactory = (
     ): Types.Attr {
       const [name] = ctx.attributeName;
       const [group] = ctx.groupName || [{}];
-      const args =
-        ctx.attributeArg && ctx.attributeArg.map((attr) => this.visit(attr));
+      const args = ctx.attributeArg?.map((attr) => this.visit(attr));
       const data = {
         type: 'attribute',
         name: name.image,
         kind: 'field',
         group: group.image,
         args,
-      } as const;
+      } as const satisfies Types.Attr;
       return this.maybeAppendLocationData(
         data,
         name,
@@ -176,15 +180,14 @@ export const VisitorClassFactory = (
     ): Types.Attr | null {
       const [name] = ctx.attributeName;
       const [group] = ctx.groupName || [{}];
-      const args =
-        ctx.attributeArg && ctx.attributeArg.map((attr) => this.visit(attr));
+      const args = ctx.attributeArg?.map((attr) => this.visit(attr));
       const data = {
         type: 'attribute',
         name: name.image,
         kind: 'object',
         group: group.image,
         args,
-      } as const;
+      } as const satisfies Types.Attr;
 
       return this.maybeAppendLocationData(
         data,
@@ -207,9 +210,8 @@ export const VisitorClassFactory = (
       }
     ): Types.Func {
       const [name] = ctx.funcName;
-      const params = ctx.value && ctx.value.map((item) => this.visit([item]));
-      const keyedParams =
-        ctx.keyedArg && ctx.keyedArg.map((item) => this.visit([item]));
+      const params = ctx.value?.map((item) => this.visit([item]));
+      const keyedParams = ctx.keyedArg?.map((item) => this.visit([item]));
       const pars = (params || keyedParams) && [
         ...(params ?? []),
         ...(keyedParams ?? []),
@@ -218,12 +220,12 @@ export const VisitorClassFactory = (
         type: 'function',
         name: name.image,
         params: pars,
-      } as const;
+      } as const satisfies Types.Func;
       return this.maybeAppendLocationData(data, name);
     }
 
     array(ctx: CstNode & { value: CstNode[] }): Types.RelationArray {
-      const args = ctx.value && ctx.value.map((item) => this.visit([item]));
+      const args = ctx.value?.map((item) => this.visit([item]));
       return { type: 'array', args };
     }
 
@@ -232,7 +234,11 @@ export const VisitorClassFactory = (
     ): Types.KeyValue {
       const [key] = ctx.keyName;
       const value = this.visit(ctx.value);
-      const data = { type: 'keyValue', key: key.image, value } as const;
+      const data = {
+        type: 'keyValue',
+        key: key.image,
+        value,
+      } as const satisfies Types.KeyValue;
       return this.maybeAppendLocationData(data, key);
     }
 
@@ -245,11 +251,21 @@ export const VisitorClassFactory = (
     }
 
     enum(
-      ctx: CstNode & { enumName: [IToken]; comment: [IToken] }
+      ctx: CstNode & {
+        enumName: [IToken];
+        attributeList: CstNode[];
+        comment: [IToken];
+      }
     ): Types.Enumerator {
       const [name] = ctx.enumName;
+      const attributes = ctx.attributeList?.map((item) => this.visit([item]));
       const comment = ctx.comment?.[0]?.image;
-      const data = { type: 'enumerator', name: name.image, comment } as const;
+      const data = {
+        type: 'enumerator',
+        name: name.image,
+        attributes,
+        comment,
+      } as const satisfies Types.Enumerator;
       return this.maybeAppendLocationData(data, name);
     }
 

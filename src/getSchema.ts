@@ -85,7 +85,9 @@ export interface Generator {
 export interface Enum {
   type: 'enum';
   name: string;
-  enumerators: Array<Enumerator | Comment | Break>;
+  enumerators: Array<
+    Enumerator | Comment | Break | BlockAttribute | GroupedAttribute
+  >;
   location?: CstNodeLocation;
 }
 
@@ -110,6 +112,7 @@ export interface Enumerator {
   type: 'enumerator';
   name: string;
   value?: Value;
+  attributes?: Attribute[];
   comment?: string;
 }
 

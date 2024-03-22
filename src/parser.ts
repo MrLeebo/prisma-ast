@@ -148,6 +148,9 @@ export class PrismaParser extends CstParser {
 
   private enum = this.RULE('enum', () => {
     this.CONSUME(lexer.Identifier, { LABEL: 'enumName' });
+    this.MANY(() => {
+      this.SUBRULE(this.fieldAttribute, { LABEL: 'attributeList' });
+    });
     this.OPTION(() => {
       this.CONSUME(lexer.Comment, { LABEL: 'comment' });
     });

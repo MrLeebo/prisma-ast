@@ -1,5 +1,9 @@
 import * as schema from './getSchema';
-import { isSchemaField, isSchemaObject } from './schemaUtils';
+import {
+  isOneOfSchemaObjects,
+  isSchemaField,
+  isSchemaObject,
+} from './schemaUtils';
 import { PrintOptions, printSchema } from './printSchema';
 import * as finder from './finder';
 
@@ -96,7 +100,7 @@ type Arg =
       function?: Arg[];
     };
 type Parent = schema.Block | undefined;
-type Subject = schema.Block | schema.Field | undefined;
+type Subject = schema.Block | schema.Field | schema.Enumerator | undefined;
 
 export class ConcretePrismaSchemaBuilder {
   private schema: schema.Schema;
@@ -225,7 +229,7 @@ export class ConcretePrismaSchemaBuilder {
           type: 'enumerator',
           name,
         })),
-      }
+      } satisfies schema.Enum
     );
     if (!this.schema.list.includes(e)) this.schema.list.push(e);
     this._subject = e;
@@ -239,7 +243,16 @@ export class ConcretePrismaSchemaBuilder {
       throw new Error('Subject must be a prisma enum!');
     }
 
-    subject.enumerators.push({ type: 'enumerator', name: value });
+    const enumerator = {
+      type: 'enumerator',
+      name: value,
+    } satisfies schema.Enumerator;
+    subject.enumerators.push(enumerator);
+    this._parent = this._subject as Exclude<
+      Subject,
+      { type: 'field' | 'enumerator' }
+    >;
+    this._subject = enumerator;
     return this;
   }
 
@@ -268,10 +281,10 @@ export class ConcretePrismaSchemaBuilder {
     name: string,
     args?: string | string[] | Record<string, schema.Value>
   ): this {
-    let subject = this.getSubject<schema.Object>();
-    if (!isSchemaObject(subject)) {
+    let subject = this.getSubject<schema.Object | schema.Enum>();
+    if (subject.type !== 'enum' && !isSchemaObject(subject)) {
       const parent = this.getParent<schema.Object>();
-      if (!isSchemaObject(parent))
+      if (!isOneOfSchemaObjects(parent, ['model', 'view', 'type', 'enum']))
         throw new Error('Subject must be a prisma model, view, or type!');
 
       subject = this._subject = parent;
@@ -295,7 +308,12 @@ export class ConcretePrismaSchemaBuilder {
       name,
       args: attributeArgs,
     };
-    subject.properties.push(property);
+
+    if (subject.type === 'enum') {
+      subject.enumerators.push(property);
+    } else {
+      subject.properties.push(property);
+    }
     return this;
   }
 
@@ -306,12 +324,12 @@ export class ConcretePrismaSchemaBuilder {
   ): this {
     const parent = this.getParent();
     const subject = this.getSubject<T>();
-    if (!isSchemaObject(parent)) {
+    if (!isOneOfSchemaObjects(parent, ['model', 'view', 'type', 'enum'])) {
       throw new Error('Parent must be a prisma model or view!');
     }
 
     if (!isSchemaField(subject)) {
-      throw new Error('Subject must be a prisma field!');
+      throw new Error('Subject must be a prisma field or enumerator!');
     }
 
     if (!subject.attributes) subject.attributes = [];

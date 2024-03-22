@@ -76,9 +76,17 @@ datasource ${db.name} {
 }
 
 function printEnum(enumerator: Types.Enum) {
-  const children = enumerator.enumerators
-    .map(printEnumerator)
+  const list: Array<
+    | Types.Comment
+    | Types.Break
+    | Types.Enumerator
+    | Types.BlockAttribute
+    | Types.GroupedBlockAttribute
+    | Types.GroupedAttribute
+  > = enumerator.enumerators;
+  const children = list
     .filter(Boolean)
+    .map(printEnumerator)
     .join(`${EOL}  `)
     .replace(/(\r?\n\s*){3,}/g, `${EOL + EOL}  `);
 
@@ -89,11 +97,24 @@ enum ${enumerator.name} {
 }
 
 function printEnumerator(
-  enumerator: Types.Enumerator | Types.Attribute | Types.Comment | Types.Break
+  enumerator:
+    | Types.Enumerator
+    | Types.Attribute
+    | Types.Comment
+    | Types.Break
+    | Types.BlockAttribute
+    | Types.GroupedBlockAttribute
+    | Types.GroupedAttribute
 ) {
   switch (enumerator.type) {
-    case 'enumerator':
-      return [enumerator.name, enumerator.comment].filter(Boolean).join(' ');
+    case 'enumerator': {
+      const attrs = enumerator.attributes
+        ? enumerator.attributes.map(printAttribute)
+        : [];
+      return [enumerator.name, ...attrs, enumerator.comment]
+        .filter(Boolean)
+        .join(' ');
+    }
     case 'attribute':
       return printAttribute(enumerator);
     case 'comment':

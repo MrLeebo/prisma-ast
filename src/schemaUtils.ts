@@ -1,16 +1,28 @@
 import type { CstNode, IToken } from 'chevrotain';
 import * as schema from './getSchema';
 
-const schemaObjects = ['model', 'view', 'type'];
+const schemaObjects = ['model', 'view', 'type'] as const;
 
-/** Returns true if the value is an Object, such as a model or view or composite type. */
-export function isSchemaObject(obj: schema.Object): boolean {
-  return obj != null && 'type' in obj && schemaObjects.includes(obj.type);
+export function isOneOfSchemaObjects<T extends string>(
+  obj: schema.Object,
+  schemas: readonly T[]
+): obj is Extract<schema.Object, { type: T }> {
+  return obj != null && 'type' in obj && schemas.includes(obj.type as T);
 }
 
-/** Returns true if the value is a Field. */
-export function isSchemaField(field: schema.Field): boolean {
-  return field != null && 'type' in field && field.type === 'field';
+/** Returns true if the value is an Object, such as a model or view or composite type. */
+export function isSchemaObject(
+  obj: schema.Object
+): obj is Extract<schema.Object, { type: (typeof schemaObjects)[number] }> {
+  return isOneOfSchemaObjects(obj, schemaObjects);
+}
+
+const fieldObjects = ['field', 'enumerator'] as const;
+/** Returns true if the value is a Field or Enumerator. */
+export function isSchemaField(
+  field: schema.Field | schema.Enumerator
+): field is Extract<schema.Field, { type: (typeof fieldObjects)[number] }> {
+  return field != null && 'type' in field && fieldObjects.includes(field.type);
 }
 
 /** Returns true if the value of the CstNode is a Token. */
