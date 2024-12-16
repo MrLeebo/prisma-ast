@@ -2,7 +2,7 @@
   <a href="https://www.npmjs.com/package/prisma-ast" target="_blank" rel="noopener">
     <img src="https://img.shields.io/npm/dw/@mrleebo/prisma-ast.svg" alt="Total Downloads" />
   </a>
-  <a href="https://www.npmjs.com/package/prisma-ast" target="_blank" rel="noopener">
+  <a href="https://www.npmjs.com/package/@mrleebo/prisma-ast" target="_blank" rel="noopener">
     <img src="https://img.shields.io/npm/v/@mrleebo/prisma-ast.svg" alt="npm package"/>
   </a>
   <a href="https://github.com/mrleebo/prisma-ast/blob/main/LICENSE" target="_blank" rel="noopener">
