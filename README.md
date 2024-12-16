@@ -11,10 +11,10 @@
 </p>
 <p align="center">
   <a href="https://www.prisma.io/">
-    <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" style="height: 20px" />
+    <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" height="28" />
   </a>
   <a href="https://www.buymeacoffee.com/mrleebo" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 20px !important;" >
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" height="28" >
   </a>
 </p>
 
