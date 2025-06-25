@@ -166,7 +166,7 @@ export class ConcretePrismaSchemaBuilder {
               ? `"${url}"`
               : { type: 'function', name: 'env', params: [`"${url.env}"`] },
         },
-        { type: 'assignment', key: 'provider', value: provider },
+        { type: 'assignment', key: 'provider', value: `"${provider}"` },
       ],
     };
     const existingIndex = this.schema.list.findIndex(
