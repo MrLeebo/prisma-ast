@@ -32,7 +32,7 @@ describe('produceSchema', () => {
 
       datasource db {
         url      = env("DATABASE_URL")
-        provider = postgresql
+        provider = "postgresql"
       }
 
       model AppSetting {

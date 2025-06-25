@@ -57,7 +57,7 @@ describe('PrismaSchemaBuilder', () => {
       "
       datasource db {
         url      = env("DATABASE_URL")
-        provider = postgresql
+        provider = "postgresql"
       }
       "
     `);
@@ -74,7 +74,7 @@ describe('PrismaSchemaBuilder', () => {
       "
       datasource my-database {
         url      = env("DATABASE_URL")
-        provider = postgresql
+        provider = "postgresql"
       }
       "
     `);
@@ -90,7 +90,7 @@ describe('PrismaSchemaBuilder', () => {
       "
       datasource db {
         url      = "https://database.com"
-        provider = postgresql
+        provider = "postgresql"
       }
       "
     `);
