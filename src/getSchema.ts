@@ -169,7 +169,7 @@ export interface KeyValue {
 export interface Func {
   type: 'function';
   name: string;
-  params: Value[];
+  params?: Value[];
 }
 
 export interface RelationArray {
