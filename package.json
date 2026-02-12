@@ -8,7 +8,7 @@
     "src"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "start": "dts watch",
@@ -46,9 +46,12 @@
     }
   ],
   "devDependencies": {
+    "@babel/core": "^7.28.6",
+    "@babel/preset-env": "^7.28.6",
     "@size-limit/preset-small-lib": "^8.2.6",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "babel-jest": "^30.2.0",
     "dts-cli": "^2.0.3",
     "eslint": "^7.24.0",
     "husky": "^6.0.0",
@@ -60,7 +63,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "chevrotain": "^10.5.0",
+    "chevrotain": "^11.1.1",
     "lilconfig": "^2.1.0"
   },
   "publishConfig": {
@@ -77,5 +80,6 @@
   "bugs": {
     "url": "https://github.com/MrLeebo/prisma-ast/issues"
   },
-  "homepage": "https://github.com/MrLeebo/prisma-ast#readme"
+  "homepage": "https://github.com/MrLeebo/prisma-ast#readme",
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
