@@ -78,4 +78,29 @@ describe('produceSchema', () => {
       "
     `);
   });
+
+  it('prints partial index raw where clauses', () => {
+    const result = produceSchema('', (builder) => {
+      builder
+        .model('Post')
+        .field('slug', 'String')
+        .blockAttribute('index', ['slug'], {
+          where: {
+            type: 'function',
+            name: 'raw',
+            params: ['"published = true"'],
+          },
+        });
+    });
+
+    expect(result).toMatchInlineSnapshot(`
+      "
+      model Post {
+        slug String
+
+        @@index([slug], where: raw("published = true"))
+      }
+      "
+    `);
+  });
 });
