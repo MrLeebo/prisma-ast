@@ -1,38 +1,8 @@
-import { createToken, Lexer, IMultiModeLexerDefinition } from 'chevrotain';
+import { createToken, Lexer } from 'chevrotain';
 
 export const Identifier = createToken({
   name: 'Identifier',
   pattern: /[a-zA-Z][\w-]*/,
-});
-export const Datasource = createToken({
-  name: 'Datasource',
-  pattern: /datasource/,
-  push_mode: 'block',
-});
-export const Generator = createToken({
-  name: 'Generator',
-  pattern: /generator/,
-  push_mode: 'block',
-});
-export const Model = createToken({
-  name: 'Model',
-  pattern: /model/,
-  push_mode: 'block',
-});
-export const View = createToken({
-  name: 'View',
-  pattern: /view/,
-  push_mode: 'block',
-});
-export const Enum = createToken({
-  name: 'Enum',
-  pattern: /enum/,
-  push_mode: 'block',
-});
-export const Type = createToken({
-  name: 'Type',
-  pattern: /type/,
-  push_mode: 'block',
 });
 export const True = createToken({
   name: 'True',
@@ -99,7 +69,6 @@ export const RCurly = createToken({
   name: 'RCurly',
   pattern: /}/,
   label: "'}'",
-  pop_mode: true,
 });
 export const LRound = createToken({
   name: 'LRound',
@@ -156,36 +125,32 @@ export const LineBreak = createToken({
   label: 'LineBreak',
 });
 
-const naTokens = [Comment, DocComment, LineComment, LineBreak, WhiteSpace];
+export const tokens = [
+  Comment,
+  DocComment,
+  LineComment,
+  LineBreak,
+  WhiteSpace,
+  Attribute,
+  BlockAttribute,
+  FieldAttribute,
+  Dot,
+  QuestionMark,
+  LCurly,
+  RCurly,
+  LSquare,
+  RSquare,
+  LRound,
+  RRound,
+  Comma,
+  Colon,
+  Equals,
+  True,
+  False,
+  Null,
+  StringLiteral,
+  NumberLiteral,
+  Identifier,
+];
 
-export const multiModeTokens: IMultiModeLexerDefinition = {
-  modes: {
-    global: [...naTokens, Datasource, Generator, Model, View, Enum, Type],
-    block: [
-      ...naTokens,
-      Attribute,
-      BlockAttribute,
-      FieldAttribute,
-      Dot,
-      QuestionMark,
-      LCurly,
-      RCurly,
-      LSquare,
-      RSquare,
-      LRound,
-      RRound,
-      Comma,
-      Colon,
-      Equals,
-      True,
-      False,
-      Null,
-      StringLiteral,
-      NumberLiteral,
-      Identifier,
-    ],
-  },
-  defaultMode: 'global',
-};
-
-export const PrismaLexer = new Lexer(multiModeTokens);
+export const PrismaLexer = new Lexer(tokens);

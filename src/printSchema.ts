@@ -273,6 +273,7 @@ function printFunction(func: Types.Func) {
 function printValue(value: Types.KeyValue | Types.Value): string {
   switch (typeof value) {
     case 'object': {
+      if (value == null) return 'null';
       if ('type' in value) {
         switch (value.type) {
           case 'keyValue':
@@ -283,6 +284,10 @@ function printValue(value: Types.KeyValue | Types.Value): string {
             return `[${
               value.args != null ? value.args.map(printValue).join(', ') : ''
             }]`;
+          case 'object':
+            return value.properties.length > 0
+              ? `{ ${value.properties.map(printValue).join(', ')} }`
+              : '{}';
           default:
             throw new Error(`Unexpected value type`);
         }

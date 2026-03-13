@@ -115,4 +115,24 @@ model Foo {
     expect(schema).not.toBeUndefined();
     expect(result).toEqual(expected.replace(/\r\n/g, '\n'));
   });
+
+  it('prints partial index where objects', () => {
+    const schema = getSchema(`
+      model Post {
+        slug String
+
+        @@index([slug], where: { published: true, deletedAt: { not: null } })
+      }
+    `);
+
+    expect(printSchema(schema)).toMatchInlineSnapshot(`
+      "
+      model Post {
+        slug String
+
+        @@index([slug], where: { published: true, deletedAt: { not: null } })
+      }
+      "
+    `);
+  });
 });

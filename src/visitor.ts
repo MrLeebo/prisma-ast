@@ -229,6 +229,11 @@ export const VisitorClassFactory = (
       return { type: 'array', args };
     }
 
+    object(ctx: CstNode & { keyedArg: CstNode[] }): Types.ObjectValue {
+      const properties = ctx.keyedArg?.map((item) => this.visit([item])) ?? [];
+      return { type: 'object', properties };
+    }
+
     keyedArg(
       ctx: CstNode & { keyName: [IToken]; value: [CstNode] }
     ): Types.KeyValue {

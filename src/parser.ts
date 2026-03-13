@@ -13,7 +13,7 @@ export class PrismaParser extends CstParser {
   readonly config: PrismaAstParserConfig;
 
   constructor(config: PrismaAstParserConfig) {
-    super(lexer.multiModeTokens, config);
+    super(lexer.tokens, config);
     this.performSelfAnalysis();
     this.config = config;
   }
@@ -40,6 +40,17 @@ export class PrismaParser extends CstParser {
     this.CONSUME(lexer.RSquare);
   });
 
+  private object = this.RULE('object', () => {
+    this.CONSUME(lexer.LCurly);
+    this.MANY_SEP({
+      SEP: lexer.Comma,
+      DEF: () => {
+        this.SUBRULE(this.keyedArg);
+      },
+    });
+    this.CONSUME(lexer.RCurly);
+  });
+
   private func = this.RULE('func', () => {
     this.CONSUME(lexer.Identifier, { LABEL: 'funcName' });
     this.CONSUME(lexer.LRound);
@@ -60,6 +71,7 @@ export class PrismaParser extends CstParser {
       { ALT: () => this.CONSUME(lexer.StringLiteral, { LABEL: 'value' }) },
       { ALT: () => this.CONSUME(lexer.NumberLiteral, { LABEL: 'value' }) },
       { ALT: () => this.SUBRULE(this.array, { LABEL: 'value' }) },
+      { ALT: () => this.SUBRULE(this.object, { LABEL: 'value' }) },
       { ALT: () => this.SUBRULE(this.func, { LABEL: 'value' }) },
       { ALT: () => this.CONSUME(lexer.True, { LABEL: 'value' }) },
       { ALT: () => this.CONSUME(lexer.False, { LABEL: 'value' }) },
@@ -222,24 +234,17 @@ export class PrismaParser extends CstParser {
   });
 
   private component = this.RULE('component', () => {
-    const type = this.OR1([
-      { ALT: () => this.CONSUME(lexer.Datasource, { LABEL: 'type' }) },
-      { ALT: () => this.CONSUME(lexer.Generator, { LABEL: 'type' }) },
-      { ALT: () => this.CONSUME(lexer.Model, { LABEL: 'type' }) },
-      { ALT: () => this.CONSUME(lexer.View, { LABEL: 'type' }) },
-      { ALT: () => this.CONSUME(lexer.Enum, { LABEL: 'type' }) },
-      { ALT: () => this.CONSUME(lexer.Type, { LABEL: 'type' }) },
-    ]);
+    const type = this.CONSUME1(lexer.Identifier, { LABEL: 'type' });
     this.OR2([
       {
         ALT: () => {
-          this.CONSUME1(lexer.Identifier, { LABEL: 'groupName' });
+          this.CONSUME2(lexer.Identifier, { LABEL: 'groupName' });
           this.CONSUME(lexer.Dot);
-          this.CONSUME2(lexer.Identifier, { LABEL: 'componentName' });
+          this.CONSUME3(lexer.Identifier, { LABEL: 'componentName' });
         },
       },
       {
-        ALT: () => this.CONSUME(lexer.Identifier, { LABEL: 'componentName' }),
+        ALT: () => this.CONSUME4(lexer.Identifier, { LABEL: 'componentName' }),
       },
     ]);
 

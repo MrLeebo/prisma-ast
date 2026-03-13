@@ -99,6 +99,19 @@ type Arg =
       name: string;
       function?: Arg[];
     };
+interface BuilderValueObject {
+  [key: string]: BuilderValue;
+}
+type BuilderValue =
+  | string
+  | number
+  | boolean
+  | null
+  | schema.Func
+  | schema.RelationArray
+  | schema.ObjectValue
+  | BuilderValue[]
+  | BuilderValueObject;
 type Parent = schema.Block | undefined;
 type Subject = schema.Block | schema.Field | schema.Enumerator | undefined;
 
@@ -279,7 +292,8 @@ export class ConcretePrismaSchemaBuilder {
    * */
   blockAttribute(
     name: string,
-    args?: string | string[] | Record<string, schema.Value>
+    args?: string | BuilderValue[] | Record<string, BuilderValue>,
+    params: Record<string, BuilderValue> = {}
   ): this {
     let subject = this.getSubject<schema.Object | schema.Enum>();
     if (subject.type !== 'enum' && !isSchemaObject(subject)) {
@@ -291,15 +305,34 @@ export class ConcretePrismaSchemaBuilder {
     }
 
     const attributeArgs = ((): schema.AttributeArgument[] => {
-      if (!args) return [] as schema.AttributeArgument[];
-      if (typeof args === 'string')
-        return [{ type: 'attributeArgument', value: `"${args}"` }];
-      if (Array.isArray(args))
-        return [{ type: 'attributeArgument', value: { type: 'array', args } }];
-      return Object.entries(args).map(([key, value]) => ({
-        type: 'attributeArgument',
-        value: { type: 'keyValue', key, value },
-      }));
+      const attributeArgs: schema.AttributeArgument[] = [];
+      const keyedArgs =
+        args && !Array.isArray(args) && typeof args === 'object'
+          ? { ...args, ...params }
+          : params;
+
+      if (typeof args === 'string') {
+        attributeArgs.push({
+          type: 'attributeArgument',
+          value: `"${args}"`,
+        });
+      } else if (Array.isArray(args)) {
+        attributeArgs.push({
+          type: 'attributeArgument',
+          value: { type: 'array', args: args.map((arg) => this.toValue(arg)) },
+        });
+      }
+
+      attributeArgs.push(
+        ...Object.entries(keyedArgs).map<schema.AttributeArgument>(
+          ([key, value]) => ({
+            type: 'attributeArgument',
+            value: { type: 'keyValue', key, value: this.toValue(value) },
+          })
+        )
+      );
+
+      return attributeArgs;
     })();
 
     const property: schema.BlockAttribute = {
@@ -320,7 +353,7 @@ export class ConcretePrismaSchemaBuilder {
   /** Adds an attribute to the current field. */
   attribute<T extends schema.Field>(
     name: string,
-    args?: Arg[] | Record<string, string[]>
+    args?: Arg[] | Record<string, BuilderValue>
   ): this {
     const parent = this.getParent();
     const subject = this.getSubject<T>();
@@ -347,32 +380,64 @@ export class ConcretePrismaSchemaBuilder {
     );
 
     if (Array.isArray(args)) {
-      const mapArg = (arg: Arg): schema.Value | schema.Func => {
-        return typeof arg === 'string'
-          ? arg
-          : {
-              type: 'function',
-              name: arg.name,
-              params: arg.function?.map(mapArg) ?? [],
-            };
-      };
-
       if (args.length > 0)
         attribute.args = args.map((arg) => ({
           type: 'attributeArgument',
-          value: mapArg(arg),
+          value: this.mapArg(arg),
         }));
     } else if (typeof args === 'object') {
-      attribute.args = Object.entries(args).map(([key, value]) => ({
-        type: 'attributeArgument',
-        value: { type: 'keyValue', key, value: { type: 'array', args: value } },
-      }));
+      attribute.args = Object.entries(args).map<schema.AttributeArgument>(
+        ([key, value]) => ({
+          type: 'attributeArgument',
+          value: { type: 'keyValue', key, value: this.toValue(value) },
+        })
+      );
     }
 
     if (!subject.attributes.includes(attribute))
       subject.attributes.push(attribute);
 
     return this;
+  }
+
+  private mapArg(arg: Arg): schema.Value | schema.Func {
+    return typeof arg === 'string'
+      ? arg
+      : {
+          type: 'function',
+          name: arg.name,
+          params: arg.function?.map((item) => this.mapArg(item)) ?? [],
+        };
+  }
+
+  private toValue(value: BuilderValue): schema.Value {
+    if (Array.isArray(value)) {
+      return {
+        type: 'array',
+        args: value.map((item) => this.toValue(item)),
+      };
+    }
+
+    if (value === null || typeof value !== 'object') {
+      return value;
+    }
+
+    if (
+      'type' in value &&
+      typeof value.type === 'string' &&
+      ['array', 'function', 'object'].includes(value.type)
+    ) {
+      return value as schema.Func | schema.RelationArray | schema.ObjectValue;
+    }
+
+    return {
+      type: 'object',
+      properties: Object.entries(value).map(([key, item]) => ({
+        type: 'keyValue',
+        key,
+        value: this.toValue(item),
+      })),
+    };
   }
 
   /** Remove an attribute from the current field */
