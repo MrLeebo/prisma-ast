@@ -174,13 +174,20 @@ export interface Func {
 
 export interface RelationArray {
   type: 'array';
-  args: string[];
+  args: Value[];
+}
+
+export interface ObjectValue {
+  type: 'object';
+  properties: KeyValue[];
 }
 
 export type Value =
   | string
   | number
   | boolean
+  | null
   | Func
   | RelationArray
+  | ObjectValue
   | Array<Value>;

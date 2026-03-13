@@ -123,6 +123,62 @@ describe('getSchema', () => {
     fail();
   });
 
+  it('parses partial index where objects', () => {
+    const schema = getSchema(`
+      model Post {
+        slug String
+
+        @@index([slug], where: { published: true, deletedAt: { not: null } })
+      }
+    `);
+
+    const [model] = schema.list;
+    expect(model).toMatchObject({
+      type: 'model',
+      name: 'Post',
+    });
+
+    if (model.type !== 'model') fail();
+
+    const index = model.properties.find(
+      (property) => property.type === 'attribute' && property.name === 'index'
+    );
+
+    expect(index).toMatchObject({
+      type: 'attribute',
+      name: 'index',
+      args: [
+        {
+          type: 'attributeArgument',
+          value: { type: 'array', args: ['slug'] },
+        },
+        {
+          type: 'attributeArgument',
+          value: {
+            type: 'keyValue',
+            key: 'where',
+            value: {
+              type: 'object',
+              properties: [
+                { type: 'keyValue', key: 'published', value: 'true' },
+                {
+                  type: 'keyValue',
+                  key: 'deletedAt',
+                  value: {
+                    type: 'object',
+                    properties: [
+                      { type: 'keyValue', key: 'not', value: 'null' },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
+    });
+  });
+
   describe('with location tracking', () => {
     describe('passed-in parser and visitor', () => {
       it('contains field location info', async () => {

@@ -477,6 +477,47 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('adds a partial index attribute', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .model('Post')
+      .field('slug', 'String')
+      .blockAttribute('index', ['slug'], {
+        where: {
+          published: true,
+          deletedAt: { not: null },
+        },
+      });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model Post {
+        slug String
+
+        @@index([slug], where: { published: true, deletedAt: { not: null } })
+      }
+      "
+    `);
+  });
+
+  it('adds a field-level partial unique attribute', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .model('User')
+      .field('email', 'String')
+      .attribute('unique', {
+        where: {
+          deletedAt: null,
+        },
+      });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model User {
+        email String @unique(where: { deletedAt: null })
+      }
+      "
+    `);
+  });
+
   it('adds a comment', () => {
     const builder = createPrismaSchemaBuilder();
     builder

@@ -54,4 +54,28 @@ describe('produceSchema', () => {
       "
     `);
   });
+
+  it('prints partial index where clauses', () => {
+    const result = produceSchema('', (builder) => {
+      builder
+        .model('Post')
+        .field('slug', 'String')
+        .blockAttribute('index', ['slug'], {
+          where: {
+            published: true,
+            deletedAt: { not: null },
+          },
+        });
+    });
+
+    expect(result).toMatchInlineSnapshot(`
+      "
+      model Post {
+        slug String
+
+        @@index([slug], where: { published: true, deletedAt: { not: null } })
+      }
+      "
+    `);
+  });
 });
