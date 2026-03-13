@@ -518,6 +518,29 @@ describe('PrismaSchemaBuilder', () => {
     `);
   });
 
+  it('adds a partial index attribute with a raw where clause', () => {
+    const builder = createPrismaSchemaBuilder();
+    builder
+      .model('Post')
+      .field('slug', 'String')
+      .blockAttribute('index', ['slug'], {
+        where: {
+          type: 'function',
+          name: 'raw',
+          params: ['"published = true"'],
+        },
+      });
+    expect(builder.print()).toMatchInlineSnapshot(`
+      "
+      model Post {
+        slug String
+
+        @@index([slug], where: raw("published = true"))
+      }
+      "
+    `);
+  });
+
   it('adds a comment', () => {
     const builder = createPrismaSchemaBuilder();
     builder

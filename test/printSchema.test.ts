@@ -135,4 +135,24 @@ model Foo {
       "
     `);
   });
+
+  it('prints partial index raw where clauses', () => {
+    const schema = getSchema(`
+      model Post {
+        slug String
+
+        @@index([slug], where: raw("published = true"))
+      }
+    `);
+
+    expect(printSchema(schema)).toMatchInlineSnapshot(`
+      "
+      model Post {
+        slug String
+
+        @@index([slug], where: raw("published = true"))
+      }
+      "
+    `);
+  });
 });

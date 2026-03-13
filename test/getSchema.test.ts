@@ -179,6 +179,51 @@ describe('getSchema', () => {
     });
   });
 
+  it('parses partial index raw where clauses', () => {
+    const schema = getSchema(`
+      model Post {
+        slug String
+
+        @@index([slug], where: raw("published = true"))
+      }
+    `);
+
+    const [model] = schema.list;
+    expect(model).toMatchObject({
+      type: 'model',
+      name: 'Post',
+    });
+
+    if (model.type !== 'model') fail();
+
+    const index = model.properties.find(
+      (property) => property.type === 'attribute' && property.name === 'index'
+    );
+
+    expect(index).toMatchObject({
+      type: 'attribute',
+      name: 'index',
+      args: [
+        {
+          type: 'attributeArgument',
+          value: { type: 'array', args: ['slug'] },
+        },
+        {
+          type: 'attributeArgument',
+          value: {
+            type: 'keyValue',
+            key: 'where',
+            value: {
+              type: 'function',
+              name: 'raw',
+              params: ['"published = true"'],
+            },
+          },
+        },
+      ],
+    });
+  });
+
   describe('with location tracking', () => {
     describe('passed-in parser and visitor', () => {
       it('contains field location info', async () => {
